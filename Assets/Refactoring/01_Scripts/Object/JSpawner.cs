@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -22,11 +23,6 @@ public class JSpawner : MonoBehaviour
     public Sprite StartPointTileSprite;
     public Sprite EndPointTileSprite;
     public Sprite CheckPointTileSprite;
-
-    [Header("경로 변수")]
-    private Vector3       _startPoint;
-    private Vector3       _endPoint;
-    private List<Vector3> _checkPoints = new List<Vector3>();
     #endregion
 
 
@@ -69,7 +65,10 @@ public class JSpawner : MonoBehaviour
             Debug.Log("몬스터가 생성됐어요, " + _spawnCount.ToString());
             ++_spawnCount;
 
-            yield return new WaitForSeconds(1f);
+            JMonster go = Instantiate(BearPrefab, Route.Peek(), Quaternion.identity);
+            go.SetRouteData(Route);
+
+            yield return new WaitForSeconds(JGameManager.Instance.MonsterSpawnDelay);
         }
 
         _spawnCount = 0;
@@ -77,8 +76,12 @@ public class JSpawner : MonoBehaviour
 
     private void RouteProcessing()
     {
+        Vector3       _startPoint  = new Vector3();
+        Vector3       _endPoint    = new Vector3();
+        List<Vector3> _checkPoints = new List<Vector3>();
+
         // 타일맵을 순회하면서(좌하단부터 우측 방향으로 순회함)
-        foreach(Vector3Int pointTilePos in PointTilemap.cellBounds.allPositionsWithin)
+        foreach (Vector3Int pointTilePos in PointTilemap.cellBounds.allPositionsWithin)
         {
             // 가져온 타일의
             Tile pointTile = PointTilemap.GetTile(pointTilePos) as Tile;
@@ -103,9 +106,15 @@ public class JSpawner : MonoBehaviour
         // 몬스터가 이동해야 할 경로를 Queue에 담아줌
         {
             Route.Enqueue(_startPoint);
-            Route.Enqueue(_checkPoints[2]);
+            Route.Enqueue(_checkPoints[7]);
+            Route.Enqueue(_checkPoints[8]);
+            Route.Enqueue(_checkPoints[5]);
+            Route.Enqueue(_checkPoints[6]);
             Route.Enqueue(_checkPoints[1]);
             Route.Enqueue(_checkPoints[0]);
+            Route.Enqueue(_checkPoints[3]);
+            Route.Enqueue(_checkPoints[2]);
+            Route.Enqueue(_checkPoints[4]);
             Route.Enqueue(_endPoint);
         }
     }

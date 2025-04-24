@@ -9,6 +9,6 @@ public class Bear : JMonster
 
     void Update()
     {
-        
+        Move();
     }
 }
