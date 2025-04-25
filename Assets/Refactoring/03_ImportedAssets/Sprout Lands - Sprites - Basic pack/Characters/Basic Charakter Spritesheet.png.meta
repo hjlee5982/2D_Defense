@@ -82,7 +82,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -96,7 +96,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -120,7 +120,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -200,10 +200,10 @@ TextureImporter:
       name: Basic Charakter Spritesheet_0
       rect:
         serializedVersion: 2
-        x: 16
-        y: 159
-        width: 16
-        height: 18
+        x: 0
+        y: 144
+        width: 48
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -222,10 +222,10 @@ TextureImporter:
       name: Basic Charakter Spritesheet_1
       rect:
         serializedVersion: 2
-        x: 64
-        y: 159
-        width: 16
-        height: 18
+        x: 48
+        y: 144
+        width: 48
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -244,10 +244,10 @@ TextureImporter:
       name: Basic Charakter Spritesheet_2
       rect:
         serializedVersion: 2
-        x: 112
-        y: 159
-        width: 16
-        height: 18
+        x: 96
+        y: 144
+        width: 48
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -266,10 +266,10 @@ TextureImporter:
       name: Basic Charakter Spritesheet_3
       rect:
         serializedVersion: 2
-        x: 160
-        y: 159
-        width: 16
-        height: 18
+        x: 144
+        y: 144
+        width: 48
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -288,10 +288,10 @@ TextureImporter:
       name: Basic Charakter Spritesheet_4
       rect:
         serializedVersion: 2
-        x: 16
-        y: 111
-        width: 16
-        height: 18
+        x: 0
+        y: 96
+        width: 48
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -310,10 +310,10 @@ TextureImporter:
       name: Basic Charakter Spritesheet_5
       rect:
         serializedVersion: 2
-        x: 64
-        y: 111
-        width: 16
-        height: 18
+        x: 48
+        y: 96
+        width: 48
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -332,10 +332,10 @@ TextureImporter:
       name: Basic Charakter Spritesheet_6
       rect:
         serializedVersion: 2
-        x: 112
-        y: 111
-        width: 16
-        height: 18
+        x: 96
+        y: 96
+        width: 48
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -354,10 +354,10 @@ TextureImporter:
       name: Basic Charakter Spritesheet_7
       rect:
         serializedVersion: 2
-        x: 160
-        y: 111
-        width: 16
-        height: 18
+        x: 144
+        y: 96
+        width: 48
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -376,10 +376,10 @@ TextureImporter:
       name: Basic Charakter Spritesheet_8
       rect:
         serializedVersion: 2
-        x: 18
-        y: 63
-        width: 12
-        height: 18
+        x: 0
+        y: 48
+        width: 48
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -398,10 +398,10 @@ TextureImporter:
       name: Basic Charakter Spritesheet_9
       rect:
         serializedVersion: 2
-        x: 66
-        y: 63
-        width: 12
-        height: 18
+        x: 48
+        y: 48
+        width: 48
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -420,10 +420,10 @@ TextureImporter:
       name: Basic Charakter Spritesheet_10
       rect:
         serializedVersion: 2
-        x: 114
-        y: 63
-        width: 12
-        height: 18
+        x: 96
+        y: 48
+        width: 48
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -442,10 +442,10 @@ TextureImporter:
       name: Basic Charakter Spritesheet_11
       rect:
         serializedVersion: 2
-        x: 162
-        y: 63
-        width: 12
-        height: 18
+        x: 144
+        y: 48
+        width: 48
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -464,10 +464,10 @@ TextureImporter:
       name: Basic Charakter Spritesheet_12
       rect:
         serializedVersion: 2
-        x: 18
-        y: 15
-        width: 12
-        height: 18
+        x: 0
+        y: 0
+        width: 48
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -486,10 +486,10 @@ TextureImporter:
       name: Basic Charakter Spritesheet_13
       rect:
         serializedVersion: 2
-        x: 66
-        y: 15
-        width: 12
-        height: 18
+        x: 48
+        y: 0
+        width: 48
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -508,10 +508,10 @@ TextureImporter:
       name: Basic Charakter Spritesheet_14
       rect:
         serializedVersion: 2
-        x: 114
-        y: 15
-        width: 12
-        height: 18
+        x: 96
+        y: 0
+        width: 48
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -530,10 +530,10 @@ TextureImporter:
       name: Basic Charakter Spritesheet_15
       rect:
         serializedVersion: 2
-        x: 162
-        y: 15
-        width: 12
-        height: 18
+        x: 144
+        y: 0
+        width: 48
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -552,7 +552,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 282707a03a5915444bb230f8310a0bd0
     internalID: 0
     vertices: []
     indices: 
@@ -561,7 +561,23 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Basic Charakter Spritesheet_0: 7595986285605212588
+      Basic Charakter Spritesheet_1: 533925764876870624
+      Basic Charakter Spritesheet_10: -3681317567185701923
+      Basic Charakter Spritesheet_11: -1238460308712774548
+      Basic Charakter Spritesheet_12: 4608324168894639126
+      Basic Charakter Spritesheet_13: 3328763754989776407
+      Basic Charakter Spritesheet_14: 2184765777873843538
+      Basic Charakter Spritesheet_15: 5942205801420598518
+      Basic Charakter Spritesheet_2: 3373380426956494817
+      Basic Charakter Spritesheet_3: 459816943466525491
+      Basic Charakter Spritesheet_4: 5902472224145541201
+      Basic Charakter Spritesheet_5: 5704146936193991084
+      Basic Charakter Spritesheet_6: -5312978444038240032
+      Basic Charakter Spritesheet_7: 1494002176974529289
+      Basic Charakter Spritesheet_8: 1518413977272292722
+      Basic Charakter Spritesheet_9: 1804082577669914558
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

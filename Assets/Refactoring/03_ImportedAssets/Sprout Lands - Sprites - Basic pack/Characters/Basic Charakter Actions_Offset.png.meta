@@ -1,106 +1,106 @@
 fileFormatVersion: 2
-guid: 581fa8206bcd98148b51cede100f799d
+guid: ac114540ae800294ba0cef0488aab5b3
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8607240835638418105
-    second: Basic Charakter Actions_0
+      213: -1494742015962708435
+    second: Basic Charakter Actions_Offset_0
   - first:
-      213: 4825233689777840938
-    second: Basic Charakter Actions_1
+      213: -2039760821059457187
+    second: Basic Charakter Actions_Offset_1
   - first:
-      213: 2773750794007587747
-    second: Basic Charakter Actions_2
+      213: 7375319856519086081
+    second: Basic Charakter Actions_Offset_2
   - first:
-      213: 8190714974582360575
-    second: Basic Charakter Actions_3
+      213: -2743920248495143286
+    second: Basic Charakter Actions_Offset_3
   - first:
-      213: 901622726829898842
-    second: Basic Charakter Actions_4
+      213: -5992371835802541398
+    second: Basic Charakter Actions_Offset_4
   - first:
-      213: -4177016454944706689
-    second: Basic Charakter Actions_5
+      213: -3955470433337840772
+    second: Basic Charakter Actions_Offset_5
   - first:
-      213: 4075962118145448364
-    second: Basic Charakter Actions_6
+      213: -1378477405012352480
+    second: Basic Charakter Actions_Offset_6
   - first:
-      213: -9151337159511855371
-    second: Basic Charakter Actions_7
+      213: 32902477410467843
+    second: Basic Charakter Actions_Offset_7
   - first:
-      213: -6131446131858353364
-    second: Basic Charakter Actions_8
+      213: -3900919082874724158
+    second: Basic Charakter Actions_Offset_8
   - first:
-      213: 6495871422736360654
-    second: Basic Charakter Actions_9
+      213: -6266453297109321512
+    second: Basic Charakter Actions_Offset_9
   - first:
-      213: 2994222927713007894
-    second: Basic Charakter Actions_10
+      213: -5690062948063795335
+    second: Basic Charakter Actions_Offset_10
   - first:
-      213: -3659413159206119498
-    second: Basic Charakter Actions_11
+      213: -6234360281090967389
+    second: Basic Charakter Actions_Offset_11
   - first:
-      213: 2799679091400172523
-    second: Basic Charakter Actions_12
+      213: -4004267121852189738
+    second: Basic Charakter Actions_Offset_12
   - first:
-      213: -8191824754871414885
-    second: Basic Charakter Actions_13
+      213: -8708252304382667119
+    second: Basic Charakter Actions_Offset_13
   - first:
-      213: 4849325314658181382
-    second: Basic Charakter Actions_14
+      213: 4309674357427213321
+    second: Basic Charakter Actions_Offset_14
   - first:
-      213: -2426259829567902198
-    second: Basic Charakter Actions_15
+      213: 8937342573983198257
+    second: Basic Charakter Actions_Offset_15
   - first:
-      213: 4679016486658029000
-    second: Basic Charakter Actions_16
+      213: -372139038375118473
+    second: Basic Charakter Actions_Offset_16
   - first:
-      213: 5682650412491538547
-    second: Basic Charakter Actions_17
+      213: -2727274735138763669
+    second: Basic Charakter Actions_Offset_17
   - first:
-      213: -7566220384164013140
-    second: Basic Charakter Actions_18
+      213: 1310830396494374081
+    second: Basic Charakter Actions_Offset_18
   - first:
-      213: -5200884353533555893
-    second: Basic Charakter Actions_19
+      213: 2109345559539619523
+    second: Basic Charakter Actions_Offset_19
   - first:
-      213: 4902032185936214536
-    second: Basic Charakter Actions_20
+      213: -1579409532551978519
+    second: Basic Charakter Actions_Offset_20
   - first:
-      213: -2298048733799735617
-    second: Basic Charakter Actions_21
+      213: -2928556940775525368
+    second: Basic Charakter Actions_Offset_21
   - first:
-      213: 4323988074246068900
-    second: Basic Charakter Actions_22
+      213: -1670105194460052550
+    second: Basic Charakter Actions_Offset_22
   - first:
-      213: 8735991324008606090
-    second: Basic Charakter Actions_23
+      213: 3155870287667727132
+    second: Basic Charakter Actions_Offset_23
   - first:
-      213: 2620953941463647487
-    second: Basic Charakter Actions_24
+      213: -1619608548293962661
+    second: Basic Charakter Actions_Offset_24
   - first:
-      213: 682197439555169508
-    second: Basic Charakter Actions_25
+      213: -2354963252344169329
+    second: Basic Charakter Actions_Offset_25
   - first:
-      213: -1313330981185375762
-    second: Basic Charakter Actions_26
+      213: 1113920831524896346
+    second: Basic Charakter Actions_Offset_26
   - first:
-      213: 5765744735734028366
-    second: Basic Charakter Actions_27
+      213: 1549684196659814426
+    second: Basic Charakter Actions_Offset_27
   - first:
-      213: 5052846395823243762
-    second: Basic Charakter Actions_28
+      213: 4841531205791353769
+    second: Basic Charakter Actions_Offset_28
   - first:
-      213: -4788324973363471841
-    second: Basic Charakter Actions_29
+      213: 4494568948804484476
+    second: Basic Charakter Actions_Offset_29
   - first:
-      213: -1287694512418270691
-    second: Basic Charakter Actions_30
+      213: -5808457925059936014
+    second: Basic Charakter Actions_Offset_30
   - first:
-      213: -1975773379460960806
-    second: Basic Charakter Actions_31
+      213: 3019224985674885561
+    second: Basic Charakter Actions_Offset_31
   - first:
-      213: -3777842376314121750
-    second: Basic Charakter Actions_32
+      213: -1344066384384066105
+    second: Basic Charakter Actions_Offset_32
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -248,7 +248,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Basic Charakter Actions_0
+      name: Basic Charakter Actions_Offset_0
       rect:
         serializedVersion: 2
         x: 0
@@ -263,14 +263,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9bad678dfef037770800000000000000
-      internalID: 8607240835638418105
+      spriteID: d2601b35e0c914be0800000000000000
+      internalID: -1494742015962708435
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Basic Charakter Actions_1
+      name: Basic Charakter Actions_Offset_1
       rect:
         serializedVersion: 2
         x: 48
@@ -285,14 +285,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a23a475c97ca6f240800000000000000
-      internalID: 4825233689777840938
+      spriteID: d5fedf1275051b3e0800000000000000
+      internalID: -2039760821059457187
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Basic Charakter Actions_2
+      name: Basic Charakter Actions_Offset_2
       rect:
         serializedVersion: 2
         x: 0
@@ -307,14 +307,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3aba744b6a75e7620800000000000000
-      internalID: 2773750794007587747
+      spriteID: 10084b855566a5660800000000000000
+      internalID: 7375319856519086081
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Basic Charakter Actions_3
+      name: Basic Charakter Actions_Offset_3
       rect:
         serializedVersion: 2
         x: 48
@@ -329,14 +329,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ff944748fd34ba170800000000000000
-      internalID: 8190714974582360575
+      spriteID: a8602786213abe9d0800000000000000
+      internalID: -2743920248495143286
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Basic Charakter Actions_4
+      name: Basic Charakter Actions_Offset_4
       rect:
         serializedVersion: 2
         x: 0
@@ -351,14 +351,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a5c7d12d715338c00800000000000000
-      internalID: 901622726829898842
+      spriteID: aa22fe47091d6dca0800000000000000
+      internalID: -5992371835802541398
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Basic Charakter Actions_5
+      name: Basic Charakter Actions_Offset_5
       rect:
         serializedVersion: 2
         x: 48
@@ -373,14 +373,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f7f2f0e3aa14806c0800000000000000
-      internalID: -4177016454944706689
+      spriteID: c7b665d09985b19c0800000000000000
+      internalID: -3955470433337840772
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Basic Charakter Actions_6
+      name: Basic Charakter Actions_Offset_6
       rect:
         serializedVersion: 2
         x: 0
@@ -395,14 +395,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ca9120a73f9b09830800000000000000
-      internalID: 4075962118145448364
+      spriteID: 02226578a1aaedce0800000000000000
+      internalID: -1378477405012352480
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Basic Charakter Actions_7
+      name: Basic Charakter Actions_Offset_7
       rect:
         serializedVersion: 2
         x: 48
@@ -417,14 +417,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 5fea67bd65beff080800000000000000
-      internalID: -9151337159511855371
+      spriteID: 300084ef0a4e47000800000000000000
+      internalID: 32902477410467843
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Basic Charakter Actions_8
+      name: Basic Charakter Actions_Offset_8
       rect:
         serializedVersion: 2
         x: 0
@@ -439,14 +439,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c23d3279a3ab8eaa0800000000000000
-      internalID: -6131446131858353364
+      spriteID: 2c0a5b713c62dd9c0800000000000000
+      internalID: -3900919082874724158
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Basic Charakter Actions_9
+      name: Basic Charakter Actions_Offset_9
       rect:
         serializedVersion: 2
         x: 48
@@ -461,14 +461,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ec4efc274a8f52a50800000000000000
-      internalID: 6495871422736360654
+      spriteID: 8d839386de51909a0800000000000000
+      internalID: -6266453297109321512
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Basic Charakter Actions_10
+      name: Basic Charakter Actions_Offset_10
       rect:
         serializedVersion: 2
         x: 0
@@ -483,14 +483,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 619f9a083ed9d8920800000000000000
-      internalID: 2994222927713007894
+      spriteID: 977ab0f55e5d801b0800000000000000
+      internalID: -5690062948063795335
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Basic Charakter Actions_11
+      name: Basic Charakter Actions_Offset_11
       rect:
         serializedVersion: 2
         x: 48
@@ -505,14 +505,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 6b7112fbe17273dc0800000000000000
-      internalID: -3659413159206119498
+      spriteID: 3a8b4cbfa5a1b79a0800000000000000
+      internalID: -6234360281090967389
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Basic Charakter Actions_12
+      name: Basic Charakter Actions_Offset_12
       rect:
         serializedVersion: 2
         x: 0
@@ -527,14 +527,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: be3eeffdc457ad620800000000000000
-      internalID: 2799679091400172523
+      spriteID: 6d37938a44cfd68c0800000000000000
+      internalID: -4004267121852189738
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Basic Charakter Actions_13
+      name: Basic Charakter Actions_Offset_13
       rect:
         serializedVersion: 2
         x: 48
@@ -549,14 +549,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b9f43af99cac05e80800000000000000
-      internalID: -8191824754871414885
+      spriteID: 1965bcedaa2162780800000000000000
+      internalID: -8708252304382667119
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Basic Charakter Actions_14
+      name: Basic Charakter Actions_Offset_14
       rect:
         serializedVersion: 2
         x: 0
@@ -571,14 +571,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 601a28c4ea34c4340800000000000000
-      internalID: 4849325314658181382
+      spriteID: 9041f049ef90fcb30800000000000000
+      internalID: 4309674357427213321
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Basic Charakter Actions_15
+      name: Basic Charakter Actions_Offset_15
       rect:
         serializedVersion: 2
         x: 48
@@ -593,14 +593,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a0e2ec53a81345ed0800000000000000
-      internalID: -2426259829567902198
+      spriteID: 13c6e3e08b1d70c70800000000000000
+      internalID: 8937342573983198257
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Basic Charakter Actions_16
+      name: Basic Charakter Actions_Offset_16
       rect:
         serializedVersion: 2
         x: 0
@@ -615,14 +615,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8c5b27144b43fe040800000000000000
-      internalID: 4679016486658029000
+      spriteID: 779789a2485e5daf0800000000000000
+      internalID: -372139038375118473
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Basic Charakter Actions_17
+      name: Basic Charakter Actions_Offset_17
       rect:
         serializedVersion: 2
         x: 48
@@ -637,14 +637,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 37009433174dcde40800000000000000
-      internalID: 5682650412491538547
+      spriteID: b6c082ff316c62ad0800000000000000
+      internalID: -2727274735138763669
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Basic Charakter Actions_18
+      name: Basic Charakter Actions_Offset_18
       rect:
         serializedVersion: 2
         x: 0
@@ -659,14 +659,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: cab959de5a26ff690800000000000000
-      internalID: -7566220384164013140
+      spriteID: 1c4e4dfec41013210800000000000000
+      internalID: 1310830396494374081
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Basic Charakter Actions_19
+      name: Basic Charakter Actions_Offset_19
       rect:
         serializedVersion: 2
         x: 48
@@ -681,14 +681,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b4bceb56c3fb2d7b0800000000000000
-      internalID: -5200884353533555893
+      spriteID: 3c618e05c96e54d10800000000000000
+      internalID: 2109345559539619523
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Basic Charakter Actions_20
+      name: Basic Charakter Actions_Offset_20
       rect:
         serializedVersion: 2
         x: 0
@@ -703,14 +703,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 80a72401d44870440800000000000000
-      internalID: 4902032185936214536
+      spriteID: 9e1af51f56fc41ae0800000000000000
+      internalID: -1579409532551978519
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Basic Charakter Actions_21
+      name: Basic Charakter Actions_Offset_21
       rect:
         serializedVersion: 2
         x: 48
@@ -725,14 +725,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: fbe94592ad0bb10e0800000000000000
-      internalID: -2298048733799735617
+      spriteID: 804f1908afcab57d0800000000000000
+      internalID: -2928556940775525368
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Basic Charakter Actions_22
+      name: Basic Charakter Actions_Offset_22
       rect:
         serializedVersion: 2
         x: 0
@@ -747,14 +747,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4aa567a7e34e10c30800000000000000
-      internalID: 4323988074246068900
+      spriteID: ab38caa9c2892d8e0800000000000000
+      internalID: -1670105194460052550
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Basic Charakter Actions_23
+      name: Basic Charakter Actions_Offset_23
       rect:
         serializedVersion: 2
         x: 48
@@ -769,8 +769,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a896d6ce2d97c3970800000000000000
-      internalID: 8735991324008606090
+      spriteID: c1b05ad5e47ebcb20800000000000000
+      internalID: 3155870287667727132
       vertices: []
       indices: 
       edges: []
@@ -779,7 +779,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: c0c68b28c28cb6d43bcbe6f4a9fa3827
+    spriteID: 63d829ccb882d5142bc372541ee42480
     internalID: 0
     vertices: []
     indices: 
@@ -789,30 +789,30 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Basic Charakter Actions_0: 8607240835638418105
-      Basic Charakter Actions_1: 4825233689777840938
-      Basic Charakter Actions_10: 2994222927713007894
-      Basic Charakter Actions_11: -3659413159206119498
-      Basic Charakter Actions_12: 2799679091400172523
-      Basic Charakter Actions_13: -8191824754871414885
-      Basic Charakter Actions_14: 4849325314658181382
-      Basic Charakter Actions_15: -2426259829567902198
-      Basic Charakter Actions_16: 4679016486658029000
-      Basic Charakter Actions_17: 5682650412491538547
-      Basic Charakter Actions_18: -7566220384164013140
-      Basic Charakter Actions_19: -5200884353533555893
-      Basic Charakter Actions_2: 2773750794007587747
-      Basic Charakter Actions_20: 4902032185936214536
-      Basic Charakter Actions_21: -2298048733799735617
-      Basic Charakter Actions_22: 4323988074246068900
-      Basic Charakter Actions_23: 8735991324008606090
-      Basic Charakter Actions_3: 8190714974582360575
-      Basic Charakter Actions_4: 901622726829898842
-      Basic Charakter Actions_5: -4177016454944706689
-      Basic Charakter Actions_6: 4075962118145448364
-      Basic Charakter Actions_7: -9151337159511855371
-      Basic Charakter Actions_8: -6131446131858353364
-      Basic Charakter Actions_9: 6495871422736360654
+      Basic Charakter Actions_Offset_0: -1494742015962708435
+      Basic Charakter Actions_Offset_1: -2039760821059457187
+      Basic Charakter Actions_Offset_10: -5690062948063795335
+      Basic Charakter Actions_Offset_11: -6234360281090967389
+      Basic Charakter Actions_Offset_12: -4004267121852189738
+      Basic Charakter Actions_Offset_13: -8708252304382667119
+      Basic Charakter Actions_Offset_14: 4309674357427213321
+      Basic Charakter Actions_Offset_15: 8937342573983198257
+      Basic Charakter Actions_Offset_16: -372139038375118473
+      Basic Charakter Actions_Offset_17: -2727274735138763669
+      Basic Charakter Actions_Offset_18: 1310830396494374081
+      Basic Charakter Actions_Offset_19: 2109345559539619523
+      Basic Charakter Actions_Offset_2: 7375319856519086081
+      Basic Charakter Actions_Offset_20: -1579409532551978519
+      Basic Charakter Actions_Offset_21: -2928556940775525368
+      Basic Charakter Actions_Offset_22: -1670105194460052550
+      Basic Charakter Actions_Offset_23: 3155870287667727132
+      Basic Charakter Actions_Offset_3: -2743920248495143286
+      Basic Charakter Actions_Offset_4: -5992371835802541398
+      Basic Charakter Actions_Offset_5: -3955470433337840772
+      Basic Charakter Actions_Offset_6: -1378477405012352480
+      Basic Charakter Actions_Offset_7: 32902477410467843
+      Basic Charakter Actions_Offset_8: -3900919082874724158
+      Basic Charakter Actions_Offset_9: -6266453297109321512
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

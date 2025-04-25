@@ -22,7 +22,7 @@ public class JMonster : MonoBehaviour
     #region OVERRIDES
     protected virtual void Move()
     {
-        if(RouteQueue?.Count == 0)
+        if(RouteQueue == null || RouteQueue?.Count == 0)
         {
             return;
         }
@@ -31,7 +31,7 @@ public class JMonster : MonoBehaviour
 
         Vector3 dir = (targetPoint - transform.position).normalized;
 
-        SetLookAnimation(dir);
+        SetWalkAnimation(dir);
 
         if (Vector3.Distance(transform.position, targetPoint) < 0.01f)
         {
@@ -72,30 +72,49 @@ public class JMonster : MonoBehaviour
 
 
     #region FUNCTIONS
-    private void SetLookAnimation(Vector3 dir)
+    private void SetWalkAnimation(Vector3 dir)
     {
         float angle = Mathf.Atan2(dir.y, dir.x) * (180f / Mathf.PI);
         angle = Mathf.Round(angle);
 
         if(88 <= angle && angle <= 92)
         {
-            _animator.SetTrigger("Up");
-            Debug.Log("╩С");
+            _animator.SetTrigger("Walk_Up");
         }
         else if (-92 <= angle && angle <= -88)
         {
-            _animator.SetTrigger("Down");
-            Debug.Log("го");
+            _animator.SetTrigger("Walk_Down");
         }
         else if(178 <= angle && angle <= 182)
         {
-            _animator.SetTrigger("Left");
-            Debug.Log("аб");
+            _animator.SetTrigger("Walk_Left");
         }
         else if(-2 <= angle && angle <= 2)
         {
-            _animator.SetTrigger("Right");
-            Debug.Log("©Л");
+            _animator.SetTrigger("Walk_Right");
+        }
+    }
+
+    private void SetDieAnimation(Vector3 dir)
+    {
+        float angle = Mathf.Atan2(dir.y, dir.x) * (180f / Mathf.PI);
+        angle = Mathf.Round(angle);
+
+        if (88 <= angle && angle <= 92)
+        {
+            _animator.SetTrigger("Die_Up");
+        }
+        else if (-92 <= angle && angle <= -88)
+        {
+            _animator.SetTrigger("Die_Down");
+        }
+        else if (178 <= angle && angle <= 182)
+        {
+            _animator.SetTrigger("Die_Left");
+        }
+        else if (-2 <= angle && angle <= 2)
+        {
+            _animator.SetTrigger("Die_Right");
         }
     }
 
