@@ -60,7 +60,7 @@ public class JSpawner : MonoBehaviour
 
     IEnumerator SpawnMonsterWithDelay()
     {
-        while(_spawnCount <= 5)
+        while(_spawnCount < JGameManager.Instance.NumOfMonster)
         {
             Debug.Log("몬스터가 생성됐어요, " + _spawnCount.ToString());
             ++_spawnCount;

@@ -36,17 +36,20 @@ public class JGameManager : MonoBehaviour
 
 
     #region VARIABLES
-    [Header("몬스터 스포너")]
-    public JSpawner Spawner;
-
     [Header("시작 버튼 액션")]
     public Action StartButtonAction;
 
-    [Header("몬스터 이동속도")]
-    public float MonsterSpeed = 1.0f;
+    [Header("몬스터 스포너")]
+    public JSpawner Spawner;
+
+    [Header("몬스터 생성 수")]
+    public int NumOfMonster = 1;
 
     [Header("몬스터 생성 간격")]
     public float MonsterSpawnDelay = 1.0f;
+
+    [Header("몬스터 이동속도")]
+    public float MonsterSpeed = 1.0f;
     #endregion
 
 
