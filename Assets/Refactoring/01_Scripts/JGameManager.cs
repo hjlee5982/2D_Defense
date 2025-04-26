@@ -40,7 +40,7 @@ public class JGameManager : MonoBehaviour
     public Action StartButtonAction;
 
     [Header("몬스터 스포너")]
-    public JSpawner Spawner;
+    public MonsterSpawner Spawner;
 
     [Header("몬스터 생성 수")]
     public int NumOfMonster = 1;

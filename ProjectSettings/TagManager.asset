@@ -9,6 +9,7 @@ TagManager:
   - Mage
   - Enemy
   - Projectile
+  - Monster
   layers:
   - Default
   - TransparentFX

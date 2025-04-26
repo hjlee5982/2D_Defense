@@ -1,14 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class JSpawner : MonoBehaviour
+public class MonsterSpawner : MonoBehaviour
 {
     #region VARIABLES
     [Header("스폰 할 몬스터 프리팹")]
-    public JMonster BearPrefab;
+    public MonsterUnit BearPrefab;
 
     [Header("스폰 횟수")]
     private int _spawnCount = 0;
@@ -65,7 +64,7 @@ public class JSpawner : MonoBehaviour
             Debug.Log("몬스터가 생성됐어요, " + _spawnCount.ToString());
             ++_spawnCount;
 
-            JMonster go = Instantiate(BearPrefab, Route.Peek(), Quaternion.identity);
+            MonsterUnit go = Instantiate(BearPrefab, Route.Peek(), Quaternion.identity);
             go.SetRouteData(Route);
 
             yield return new WaitForSeconds(JGameManager.Instance.MonsterSpawnDelay);

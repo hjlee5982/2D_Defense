@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class JMonster : MonoBehaviour
+public class MonsterUnit : MonoBehaviour
 {
     #region VARIABLES
     [Header("경로 정보")]
@@ -12,7 +12,11 @@ public class JMonster : MonoBehaviour
     protected Vector3 _startPoint;
 
     [Header("애니메이터")]
-    private Animator _animator;
+    protected Animator _animator;
+
+    [Header("위치 보정")]
+    protected Vector3 _realPosition;
+    public float OffsetY = 2f;
     #endregion
 
 
@@ -29,20 +33,22 @@ public class JMonster : MonoBehaviour
 
         Vector3 targetPoint = RouteQueue.Peek();
 
-        Vector3 dir = (targetPoint - transform.position).normalized;
+        Vector3 dir = (targetPoint - _realPosition).normalized;
 
         SetWalkAnimation(dir);
 
-        if (Vector3.Distance(transform.position, targetPoint) < 0.01f)
+        if (Vector3.Distance(_realPosition, targetPoint) < 0.01f)
         {
-            transform.position = targetPoint;
+            _realPosition = targetPoint;
             RouteQueue.Dequeue();
         }
         else
         {
             dir.Normalize();
-            transform.position += dir * Time.deltaTime * JGameManager.Instance.MonsterSpeed;
+            _realPosition += dir * Time.deltaTime * JGameManager.Instance.MonsterSpeed;
         }
+
+        transform.position = _realPosition + new Vector3(0, OffsetY, 0);
     }
     #endregion
 
@@ -51,19 +57,22 @@ public class JMonster : MonoBehaviour
 
 
     #region MONOBEHAVIOUR
-    void Awake()
+    private void Awake()
     {
-        _animator = transform.GetChild(0).GetComponent<Animator>();
     }
 
-    void Start()
+    private void Start()
+    {
+    }
+
+    private void Update()
     {
         
     }
 
-    void Update()
+    private void OnEnable()
     {
-        
+        _animator = transform.GetComponent<Animator>();
     }
     #endregion
 
@@ -123,6 +132,8 @@ public class JMonster : MonoBehaviour
         RouteQueue = new Queue<Vector3>(routeQueue);
 
         _startPoint = RouteQueue.Dequeue();
+
+        _realPosition = _startPoint - new Vector3(0, OffsetY, 0);
     }
     #endregion
 }
