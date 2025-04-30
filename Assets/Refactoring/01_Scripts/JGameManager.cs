@@ -53,6 +53,9 @@ public class JGameManager : MonoBehaviour
 
     [Header("투사체 속도")]
     public float ProjectileSpeed = 10f;
+
+    [Header("공격 간격")]
+    public float AttackInterval = 1f;
     #endregion
 
 
@@ -94,7 +97,6 @@ public class JGameManager : MonoBehaviour
     public void StartRound()
     {
         // UI_GameController StartButtonClick()에서 Invoke 해주고 있음
-        Debug.Log("라운드가 시작돼요");
 
         Spawner.SpawnMonster();
     }

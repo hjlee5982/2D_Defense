@@ -146,11 +146,9 @@ public class MonsterUnit : MonoBehaviour
 
     protected void TakeDamage(Projectile projectile)
     {
-        Debug.Log("곰돌이가 맞았어요");
-
         Destroy(projectile.gameObject);
 
-        Die();
+        //Die();
     }
 
     protected void Die()
@@ -161,9 +159,6 @@ public class MonsterUnit : MonoBehaviour
         }
 
         // TODO
-
-        Debug.Log("곰돌이가 죽었어요");
-
 
         Destroy(gameObject);
     }

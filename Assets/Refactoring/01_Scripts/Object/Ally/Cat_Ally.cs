@@ -18,8 +18,9 @@ public class Cat_Ally : AllyUnit
 
 
     #region MONOBEHAVIOUR
-    void Awake()
+    protected override void Awake()
     {
+        base.Awake();
     }
 
     void Start()

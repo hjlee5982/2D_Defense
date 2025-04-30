@@ -48,7 +48,6 @@ public class UI_GameController : MonoBehaviour
     #region FUNCTIONS
     public void StartButtonClick()
     {
-        Debug.Log("시작 버튼 눌렸어요");
         JGameManager.Instance.StartButtonAction.Invoke();
     }
     #endregion

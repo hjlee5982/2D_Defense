@@ -33,9 +33,9 @@ public class AllyUnit : MonoBehaviour
 
 
     #region MONOBEHAVIOUR
-    private void Awake()
+    protected virtual void Awake()
     {
-        _animator = transform.GetChild(0).GetComponent<Animator>();
+        _animator = transform.GetComponent<Animator>();
     }
 
     private void Start()
@@ -67,7 +67,7 @@ public class AllyUnit : MonoBehaviour
                 _monsterList.Add(monsterUnit);
                 monsterUnit.RegisterAllyUnit(this);
             }
-        }
+        }   
     }
     
     private void OnTriggerExit2D(Collider2D collision)
@@ -95,18 +95,56 @@ public class AllyUnit : MonoBehaviour
         _monsterList.Remove(monsterUnit);
     }
 
-    IEnumerator Attack()
+    private IEnumerator Attack()
     {
         _monsterList.RemoveAll(t => t == null);
 
         while(_monsterList.Count > 0)
         {
+            SetThrowAnimation(_monsterList[0].transform.position);
+
             Projectile projectile = Instantiate(Projectile, transform.position, Quaternion.identity);
             projectile.SetTarget(_monsterList[0]);
 
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(JGameManager.Instance.AttackInterval);
 
             _monsterList.RemoveAll(t => t == null);
+        }
+    }
+
+    protected void MakeProjectile()
+    {
+        if(_monsterList.Count > 0)
+        {
+            _monsterList.RemoveAll(t => t == null);
+
+            Projectile projectile = Instantiate(Projectile, transform.position, Quaternion.identity);
+            projectile.SetTarget(_monsterList[0]);
+        }
+    }
+
+    private void SetThrowAnimation(Vector3 targetPos)
+    {
+        Vector3 dir = (targetPos - transform.position).normalized;
+
+        float angle = Mathf.Atan2(dir.y, dir.x) * (180f / Mathf.PI);
+        angle = Mathf.Round(angle);
+
+        if (45f < angle && angle <= 135f)
+        {
+            _animator.SetTrigger("Attack_Up");
+        }
+        else if (-135f <= angle && angle < -45f)
+        {
+            _animator.SetTrigger("Attack_Down");
+        }
+        else if (135 <= angle || angle < -135f)
+        {
+            _animator.SetTrigger("Attack_Left");
+        }
+        else if (-45f <= angle && angle <= 45f)
+        {
+            _animator.SetTrigger("Attack_Right");
         }
     }
     #endregion

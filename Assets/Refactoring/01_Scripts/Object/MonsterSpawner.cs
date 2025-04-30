@@ -52,8 +52,6 @@ public class MonsterSpawner : MonoBehaviour
     #region FUNCTIONS
     public void SpawnMonster()
     {
-        Debug.Log("몬스터 생성을 시작해요");
-
         StartCoroutine(SpawnMonsterWithDelay());
     }
 
@@ -61,7 +59,6 @@ public class MonsterSpawner : MonoBehaviour
     {
         while(_spawnCount < JGameManager.Instance.NumOfMonster)
         {
-            Debug.Log("몬스터가 생성됐어요, " + _spawnCount.ToString());
             ++_spawnCount;
 
             MonsterUnit go = Instantiate(BearPrefab, Route.Peek(), Quaternion.identity);
