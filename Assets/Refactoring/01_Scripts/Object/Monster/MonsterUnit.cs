@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor.iOS;
 using UnityEngine;
 
 public class MonsterUnit : MonoBehaviour
@@ -17,6 +18,9 @@ public class MonsterUnit : MonoBehaviour
     [Header("위치 보정")]
     protected Vector3 _realPosition;
     public float OffsetY = 2f;
+
+    [Header("자신을 등록한 유닛 리스트")]
+    private List<AllyUnit> _registeredUnits = new List<AllyUnit>();
     #endregion
 
 
@@ -24,32 +28,6 @@ public class MonsterUnit : MonoBehaviour
 
 
     #region OVERRIDES
-    protected virtual void Move()
-    {
-        if(RouteQueue == null || RouteQueue?.Count == 0)
-        {
-            return;
-        }
-
-        Vector3 targetPoint = RouteQueue.Peek();
-
-        Vector3 dir = (targetPoint - _realPosition).normalized;
-
-        SetWalkAnimation(dir);
-
-        if (Vector3.Distance(_realPosition, targetPoint) < 0.01f)
-        {
-            _realPosition = targetPoint;
-            RouteQueue.Dequeue();
-        }
-        else
-        {
-            dir.Normalize();
-            _realPosition += dir * Time.deltaTime * JGameManager.Instance.MonsterSpeed;
-        }
-
-        transform.position = _realPosition + new Vector3(0, OffsetY, 0);
-    }
     #endregion
 
 
@@ -67,12 +45,24 @@ public class MonsterUnit : MonoBehaviour
 
     private void Update()
     {
-        
     }
 
     private void OnEnable()
     {
         _animator = transform.GetComponent<Animator>();
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Projectile"))
+        {
+            Projectile projectile = collision.GetComponent<Projectile>();
+
+            if(projectile != null && projectile.GetTarget() == this)
+            {
+                TakeDamage(projectile);
+            }
+        }
     }
     #endregion
 
@@ -127,6 +117,57 @@ public class MonsterUnit : MonoBehaviour
         }
     }
 
+    protected void Move()
+    {
+        if (RouteQueue == null || RouteQueue?.Count == 0)
+        {
+            return;
+        }
+
+        Vector3 targetPoint = RouteQueue.Peek();
+
+        Vector3 dir = (targetPoint - _realPosition).normalized;
+
+        SetWalkAnimation(dir);
+
+        if (Vector3.Distance(_realPosition, targetPoint) < 0.1f)
+        {
+            _realPosition = targetPoint;
+            RouteQueue.Dequeue();
+        }
+        else
+        {
+            dir.Normalize();
+            _realPosition += dir * Time.deltaTime * JGameManager.Instance.MonsterSpeed;
+        }
+
+        transform.position = _realPosition + new Vector3(0, OffsetY, 0);
+    }
+
+    protected void TakeDamage(Projectile projectile)
+    {
+        Debug.Log("곰돌이가 맞았어요");
+
+        Destroy(projectile.gameObject);
+
+        Die();
+    }
+
+    protected void Die()
+    {
+        foreach(AllyUnit unit in _registeredUnits)
+        {
+            unit.NotifyMonsterDied(this);
+        }
+
+        // TODO
+
+        Debug.Log("곰돌이가 죽었어요");
+
+
+        Destroy(gameObject);
+    }
+
     public void SetRouteData(Queue<Vector3> routeQueue)
     {
         RouteQueue = new Queue<Vector3>(routeQueue);
@@ -134,6 +175,19 @@ public class MonsterUnit : MonoBehaviour
         _startPoint = RouteQueue.Dequeue();
 
         _realPosition = _startPoint - new Vector3(0, OffsetY, 0);
+    }
+
+    public void RegisterAllyUnit(AllyUnit allyUnit)
+    {
+        if(_registeredUnits.Contains(allyUnit) == false)
+        {
+            _registeredUnits.Add(allyUnit);
+        }
+    }
+
+    public void UnregisterAllyUnit(AllyUnit allyUnit)
+    {
+        _registeredUnits.Remove(allyUnit);
     }
     #endregion
 }

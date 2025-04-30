@@ -50,6 +50,9 @@ public class JGameManager : MonoBehaviour
 
     [Header("몬스터 이동속도")]
     public float MonsterSpeed = 1.0f;
+
+    [Header("투사체 속도")]
+    public float ProjectileSpeed = 10f;
     #endregion
 
 

@@ -26,8 +26,9 @@ public class Cat_Ally : AllyUnit
     {
     }
 
-    void Update()
+    protected override void Update()
     {
+        base.Update();
     }
     #endregion
 
