@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class JGameManager : MonoBehaviour
 {
@@ -36,11 +37,8 @@ public class JGameManager : MonoBehaviour
 
 
     #region VARIABLES
-    [Header("시작 버튼 액션")]
-    public Action StartButtonAction;
-
     [Header("몬스터 스포너")]
-    public MonsterSpawner Spawner;
+    public MonsterSpawner MonsterSpawner;
 
     [Header("몬스터 생성 수")]
     public int NumOfMonster = 1;
@@ -50,6 +48,11 @@ public class JGameManager : MonoBehaviour
 
     [Header("몬스터 이동속도")]
     public float MonsterSpeed = 1.0f;
+
+    [Space(10)]
+
+    [Header("유닛 스포너")]
+    public AllySpawner AllySpawner;
 
     [Header("투사체 속도")]
     public float ProjectileSpeed = 10f;
@@ -75,17 +78,7 @@ public class JGameManager : MonoBehaviour
 
     void Update()
     {
-
-    }
-
-    void OnEnable()
-    {
-        StartButtonAction += StartRound;
-    }
-
-    void OnDisable()
-    {
-        StartButtonAction -= StartRound;
+        
     }
     #endregion
 
@@ -96,9 +89,12 @@ public class JGameManager : MonoBehaviour
     #region FUNCTION
     public void StartRound()
     {
-        // UI_GameController StartButtonClick()에서 Invoke 해주고 있음
+        MonsterSpawner.SpawnMonster();
+    }
 
-        Spawner.SpawnMonster();
+    public void BeginSpawnAlly(int btnIdx)
+    {
+        AllySpawner.BeginSpawnAlly(btnIdx);
     }
     #endregion
 }
