@@ -62,6 +62,16 @@ public class AllySpawner : MonoBehaviour
             }
         }
     }
+
+    private void OnEnable()
+    {
+        JEventBus.Subscribe<BeginSpawnAllyEvent>(BeginSpawnAlly);
+    }
+
+    private void OnDisable()
+    {
+        JEventBus.Unsubscribe<BeginSpawnAllyEvent>(BeginSpawnAlly);
+    }
     #endregion
 
 
@@ -69,12 +79,12 @@ public class AllySpawner : MonoBehaviour
 
 
     #region FUNCTIONS
-    public void BeginSpawnAlly(int btnIdx)
+    public void BeginSpawnAlly(BeginSpawnAllyEvent e)
     {
         _doingAllySpawn = true;
         SpawnEnablePoints.gameObject.SetActive(true);
 
-        _btnIdx = btnIdx;
+        _btnIdx = e.BtnIdx;
     }
 
     public void ExecuteSpawnAlly()

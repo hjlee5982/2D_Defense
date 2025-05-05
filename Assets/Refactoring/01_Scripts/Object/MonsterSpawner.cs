@@ -43,6 +43,16 @@ public class MonsterSpawner : MonoBehaviour
     {
         
     }
+
+    private void OnEnable()
+    {
+        JEventBus.Subscribe<BeginSpawnMonsterEvent>(SpawnMonster);
+    }
+
+    private void OnDisable()
+    {
+        JEventBus.Unsubscribe<BeginSpawnMonsterEvent>(SpawnMonster);
+    }
     #endregion
 
 
@@ -50,12 +60,12 @@ public class MonsterSpawner : MonoBehaviour
 
 
     #region FUNCTIONS
-    public void SpawnMonster()
+    public void SpawnMonster(BeginSpawnMonsterEvent e)
     {
-        StartCoroutine(SpawnMonsterWithDelay());
+        StartCoroutine(SpawnMonsterWithDelay(e));
     }
 
-    IEnumerator SpawnMonsterWithDelay()
+    IEnumerator SpawnMonsterWithDelay(BeginSpawnMonsterEvent e)
     {
         while(_spawnCount < JGameManager.Instance.NumOfMonster)
         {
@@ -63,6 +73,7 @@ public class MonsterSpawner : MonoBehaviour
 
             MonsterUnit go = Instantiate(BearPrefab, Route.Peek(), Quaternion.identity);
             go.SetRouteData(Route);
+            // go.SetStatus(e.Status);
 
             yield return new WaitForSeconds(JGameManager.Instance.MonsterSpawnDelay);
         }

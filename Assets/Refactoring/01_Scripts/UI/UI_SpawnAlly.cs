@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 
-public class UI_Summon : MonoBehaviour
+public class UI_SpawnAlly : MonoBehaviour
 {
     #region VARIABLES
     private Button _summonButton_1;
@@ -49,7 +49,7 @@ public class UI_Summon : MonoBehaviour
     #region FUNCTIONS
     private void BeginSpawnAlly(int btnIdx)
     {
-        JUIManager.Instance.BeginSpawnAlly(btnIdx);
+        JEventBus.SendEvent(new StartSpawnAllyEvent(btnIdx));
     }
     #endregion
 }

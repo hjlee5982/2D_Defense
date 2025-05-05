@@ -45,7 +45,7 @@ public class JUIManager : MonoBehaviour
     #region CHILDREN UI
     public UI_GameStatus     GameStatus  { get; private set; }
     public UI_UnitStatus     UnitStatus  { get; private set; }
-    public UI_Summon         Summon      { get; private set; }
+    public UI_SpawnAlly      SpawnAlly   { get; private set; }
     public UI_Enhancement    Enhancement { get; private set; }
     public Button            StartButton { get; private set; }
     #endregion
@@ -62,7 +62,7 @@ public class JUIManager : MonoBehaviour
         GameStatus  = transform.Find("GameStatus") .GetComponent<UI_GameStatus>();
 
         UnitStatus  = transform.GetChild(1).Find("UnitStatus") .GetComponent<UI_UnitStatus>();
-        Summon      = transform.GetChild(1).Find("Summon")     .GetComponent<UI_Summon>();
+        SpawnAlly   = transform.GetChild(1).Find("SpawnAlly")  .GetComponent<UI_SpawnAlly>();
         Enhancement = transform.GetChild(1).Find("Enhancement").GetComponent<UI_Enhancement>();
 
         transform.GetChild(1).Find("StartButton").GetComponent<Button>().onClick.AddListener(StartButtonClick);
@@ -100,7 +100,7 @@ public class JUIManager : MonoBehaviour
     #region SUMMON
     public void BeginSpawnAlly(int btnIdx)
     {
-        JGameManager.Instance.BeginSpawnAlly(btnIdx);
+        //JGameManager.Instance.BeginSpawnAlly(btnIdx);
     }
     #endregion
 
@@ -118,7 +118,7 @@ public class JUIManager : MonoBehaviour
     #region STARTBUTTON
     public void StartButtonClick()
     {
-        JGameManager.Instance.StartRound();
+        JEventBus.SendEvent(new StartRoundEvent());
     }
     #endregion
 }

@@ -49,7 +49,7 @@ public class JGameManager : MonoBehaviour
     [Header("몬스터 이동속도")]
     public float MonsterSpeed = 1.0f;
 
-    [Space(10)]
+    [Space(20)]
 
     [Header("유닛 스포너")]
     public AllySpawner AllySpawner;
@@ -80,6 +80,18 @@ public class JGameManager : MonoBehaviour
     {
         
     }
+
+    private void OnEnable()
+    {
+        JEventBus.Subscribe<StartRoundEvent>(StartRound);
+        JEventBus.Subscribe<StartSpawnAllyEvent>(BeginSpawnAlly);
+    }
+
+    private void OnDisable()
+    {
+        JEventBus.Unsubscribe<StartRoundEvent>(StartRound);
+        JEventBus.Unsubscribe<StartSpawnAllyEvent>(BeginSpawnAlly);
+    }
     #endregion
 
 
@@ -87,14 +99,26 @@ public class JGameManager : MonoBehaviour
 
 
     #region FUNCTION
-    public void StartRound()
+    private void StartRound(StartRoundEvent e)
     {
-        MonsterSpawner.SpawnMonster();
+        // 레벨 데이터를 여기서 넣어주면 될듯?
+        // List<LevelData> levelData
+        // JEventBus.SendEvent(new BeginSpawnMonsterEvent(levelData[0]));
+
+        // levelData는 소환되는 몬스터의 수, 소환 간격, 이동속도 등등을 가지고 있으면 될듯
+
+        JEventBus.SendEvent(new BeginSpawnMonsterEvent());
     }
 
-    public void BeginSpawnAlly(int btnIdx)
+    private void BeginSpawnAlly(StartSpawnAllyEvent e)
     {
-        AllySpawner.BeginSpawnAlly(btnIdx);
+        // 누른 버튼에 따라 생성되는 유닛을 다르게 하면 될듯
+        // List<UnitData> unitData
+        // JEventBus.SendEvent(new BeginSpawnAllyEvent(unitData[e.BtnIdx]));
+
+        // unitData는 공격범위, 공격속도, 공격력 등등을 가지고 있으면 될듯
+        
+        JEventBus.SendEvent(new BeginSpawnAllyEvent(e.BtnIdx));
     }
     #endregion
 }
