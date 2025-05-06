@@ -49,6 +49,7 @@ public class UI_SpawnAlly : MonoBehaviour
     #region FUNCTIONS
     private void BeginSpawnAlly(int btnIdx)
     {
+        // UI_SpawnAlly -> JGameManager
         JEventBus.SendEvent(new StartSpawnAllyEvent(btnIdx));
     }
     #endregion

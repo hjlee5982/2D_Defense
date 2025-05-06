@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -40,6 +41,14 @@ public class JGameManager : MonoBehaviour
     [Header("몬스터 스포너")]
     public MonsterSpawner MonsterSpawner;
 
+    [Header("유닛 스포너")]
+    public AllySpawner AllySpawner;
+
+    
+
+    // 아래는 나중에 데이터로 뺄것들
+
+    // 레벨데이터
     [Header("몬스터 생성 수")]
     public int NumOfMonster = 1;
 
@@ -49,11 +58,8 @@ public class JGameManager : MonoBehaviour
     [Header("몬스터 이동속도")]
     public float MonsterSpeed = 1.0f;
 
-    [Space(20)]
 
-    [Header("유닛 스포너")]
-    public AllySpawner AllySpawner;
-
+    // 유닛 데이터
     [Header("투사체 속도")]
     public float ProjectileSpeed = 10f;
 
@@ -78,7 +84,7 @@ public class JGameManager : MonoBehaviour
 
     void Update()
     {
-        
+        UnitSelect();
     }
 
     private void OnEnable()
@@ -112,13 +118,31 @@ public class JGameManager : MonoBehaviour
 
     private void BeginSpawnAlly(StartSpawnAllyEvent e)
     {
-        // 누른 버튼에 따라 생성되는 유닛을 다르게 하면 될듯
-        // List<UnitData> unitData
-        // JEventBus.SendEvent(new BeginSpawnAllyEvent(unitData[e.BtnIdx]));
-
-        // unitData는 공격범위, 공격속도, 공격력 등등을 가지고 있으면 될듯
-        
+        // JGameManager -> AllySpawner
         JEventBus.SendEvent(new BeginSpawnAllyEvent(e.BtnIdx));
+    }
+
+    private void UnitSelect()
+    {
+        if(Input.GetMouseButtonDown(0) == true)
+        {
+            Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector3 mousePos2D    = new Vector2(mouseWorldPos.x, mouseWorldPos.y);
+
+            int clickLayerMask = LayerMask.GetMask("ClickDetection");
+
+            RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero, 0f, clickLayerMask);
+
+            if (hit.collider != null)
+            {
+                JUnit cat = hit.collider.GetComponentInParent<JUnit>();
+
+                if(cat != null)
+                {
+                    cat.GetUnitData();
+                }
+            }
+        }
     }
     #endregion
 }

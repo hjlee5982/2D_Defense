@@ -17,7 +17,7 @@ public class Monster_Bear : MonsterUnit
 
 
     #region MONOBEHAVIOUR
-    void Awake()
+    protected override void Awake()
     {
     }
 
@@ -25,7 +25,7 @@ public class Monster_Bear : MonsterUnit
     {
     }
 
-    void Update()
+    protected override void Update()
     {
         Move();
     }

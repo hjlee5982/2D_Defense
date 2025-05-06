@@ -3,7 +3,7 @@ using Unity.VisualScripting;
 using UnityEditor.iOS;
 using UnityEngine;
 
-public class MonsterUnit : MonoBehaviour
+public class MonsterUnit : JUnit
 {
     #region VARIABLES
     [Header("경로 정보")]
@@ -11,9 +11,6 @@ public class MonsterUnit : MonoBehaviour
 
     [Header("생성 지점")]
     protected Vector3 _startPoint;
-
-    [Header("애니메이터")]
-    protected Animator _animator;
 
     [Header("위치 보정")]
     protected Vector3 _realPosition;
@@ -35,15 +32,16 @@ public class MonsterUnit : MonoBehaviour
 
 
     #region MONOBEHAVIOUR
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
     }
 
     private void Start()
     {
     }
 
-    private void Update()
+    protected override void Update()
     {
     }
 

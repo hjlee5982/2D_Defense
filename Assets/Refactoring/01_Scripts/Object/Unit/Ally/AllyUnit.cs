@@ -2,12 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AllyUnit : MonoBehaviour
+public class AllyUnit : JUnit
 {
     #region VARIABLES
-    [Header("애니메이터")]
-    private Animator _animator;
-
     [Header("투사체")]
     public Projectile Projectile;
 
@@ -33,9 +30,9 @@ public class AllyUnit : MonoBehaviour
 
 
     #region MONOBEHAVIOUR
-    protected virtual void Awake()
+    protected override void Awake()
     {
-        _animator = transform.GetComponent<Animator>();
+        base.Awake();
     }
 
     private void Start()
@@ -43,7 +40,7 @@ public class AllyUnit : MonoBehaviour
 
     }
 
-    protected virtual void Update()
+    protected override void Update()
     {
         if(_monsterList.Count > 0 && _attackCoroutine == null)
         {
