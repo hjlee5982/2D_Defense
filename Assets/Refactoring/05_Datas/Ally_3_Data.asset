@@ -17,6 +17,6 @@ MonoBehaviour:
   Thumbnail: {fileID: 0}
   Grade: 0
   AtkPower: 7
-  AtkSpeed: 7
   AtkRange: 7
+  AtkSpeed: 7
   UpgradeCount: 7

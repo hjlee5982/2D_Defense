@@ -80,12 +80,14 @@ public class UI_UnitStatus : MonoBehaviour
     {
         JEventBus.Subscribe<UnitSelectEvent>(UnitSelected);
         JEventBus.Subscribe<UnitDeselectEvent>(UnitDeselected);
+        JEventBus.Subscribe<EnhanceCompleteEvent>(EnhanceComplete);
     }
 
     private void OnDisable()
     {
         JEventBus.Unsubscribe<UnitSelectEvent>(UnitSelected);
         JEventBus.Unsubscribe<UnitDeselectEvent>(UnitDeselected);
+        JEventBus.Unsubscribe<EnhanceCompleteEvent>(EnhanceComplete);
     }
     #endregion
 
@@ -101,18 +103,7 @@ public class UI_UnitStatus : MonoBehaviour
             go.SetActive(true);
         }
 
-        // Profile
-        {
-            _unitThumbnail.sprite = e.UnitData.Thumbnail;
-            _unitName.text        = e.UnitData.UnitName;
-        }
-        // Status
-        {
-            _atkPower.text     = e.UnitData.AtkPower.ToString();   
-            _atkSpeed.text     = e.UnitData.AtkSpeed.ToString();   
-            _atkRange.text     = e.UnitData.AtkRange.ToString();   
-            _upgradeCount.text = e.UnitData.UpgradeCount.ToString();
-        }
+        UpdateUI(e.SelectedUnit.GetUnitData());
     }
 
     private void UnitDeselected(UnitDeselectEvent e)
@@ -120,6 +111,27 @@ public class UI_UnitStatus : MonoBehaviour
         foreach (GameObject go in _ui)
         {
             go.SetActive(false);
+        }
+    }
+
+    private void EnhanceComplete(EnhanceCompleteEvent e)
+    {
+        UpdateUI(e.SelectedUnit.GetUnitData());
+    }
+
+    private void UpdateUI(JUnitData unitData)
+    {
+        // Profile
+        {
+            _unitThumbnail.sprite = unitData.Thumbnail;
+            _unitName.text        = unitData.UnitName;
+        }
+        // Status
+        {
+            _atkPower.text     = unitData.AtkPower.ToString();
+            _atkSpeed.text     = unitData.AtkSpeed.ToString();
+            _atkRange.text     = unitData.AtkRange.ToString();
+            _upgradeCount.text = unitData.UpgradeCount.ToString();
         }
     }
     #endregion

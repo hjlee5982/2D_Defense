@@ -1,4 +1,16 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
+
+public enum StatType
+{
+    AtkPower,
+    AtkRange,
+    AtkSpeed,
+
+    UpgradeCount,
+}
+
 
 public class JUnit : MonoBehaviour
 {
@@ -7,11 +19,11 @@ public class JUnit : MonoBehaviour
     protected Animator _animator;
 
     [Header("유닛 데이터")]
-    protected JUnitData UnitData;
+    protected JUnitData UnitData { get; set; }
     #endregion
 
-
-
+    [Header("강화 적용기")]
+    private Dictionary<StatType, Action<int>> _statApplier;
 
 
     #region OVERRIDES
@@ -25,6 +37,15 @@ public class JUnit : MonoBehaviour
     protected virtual void Awake()
     {
         _animator = transform.GetComponent<Animator>();
+
+        _statApplier = new Dictionary<StatType, Action<int>>
+        {
+            { StatType.AtkPower, value => UnitData.AtkPower += value},
+            { StatType.AtkRange, value => UnitData.AtkRange += value},
+            { StatType.AtkSpeed, value => UnitData.AtkSpeed += value},
+
+            { StatType.UpgradeCount, value => UnitData.UpgradeCount += value},
+        }; 
     }
 
     void Start()
@@ -44,19 +65,24 @@ public class JUnit : MonoBehaviour
     public void SetInitialData(JUnitData unitData)
     {
         UnitData = unitData;
-        {
-            Debug.Log("이름 : " + UnitData.UnitName);
-            Debug.Log("등급 : " + UnitData.Grade);
-            Debug.Log("공격력 : " + UnitData.AtkPower);
-            Debug.Log("공격범위: " + UnitData.AtkRange);
-            Debug.Log("공격속도 : " + UnitData.AtkSpeed);
-        }
-
     }
 
     public JUnitData GetUnitData()
     {
         return UnitData;
+    }
+
+    public void ApplyStatChange(StatType statType, int value)
+    {
+        if(_statApplier.ContainsKey(statType) == true)
+        {
+            _statApplier[statType](value);
+        }
+    }
+
+    public bool IsEnhancable()
+    {
+        return UnitData.UpgradeCount > 0;
     }
     #endregion
 }

@@ -1,6 +1,4 @@
 
-
-
 // UI_SpawnAlly -> JGameManager 
 public class StartSpawnAllyEvent
 {
@@ -14,10 +12,22 @@ public class StartSpawnAllyEvent
 
 
 
+// UI_Enhancement -> JGameManager 
+public class StartEnhancementEvent
+{
+    public int BtnIdx = -1;
+
+    public StartEnhancementEvent(int btnIdx)
+    {
+        BtnIdx = btnIdx;
+    }
+}
+
+
+
+
 // JUIManager¿¡ ÀÖ´Â StartButton -> JGameManager 
 public class StartRoundEvent { }
-
-
 
 
 
@@ -34,18 +44,33 @@ public class BeginSpawnAllyEvent
 
 
 
+
 // JGameManager -> MonsterSpawner
 public class BeginSpawnMonsterEvent { }
+
 
 
 // JGameManager ->UI_UnitStatus, JUIManager
 public class UnitSelectEvent 
 {
-    public JUnitData UnitData;
+    public JUnit SelectedUnit;
 
-    public UnitSelectEvent(JUnitData unitData)
+    public UnitSelectEvent(JUnit selectedUnit)
     {
-        UnitData = unitData;
+        SelectedUnit = selectedUnit;
     }
 }
 public class UnitDeselectEvent { }
+
+
+
+// JGameManager -> UI_UnitStatus
+public class EnhanceCompleteEvent 
+{
+    public JUnit SelectedUnit;
+
+    public EnhanceCompleteEvent(JUnit selectedUnit)
+    {
+        SelectedUnit = selectedUnit;
+    }
+}

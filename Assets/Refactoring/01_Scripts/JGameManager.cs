@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 public class JGameManager : MonoBehaviour
 {
@@ -44,7 +41,8 @@ public class JGameManager : MonoBehaviour
     [Header("유닛 스포너")]
     public AllySpawner AllySpawner;
 
-    
+    [Header("선택된 유닛")]
+    private JUnit _selectedUnit;
 
     // 아래는 나중에 데이터로 뺄것들
 
@@ -91,12 +89,14 @@ public class JGameManager : MonoBehaviour
     {
         JEventBus.Subscribe<StartRoundEvent>(StartRound);
         JEventBus.Subscribe<StartSpawnAllyEvent>(BeginSpawnAlly);
+        JEventBus.Subscribe<StartEnhancementEvent>(EnhancementProcess);
     }
 
     private void OnDisable()
     {
         JEventBus.Unsubscribe<StartRoundEvent>(StartRound);
         JEventBus.Unsubscribe<StartSpawnAllyEvent>(BeginSpawnAlly);
+        JEventBus.Unsubscribe<StartEnhancementEvent>(EnhancementProcess);
     }
     #endregion
 
@@ -135,19 +135,101 @@ public class JGameManager : MonoBehaviour
 
             if (hit.collider != null)
             {
-                JUnit cat = hit.collider.GetComponentInParent<JUnit>();
+                _selectedUnit = hit.collider.GetComponentInParent<JUnit>();
 
-                if(cat != null)
-                {
-                    cat.GetUnitData();
-                }
-
-                JEventBus.SendEvent(new UnitSelectEvent(cat.GetUnitData()));
+                JEventBus.SendEvent(new UnitSelectEvent(_selectedUnit));
             }
         }
         if(Input.GetMouseButtonDown(1) == true)
         {
             JEventBus.SendEvent(new UnitDeselectEvent());
+        }
+    }
+
+    private void EnhancementProcess(StartEnhancementEvent e)
+    {
+        if(_selectedUnit.IsEnhancable() == false)
+        {
+            return;
+        }
+
+        switch (e.BtnIdx)
+        {
+            // 100%
+            case 0:
+                {
+                    if(true)
+                    {
+                        _selectedUnit.ApplyStatChange(StatType.AtkPower, 1);
+                    }
+                    break;
+                }
+            // 60%
+            case 1:
+                {
+                    if(Random.Range(0,100) < 60)
+                    {
+                        _selectedUnit.ApplyStatChange(StatType.AtkPower, 2);
+                        _selectedUnit.ApplyStatChange(StatType.AtkRange, 1);
+                    }
+                    break;
+                }
+            // 10%
+            case 2:
+                {
+                    if (Random.Range(0, 100) < 10)
+                    {
+                        _selectedUnit.ApplyStatChange(StatType.AtkPower, 5);
+                        _selectedUnit.ApplyStatChange(StatType.AtkPower, 3);
+                        _selectedUnit.ApplyStatChange(StatType.AtkPower, 1);
+                    }
+                    break;
+                }
+            // Chaos 60%
+            case 3:
+                {
+                    if (Random.Range(0, 100) < 60)
+                    {
+                        _selectedUnit.ApplyStatChange(StatType.AtkPower, GetRandomValue());
+                        _selectedUnit.ApplyStatChange(StatType.AtkPower, GetRandomValue());
+                        _selectedUnit.ApplyStatChange(StatType.AtkPower, GetRandomValue());
+                    }
+                    break;
+                }
+        }
+
+        _selectedUnit.ApplyStatChange(StatType.UpgradeCount, -1);
+
+        JEventBus.SendEvent(new EnhanceCompleteEvent(_selectedUnit));
+    }
+
+    private int GetRandomValue()
+    {
+        int rnd = Random.Range(0, 100);
+
+        if(rnd < 40)
+        {
+            return 0;
+        }
+        else if(rnd < 70)
+        {
+            return 1;
+        }
+        else if(rnd < 85)
+        {
+            return 2;
+        }
+        else if(rnd < 95)
+        {
+            return 3;
+        }
+        else if(rnd <99)
+        {
+            return 4;
+        }
+        else
+        {
+            return 5; 
         }
     }
     #endregion
