@@ -141,7 +141,13 @@ public class JGameManager : MonoBehaviour
                 {
                     cat.GetUnitData();
                 }
+
+                JEventBus.SendEvent(new UnitSelectEvent(cat.GetUnitData()));
             }
+        }
+        if(Input.GetMouseButtonDown(1) == true)
+        {
+            JEventBus.SendEvent(new UnitDeselectEvent());
         }
     }
     #endregion

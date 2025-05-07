@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -36,18 +37,14 @@ public class JUIManager : MonoBehaviour
 
 
     #region VARIABLES
-    #endregion
+    [Header("유닛 스테이터스 UI")]
+    private List<GameObject> _unitStatusUI = new List<GameObject>();
 
+    [Header("스폰 UI")]
+    private UI_SpawnAlly _spawnAllyUI;
 
-
-
-
-    #region CHILDREN UI
-    public UI_GameStatus     GameStatus  { get; private set; }
-    public UI_UnitStatus     UnitStatus  { get; private set; }
-    public UI_SpawnAlly      SpawnAlly   { get; private set; }
-    public UI_Enhancement    Enhancement { get; private set; }
-    public Button            StartButton { get; private set; }
+    [Header("강화 UI")]
+    private UI_Enhancement _enhancementUI;
     #endregion
 
 
@@ -59,13 +56,10 @@ public class JUIManager : MonoBehaviour
     {
         SingletonInitialize();
 
-        GameStatus  = transform.Find("GameStatus") .GetComponent<UI_GameStatus>();
-
-        UnitStatus  = transform.GetChild(1).Find("UnitStatus") .GetComponent<UI_UnitStatus>();
-        SpawnAlly   = transform.GetChild(1).Find("SpawnAlly")  .GetComponent<UI_SpawnAlly>();
-        Enhancement = transform.GetChild(1).Find("Enhancement").GetComponent<UI_Enhancement>();
-
         transform.GetChild(1).Find("StartButton").GetComponent<Button>().onClick.AddListener(StartButtonClick);
+    
+        _spawnAllyUI   = transform.Find("GameController").Find("SpawnAlly").GetComponent<UI_SpawnAlly>();
+        _enhancementUI = transform.Find("GameController").Find("Enhancement").GetComponent<UI_Enhancement>();
     }
 
     void Start()
@@ -77,38 +71,18 @@ public class JUIManager : MonoBehaviour
     {
 
     }
-    #endregion
 
-
-
-
-
-    #region GAMESTATUS
-    #endregion
-
-
-
-
-
-    #region UNITSTATUS
-    #endregion
-
-
-
-
-
-    #region SUMMON
-    public void BeginSpawnAlly(int btnIdx)
+    private void OnEnable()
     {
-        //JGameManager.Instance.BeginSpawnAlly(btnIdx);
+        JEventBus.Subscribe<UnitSelectEvent>(UnitSelected);
+        JEventBus.Subscribe<UnitDeselectEvent>(UnitDeselected);
     }
-    #endregion
 
-
-
-
-
-    #region ENHANCEMENT
+    private void OnDisable()
+    {
+        JEventBus.Subscribe<UnitSelectEvent>(UnitSelected);
+        JEventBus.Subscribe<UnitDeselectEvent>(UnitDeselected);
+    }
     #endregion
 
 
@@ -119,6 +93,18 @@ public class JUIManager : MonoBehaviour
     public void StartButtonClick()
     {
         JEventBus.SendEvent(new StartRoundEvent());
+    }
+
+    private void UnitSelected(UnitSelectEvent e)
+    {
+        _spawnAllyUI.gameObject.SetActive(false);
+        _enhancementUI.gameObject.SetActive(true);
+    }
+
+    private void UnitDeselected(UnitDeselectEvent e)
+    {
+        _spawnAllyUI.gameObject.SetActive(true);
+        _enhancementUI.gameObject.SetActive(false);
     }
     #endregion
 }

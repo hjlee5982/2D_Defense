@@ -54,11 +54,9 @@ public class JUnit : MonoBehaviour
 
     }
 
-    public void GetUnitData()
+    public JUnitData GetUnitData()
     {
-        // 유닛 데이터에는 뭐가 있음?
-
-        // 공격 범위, 공격속도, 공격력
+        return UnitData;
     }
     #endregion
 }

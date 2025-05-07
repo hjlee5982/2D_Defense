@@ -1,16 +1,41 @@
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class UI_Enhancement : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    #region VARIABLES
+    #endregion
+
+
+
+
+
+    #region OVERRIDES
+    #endregion
+
+
+
+
+
+    #region MONOBEHAVIOUR
+    void Awake()
     {
-        
     }
 
-    // Update is called once per frame
+    void Start()
+    {
+    }
+
     void Update()
     {
-        
     }
+    #endregion
+
+
+
+
+
+    #region FUNCTIONS
+    #endregion
 }

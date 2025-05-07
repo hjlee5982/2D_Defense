@@ -1,4 +1,3 @@
-using UnityEngine;
 
 
 
@@ -6,6 +5,7 @@ using UnityEngine;
 public class StartSpawnAllyEvent
 {
     public int BtnIdx = -1;
+
     public StartSpawnAllyEvent(int btnIdx) 
     {
         BtnIdx = btnIdx;
@@ -15,10 +15,7 @@ public class StartSpawnAllyEvent
 
 
 // JUIManager¿¡ ÀÖ´Â StartButton -> JGameManager 
-public class StartRoundEvent
-{
-    public StartRoundEvent() { }
-}
+public class StartRoundEvent { }
 
 
 
@@ -28,6 +25,7 @@ public class StartRoundEvent
 public class BeginSpawnAllyEvent
 {
     public int BtnIdx = -1;
+
     public BeginSpawnAllyEvent(int btnIdx) 
     {
         BtnIdx = btnIdx;
@@ -37,7 +35,17 @@ public class BeginSpawnAllyEvent
 
 
 // JGameManager -> MonsterSpawner
-public class BeginSpawnMonsterEvent
-{ 
+public class BeginSpawnMonsterEvent { }
 
+
+// JGameManager ->UI_UnitStatus, JUIManager
+public class UnitSelectEvent 
+{
+    public JUnitData UnitData;
+
+    public UnitSelectEvent(JUnitData unitData)
+    {
+        UnitData = unitData;
+    }
 }
+public class UnitDeselectEvent { }

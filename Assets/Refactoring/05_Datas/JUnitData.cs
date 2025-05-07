@@ -14,7 +14,8 @@ public class JUnitData : ScriptableObject
 
     [Space(20)]
     [Header("스테이터스")]
+    public float AtkPower;
     public float AtkRange;
     public float AtkSpeed;
-    public float AtkPower;
+    public float UpgradeCount;
 }
