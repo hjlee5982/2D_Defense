@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class JGameManager : MonoBehaviour
@@ -44,7 +45,10 @@ public class JGameManager : MonoBehaviour
     [Header("선택된 유닛")]
     private JUnit _selectedUnit;
 
-    // 아래는 나중에 데이터로 뺄것들
+    [Header("랜덤 모듈")]
+    public RandomAssistant RandomAssistant;
+
+    // 아래는 나중에 데이터로 뺄것들z
 
     // 레벨데이터
     [Header("몬스터 생성 수")]
@@ -63,6 +67,11 @@ public class JGameManager : MonoBehaviour
 
     [Header("공격 간격")]
     public float AttackInterval = 1f;
+
+
+    // 강화 데이터
+    [Header("랜덤 옵션 확률 가중치")]
+    private List<(int value, int weight)> weightsTable = new List<(int value, int weight)>();
     #endregion
 
 
@@ -73,6 +82,19 @@ public class JGameManager : MonoBehaviour
     void Awake()
     {
         SingletonInitialize();
+
+        RandomAssistant = new RandomAssistant();
+
+        // 강화 데이터(임시)
+        // json으로 읽어올꺼임
+        {
+            weightsTable.Add((0, 40));
+            weightsTable.Add((1, 30));
+            weightsTable.Add((2, 15));
+            weightsTable.Add((3, 10));
+            weightsTable.Add((4,  4));
+            weightsTable.Add((5,  1));
+        }
     }
 
     void Start()
@@ -158,7 +180,7 @@ public class JGameManager : MonoBehaviour
             // 100%
             case 0:
                 {
-                    if(true)
+                    if(RandomAssistant.TryChance(100))
                     {
                         _selectedUnit.ApplyStatChange(StatType.AtkPower, 1);
                     }
@@ -167,7 +189,7 @@ public class JGameManager : MonoBehaviour
             // 60%
             case 1:
                 {
-                    if(Random.Range(0,100) < 60)
+                    if(RandomAssistant.TryChance(60))
                     {
                         _selectedUnit.ApplyStatChange(StatType.AtkPower, 2);
                         _selectedUnit.ApplyStatChange(StatType.AtkRange, 1);
@@ -177,22 +199,22 @@ public class JGameManager : MonoBehaviour
             // 10%
             case 2:
                 {
-                    if (Random.Range(0, 100) < 10)
+                    if (RandomAssistant.TryChance(10))
                     {
                         _selectedUnit.ApplyStatChange(StatType.AtkPower, 5);
-                        _selectedUnit.ApplyStatChange(StatType.AtkPower, 3);
-                        _selectedUnit.ApplyStatChange(StatType.AtkPower, 1);
+                        _selectedUnit.ApplyStatChange(StatType.AtkRange, 3);
+                        _selectedUnit.ApplyStatChange(StatType.AtkSpeed, 1);
                     }
                     break;
                 }
             // Chaos 60%
             case 3:
                 {
-                    if (Random.Range(0, 100) < 60)
+                    if (RandomAssistant.TryChance(60))
                     {
-                        _selectedUnit.ApplyStatChange(StatType.AtkPower, GetRandomValue());
-                        _selectedUnit.ApplyStatChange(StatType.AtkPower, GetRandomValue());
-                        _selectedUnit.ApplyStatChange(StatType.AtkPower, GetRandomValue());
+                        _selectedUnit.ApplyStatChange(StatType.AtkPower, RandomAssistant.WeightedRandomSelector(weightsTable));
+                        _selectedUnit.ApplyStatChange(StatType.AtkRange, RandomAssistant.WeightedRandomSelector(weightsTable));
+                        _selectedUnit.ApplyStatChange(StatType.AtkSpeed, RandomAssistant.WeightedRandomSelector(weightsTable));
                     }
                     break;
                 }
@@ -201,36 +223,6 @@ public class JGameManager : MonoBehaviour
         _selectedUnit.ApplyStatChange(StatType.UpgradeCount, -1);
 
         JEventBus.SendEvent(new EnhanceCompleteEvent(_selectedUnit));
-    }
-
-    private int GetRandomValue()
-    {
-        int rnd = Random.Range(0, 100);
-
-        if(rnd < 40)
-        {
-            return 0;
-        }
-        else if(rnd < 70)
-        {
-            return 1;
-        }
-        else if(rnd < 85)
-        {
-            return 2;
-        }
-        else if(rnd < 95)
-        {
-            return 3;
-        }
-        else if(rnd <99)
-        {
-            return 4;
-        }
-        else
-        {
-            return 5; 
-        }
     }
     #endregion
 }

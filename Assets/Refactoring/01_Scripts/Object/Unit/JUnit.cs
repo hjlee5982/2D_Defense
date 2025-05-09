@@ -64,7 +64,7 @@ public class JUnit : MonoBehaviour
     #region FUNCTIONS
     public void SetInitialData(JUnitData unitData)
     {
-        UnitData = unitData;
+        UnitData = unitData.Clone();
     }
 
     public JUnitData GetUnitData()

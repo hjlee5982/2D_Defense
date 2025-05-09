@@ -18,4 +18,11 @@ public class JUnitData : ScriptableObject
     public float AtkRange;
     public float AtkSpeed;
     public float UpgradeCount;
+
+    public JUnitData Clone()
+    {
+        JUnitData clone = Instantiate(this);
+
+        return clone;
+    }
 }
