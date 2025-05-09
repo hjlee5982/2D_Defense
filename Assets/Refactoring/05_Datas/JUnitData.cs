@@ -14,10 +14,10 @@ public class JUnitData : ScriptableObject
 
     [Space(20)]
     [Header("스테이터스")]
-    public float AtkPower;
-    public float AtkRange;
-    public float AtkSpeed;
-    public float UpgradeCount;
+    public int AtkPower;
+    public int AtkRange;
+    public int AtkSpeed;
+    public int UpgradeCount;
 
     public JUnitData Clone()
     {

@@ -1,6 +1,4 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.iOS;
 using UnityEngine;
 
 public class MonsterUnit : JUnit
@@ -37,12 +35,14 @@ public class MonsterUnit : JUnit
         base.Awake();
     }
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
     }
 
     protected override void Update()
     {
+        base.Update();
     }
 
     private void OnEnable()

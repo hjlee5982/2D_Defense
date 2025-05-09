@@ -11,8 +11,7 @@ public class AllyUnit : JUnit
     [Header("공격 대상 몬스터 리스트")]
     protected List<MonsterUnit> _monsterList = new List<MonsterUnit>();
 
-    [Header("공격 범위")]
-    public float AttackRange = 5f;
+    
 
     [Header("공격 코루틴")]
     private Coroutine _attackCoroutine;
@@ -33,11 +32,12 @@ public class AllyUnit : JUnit
     protected override void Awake()
     {
         base.Awake();
+
     }
 
-    private void Start()
+    protected override void Start()
     {
-
+        base.Start();
     }
 
     protected override void Update()
@@ -103,7 +103,7 @@ public class AllyUnit : JUnit
             Projectile projectile = Instantiate(Projectile, transform.position, Quaternion.identity);
             projectile.SetTarget(_monsterList[0]);
 
-            yield return new WaitForSeconds(JGameManager.Instance.AttackInterval);
+            yield return new WaitForSeconds(Mathf.Clamp(-0.1f * UnitData.AtkSpeed + 1.3f, 0.1f, 1.9f));
 
             _monsterList.RemoveAll(t => t == null);
         }

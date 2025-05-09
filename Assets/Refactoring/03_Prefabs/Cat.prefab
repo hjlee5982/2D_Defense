@@ -98,7 +98,7 @@ Transform:
   m_GameObject: {fileID: 7027453685781247440}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.62, y: 0.85, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -257,5 +257,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcf2c7a58607f0a488329932f0b8478a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UnitData: {fileID: 0}
+  dAtkPower: 0
+  dAtkRange: 0
+  dAtkSpeed: 0
   Projectile: {fileID: 875979787835182319, guid: 51af0dfbc5baec74f8188f8756a21de4, type: 3}
   AttackRange: 5

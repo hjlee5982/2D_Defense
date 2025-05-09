@@ -88,12 +88,11 @@ public class JGameManager : MonoBehaviour
         // 강화 데이터(임시)
         // json으로 읽어올꺼임
         {
-            weightsTable.Add((0, 40));
-            weightsTable.Add((1, 30));
-            weightsTable.Add((2, 15));
-            weightsTable.Add((3, 10));
-            weightsTable.Add((4,  4));
-            weightsTable.Add((5,  1));
+            weightsTable.Add((1, 50));
+            weightsTable.Add((2, 25));
+            weightsTable.Add((3, 15));
+            weightsTable.Add((4,  7));
+            weightsTable.Add((5,  3));
         }
     }
 
@@ -183,6 +182,8 @@ public class JGameManager : MonoBehaviour
                     if(RandomAssistant.TryChance(100))
                     {
                         _selectedUnit.ApplyStatChange(StatType.AtkPower, 1);
+
+                        _selectedUnit.ApplyStatChange(StatType.Grade, 1);
                     }
                     break;
                 }
@@ -193,6 +194,8 @@ public class JGameManager : MonoBehaviour
                     {
                         _selectedUnit.ApplyStatChange(StatType.AtkPower, 2);
                         _selectedUnit.ApplyStatChange(StatType.AtkRange, 1);
+
+                        _selectedUnit.ApplyStatChange(StatType.Grade, 1);
                     }
                     break;
                 }
@@ -204,17 +207,21 @@ public class JGameManager : MonoBehaviour
                         _selectedUnit.ApplyStatChange(StatType.AtkPower, 5);
                         _selectedUnit.ApplyStatChange(StatType.AtkRange, 3);
                         _selectedUnit.ApplyStatChange(StatType.AtkSpeed, 1);
+
+                        _selectedUnit.ApplyStatChange(StatType.Grade, 1);
                     }
                     break;
                 }
             // Chaos 60%
             case 3:
                 {
-                    if (RandomAssistant.TryChance(60))
+                    if (RandomAssistant.TryChance(35))
                     {
-                        _selectedUnit.ApplyStatChange(StatType.AtkPower, RandomAssistant.WeightedRandomSelector(weightsTable));
-                        _selectedUnit.ApplyStatChange(StatType.AtkRange, RandomAssistant.WeightedRandomSelector(weightsTable));
-                        _selectedUnit.ApplyStatChange(StatType.AtkSpeed, RandomAssistant.WeightedRandomSelector(weightsTable));
+                        _selectedUnit.ApplyStatChange(StatType.AtkPower, RandomAssistant.GetRandomSign() * RandomAssistant.WeightedRandomSelector(weightsTable));
+                        _selectedUnit.ApplyStatChange(StatType.AtkRange, RandomAssistant.GetRandomSign() * RandomAssistant.WeightedRandomSelector(weightsTable));
+                        _selectedUnit.ApplyStatChange(StatType.AtkSpeed, RandomAssistant.GetRandomSign() * RandomAssistant.WeightedRandomSelector(weightsTable));
+                       
+                        _selectedUnit.ApplyStatChange(StatType.Grade, 1);
                     }
                     break;
                 }

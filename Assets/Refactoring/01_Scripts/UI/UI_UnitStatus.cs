@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -103,7 +104,7 @@ public class UI_UnitStatus : MonoBehaviour
             go.SetActive(true);
         }
 
-        UpdateUI(e.SelectedUnit.GetUnitData());
+        UpdateUI(e.SelectedUnit);
     }
 
     private void UnitDeselected(UnitDeselectEvent e)
@@ -116,21 +117,23 @@ public class UI_UnitStatus : MonoBehaviour
 
     private void EnhanceComplete(EnhanceCompleteEvent e)
     {
-        UpdateUI(e.SelectedUnit.GetUnitData());
+        UpdateUI(e.SelectedUnit);
     }
 
-    private void UpdateUI(JUnitData unitData)
+    private void UpdateUI(JUnit unit)
     {
+        JUnitData unitData = unit.UnitData;
+
         // Profile
         {
             _unitThumbnail.sprite = unitData.Thumbnail;
-            _unitName.text        = unitData.UnitName;
+            _unitName.text        = unitData.UnitName + " " + unitData.Grade.ToString("+0");
         }
         // Status
         {
-            _atkPower.text     = unitData.AtkPower.ToString();
-            _atkSpeed.text     = unitData.AtkSpeed.ToString();
-            _atkRange.text     = unitData.AtkRange.ToString();
+            _atkPower.text     = unitData.AtkPower.ToString() + " (" + unit.dAtkPower.ToString("+0;-0;0") + ")";
+            _atkRange.text     = unitData.AtkRange.ToString() + " (" + unit.dAtkRange.ToString("+0;-0;0") + ")";
+            _atkSpeed.text     = unitData.AtkSpeed.ToString() + " (" + unit.dAtkSpeed.ToString("+0;-0;0") + ")"; ;
             _upgradeCount.text = unitData.UpgradeCount.ToString();
         }
     }

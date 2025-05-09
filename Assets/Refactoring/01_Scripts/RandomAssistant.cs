@@ -16,6 +16,28 @@ public class RandomAssistant
         return randomValue < percent;
     }
 
+    /// <summary>
+    /// 랜덤으로 1,-1을 반환
+    /// </summary>
+    /// <returns></returns>
+    public int GetRandomSign()
+    {
+        int randomValue = Random.Range(0, 2);
+
+        if(randomValue == 0)
+        {
+            return -1;
+        }
+        else
+        {
+            return 1;
+        }
+    }
+
+    /// <summary>
+    /// 값, 그 값이 나올 확률 쌍 리스트
+    /// </summary>
+    /// <returns></returns>
     public int WeightedRandomSelector(List<(int value, int weight)> weightsTable)
     {
         float totalWeight = 0f;

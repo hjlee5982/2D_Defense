@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Ally_2_Data
   m_EditorClassIdentifier: 
   UnitPrefab: {fileID: 2646315428100280736, guid: 70adb4bf8eca5ec41996d172f3eba565, type: 3}
-  UnitName: "\uC911\uAE09 \uACE0\uC591\uC774"
+  UnitName: "\uACE0\uC591\uC774"
   Thumbnail: {fileID: 0}
   Grade: 0
   AtkPower: 5

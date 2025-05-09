@@ -1,4 +1,3 @@
-using UnityEngine;
 
 public class Monster_Bear : MonsterUnit
 {
@@ -21,7 +20,7 @@ public class Monster_Bear : MonsterUnit
     {
     }
 
-    void Start()
+    protected override void Start()
     {
     }
 

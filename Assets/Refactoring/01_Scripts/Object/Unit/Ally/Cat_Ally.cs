@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using UnityEngine;
 
 public class Cat_Ally : AllyUnit
 {
@@ -23,8 +21,9 @@ public class Cat_Ally : AllyUnit
         base.Awake();
     }
 
-    void Start()
+    protected override void Start()
     {
+        base.Start();
     }
 
     protected override void Update()
