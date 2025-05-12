@@ -1,20 +1,40 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Rendering;
 using UnityEngine;
 
-public class AllyUnit : JUnit
+public enum StatType
+{
+    AtkPower,
+    AtkRange,
+    AtkSpeed,
+
+    Grade,
+    UpgradeCount,
+}
+
+public class AllyUnit : MonoBehaviour
 {
     #region VARIABLES
-    [Header("투사체")]
-    public Projectile Projectile;
+    [Header("애니메이터")]
+    protected Animator _animator;
+
+    [Header("유닛 데이터")]
+    public AllyUnitData AllyUnitData;
 
     [Header("공격 대상 몬스터 리스트")]
     protected List<MonsterUnit> _monsterList = new List<MonsterUnit>();
 
-    
-
     [Header("공격 코루틴")]
     private Coroutine _attackCoroutine;
+
+    [Header("공격 범위 콜라이더")]
+    private CircleCollider2D _attackRange;
+
+    [Header("강화 액션")]
+    private Dictionary<StatType, Action<int>> _statApplier;
+
     #endregion
 
 
@@ -29,18 +49,55 @@ public class AllyUnit : JUnit
 
 
     #region MONOBEHAVIOUR
-    protected override void Awake()
+    protected virtual void Awake()
     {
-        base.Awake();
+        _animator    = transform.GetComponent<Animator>();
+        _attackRange = transform.GetComponent<CircleCollider2D>();
 
+        _statApplier = new Dictionary<StatType, Action<int>>
+        {
+            {
+                StatType.AtkPower, value =>
+                {
+                    AllyUnitData.AtkPower += value;
+                    AllyUnitData.dAtkPower += value;
+                }
+            },
+            {
+                StatType.AtkRange, value =>
+                {
+                    AllyUnitData.AtkRange += value;
+                    AllyUnitData.dAtkRange += value;
+                    ModifyAttackRange();
+                }
+            },
+            {
+                StatType.AtkSpeed, value =>
+                {
+                    AllyUnitData.AtkSpeed += value;
+                    AllyUnitData.dAtkSpeed += value;
+                }
+            },
+            {
+                StatType.Grade, value =>
+                {
+                    AllyUnitData.Grade += value;
+                }
+            },
+            {
+                StatType.UpgradeCount, value =>
+                {
+                    AllyUnitData.UpgradeCount += value;
+                }
+            },
+        };
     }
 
-    protected override void Start()
+    protected virtual void Start()
     {
-        base.Start();
     }
 
-    protected override void Update()
+    protected virtual void Update()
     {
         if(_monsterList.Count > 0 && _attackCoroutine == null)
         {
@@ -87,9 +144,24 @@ public class AllyUnit : JUnit
 
 
     #region FUNCTIONS
+    public void SetInitialData(AllyUnitData allyUnitData)
+    {
+        AllyUnitData = allyUnitData.Clone();
+    }
+
+    public bool IsEnhancable()
+    {
+        return AllyUnitData.UpgradeCount > 0;
+    }
+
     public void NotifyMonsterDied(MonsterUnit monsterUnit)
     {
         _monsterList.Remove(monsterUnit);
+    }
+
+    private void ModifyAttackRange()
+    {
+        _attackRange.radius = Mathf.Clamp(0.3f * AllyUnitData.AtkRange + 1.5f, 1.8f, 5.7f);
     }
 
     private IEnumerator Attack()
@@ -100,23 +172,20 @@ public class AllyUnit : JUnit
         {
             SetThrowAnimation(_monsterList[0].transform.position);
 
-            Projectile projectile = Instantiate(Projectile, transform.position, Quaternion.identity);
-            projectile.SetTarget(_monsterList[0]);
+            Projectile projectile = Instantiate(AllyUnitData.Projectile, transform.position, Quaternion.identity);
+            projectile.SetTarget(_monsterList[0], 2);
 
-            yield return new WaitForSeconds(Mathf.Clamp(-0.1f * UnitData.AtkSpeed + 1.3f, 0.1f, 1.9f));
+            yield return new WaitForSeconds(Mathf.Clamp(-0.1f * AllyUnitData.AtkSpeed + 1.3f, 0.1f, 1.9f));
 
             _monsterList.RemoveAll(t => t == null);
         }
     }
 
-    protected void MakeProjectile()
+    public void ApplyStatChange(StatType statType, int value)
     {
-        if(_monsterList.Count > 0)
+        if (_statApplier.ContainsKey(statType) == true)
         {
-            _monsterList.RemoveAll(t => t == null);
-
-            Projectile projectile = Instantiate(Projectile, transform.position, Quaternion.identity);
-            projectile.SetTarget(_monsterList[0]);
+            _statApplier[statType](value);
         }
     }
 

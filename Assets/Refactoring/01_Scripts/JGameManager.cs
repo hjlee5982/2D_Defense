@@ -43,12 +43,12 @@ public class JGameManager : MonoBehaviour
     public AllySpawner AllySpawner;
 
     [Header("선택된 유닛")]
-    private JUnit _selectedUnit;
+    private AllyUnit _selectedUnit;
 
     [Header("랜덤 모듈")]
     public RandomAssistant RandomAssistant;
 
-    // 아래는 나중에 데이터로 뺄것들z
+    // 아래는 나중에 데이터로 뺄것들
 
     // 레벨데이터
     [Header("몬스터 생성 수")]
@@ -156,7 +156,7 @@ public class JGameManager : MonoBehaviour
 
             if (hit.collider != null)
             {
-                _selectedUnit = hit.collider.GetComponentInParent<JUnit>();
+                _selectedUnit = hit.collider.GetComponentInParent<AllyUnit>();
 
                 JEventBus.SendEvent(new UnitSelectEvent(_selectedUnit));
             }

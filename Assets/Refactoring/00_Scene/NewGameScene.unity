@@ -3246,7 +3246,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b91dd36bb232b894886f94264267b85b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BearPrefab: {fileID: 5509989799499804533, guid: 17282715bf3efd84f83174d34259e3b7, type: 3}
+  MonsterInitData:
+  - {fileID: 11400000, guid: 201176c917236794f89e10dac7dcba1c, type: 2}
   PointTilemap: {fileID: 104962554}
   StartPointTileSprite: {fileID: 711184207562388478, guid: a4b2ffade184163438faf0f42125c0f5, type: 3}
   EndPointTileSprite: {fileID: 7057849838451639256, guid: 785541ce8189e0340bee0c8dafd78948, type: 3}
@@ -3263,10 +3264,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccacdb86ad22fa04d98e2701a1a0c04e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UnitInitData:
-  - {fileID: 11400000, guid: ba8f1d282b7af0e42adb97a62106cdb1, type: 2}
-  - {fileID: 11400000, guid: 1078df82efe95e1499cc2783ede0b7ab, type: 2}
-  - {fileID: 11400000, guid: c246217358dcc3b4eb144cabfcf110eb, type: 2}
+  AllyInitData:
+  - {fileID: 11400000, guid: 216ba886da54ea84b9e5c08f382982f3, type: 2}
   SpawnEnablePoints: {fileID: 795640000}
   AvailablePoint: {fileID: 6247877040290698937, guid: 275905a89285d454cb6b8af9ce88f896, type: 3}
   InavailablePoint: {fileID: 7795250250569269616, guid: c1d14f76473586745a8668e6d23f2767, type: 3}

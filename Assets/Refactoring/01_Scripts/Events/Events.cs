@@ -53,9 +53,9 @@ public class BeginSpawnMonsterEvent { }
 // JGameManager ->UI_UnitStatus, JUIManager
 public class UnitSelectEvent 
 {
-    public JUnit SelectedUnit;
+    public AllyUnit SelectedUnit;
 
-    public UnitSelectEvent(JUnit selectedUnit)
+    public UnitSelectEvent(AllyUnit selectedUnit)
     {
         SelectedUnit = selectedUnit;
     }
@@ -67,9 +67,9 @@ public class UnitDeselectEvent { }
 // JGameManager -> UI_UnitStatus
 public class EnhanceCompleteEvent 
 {
-    public JUnit SelectedUnit;
+    public AllyUnit SelectedUnit;
 
-    public EnhanceCompleteEvent(JUnit selectedUnit)
+    public EnhanceCompleteEvent(AllyUnit selectedUnit)
     {
         SelectedUnit = selectedUnit;
     }

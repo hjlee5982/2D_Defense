@@ -18,15 +18,17 @@ public class Monster_Bear : MonsterUnit
     #region MONOBEHAVIOUR
     protected override void Awake()
     {
+        base.Awake();
     }
 
     protected override void Start()
     {
+        base.Start();
     }
 
     protected override void Update()
     {
-        Move();
+        base.Update();
     }
     #endregion
 

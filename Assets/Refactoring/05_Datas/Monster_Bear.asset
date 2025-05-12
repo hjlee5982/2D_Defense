@@ -9,14 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3478172fbcab6414cb2ccfb989669b67, type: 3}
-  m_Name: Ally_2_Data
+  m_Script: {fileID: 11500000, guid: 4a95a3d7e8c9bea49851cf48378d4a26, type: 3}
+  m_Name: Monster_Bear
   m_EditorClassIdentifier: 
-  UnitPrefab: {fileID: 2646315428100280736, guid: 70adb4bf8eca5ec41996d172f3eba565, type: 3}
-  UnitName: "\uACE0\uC591\uC774"
+  UnitPrefab: {fileID: 5509989799499804533, guid: 17282715bf3efd84f83174d34259e3b7, type: 3}
+  UnitName: "\uACF0\uB3CC\uC774"
   Thumbnail: {fileID: 0}
-  Grade: 0
-  AtkPower: 5
-  AtkRange: 5
-  AtkSpeed: 5
-  UpgradeCount: 7
+  Health: 10
+  MoveSpeed: 5
+  dHealth: 0

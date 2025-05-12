@@ -120,21 +120,21 @@ public class UI_UnitStatus : MonoBehaviour
         UpdateUI(e.SelectedUnit);
     }
 
-    private void UpdateUI(JUnit unit)
+    private void UpdateUI(AllyUnit allyUnit)
     {
-        JUnitData unitData = unit.UnitData;
+        AllyUnitData allyUnitData = allyUnit.AllyUnitData;
 
         // Profile
         {
-            _unitThumbnail.sprite = unitData.Thumbnail;
-            _unitName.text        = unitData.UnitName + " " + unitData.Grade.ToString("+0");
+            _unitThumbnail.sprite = allyUnitData.Thumbnail;
+            _unitName.text        = allyUnitData.UnitName + " " + allyUnitData.Grade.ToString("+0");
         }
         // Status
         {
-            _atkPower.text     = unitData.AtkPower.ToString() + " (" + unit.dAtkPower.ToString("+0;-0;0") + ")";
-            _atkRange.text     = unitData.AtkRange.ToString() + " (" + unit.dAtkRange.ToString("+0;-0;0") + ")";
-            _atkSpeed.text     = unitData.AtkSpeed.ToString() + " (" + unit.dAtkSpeed.ToString("+0;-0;0") + ")"; ;
-            _upgradeCount.text = unitData.UpgradeCount.ToString();
+            _atkPower.text     = allyUnitData.AtkPower.ToString() + " (" + allyUnitData.dAtkPower.ToString("+0;-0;0") + ")";
+            _atkRange.text     = allyUnitData.AtkRange.ToString() + " (" + allyUnitData.dAtkRange.ToString("+0;-0;0") + ")";
+            _atkSpeed.text     = allyUnitData.AtkSpeed.ToString() + " (" + allyUnitData.dAtkSpeed.ToString("+0;-0;0") + ")"; ;
+            _upgradeCount.text = allyUnitData.UpgradeCount.ToString();
         }
     }
     #endregion

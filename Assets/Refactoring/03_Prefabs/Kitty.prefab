@@ -83,7 +83,7 @@ GameObject:
   - component: {fileID: 2582118768633140469}
   - component: {fileID: 2646315428100280736}
   m_Layer: 7
-  m_Name: Cat
+  m_Name: Kitty
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -262,4 +262,3 @@ MonoBehaviour:
   dAtkRange: 0
   dAtkSpeed: 0
   Projectile: {fileID: 875979787835182319, guid: 51af0dfbc5baec74f8188f8756a21de4, type: 3}
-  AttackRange: 5

@@ -6,7 +6,7 @@ public class AllySpawner : MonoBehaviour
 {
     #region VARIABLES
     [Header("유닛 초기값 데이터")]
-    public List<JUnitData> UnitInitData = new List<JUnitData>();
+    public List<AllyUnitData> AllyInitData = new List<AllyUnitData>();
 
     [Header("소환 가능 지역")]
     public Tilemap SpawnEnablePoints;
@@ -94,8 +94,8 @@ public class AllySpawner : MonoBehaviour
 
     public void ExecuteSpawnAlly()
     {
-        JUnit unit = Instantiate(UnitInitData[_btnIdx].UnitPrefab, _spawnPos, Quaternion.identity);
-        unit.SetInitialData(UnitInitData[_btnIdx]);
+        AllyUnit allyUnit = Instantiate(AllyInitData[_btnIdx].UnitPrefab, _spawnPos, Quaternion.identity);
+        allyUnit.SetInitialData(AllyInitData[_btnIdx]);
 
         TileChange(InavailablePoint);
 

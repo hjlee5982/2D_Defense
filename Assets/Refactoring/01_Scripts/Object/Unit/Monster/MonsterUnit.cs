@@ -1,9 +1,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MonsterUnit : JUnit
+public class MonsterUnit : MonoBehaviour
 {
     #region VARIABLES
+    [Header("애니메이터")]
+    protected Animator _animator;
+
+    [Header("유닛 데이터")]
+    public MonsterUnitData MonsterUnitData;
+
     [Header("경로 정보")]
     protected Queue<Vector3> RouteQueue;
 
@@ -30,24 +36,18 @@ public class MonsterUnit : JUnit
 
 
     #region MONOBEHAVIOUR
-    protected override void Awake()
-    {
-        base.Awake();
-    }
-
-    protected override void Start()
-    {
-        base.Start();
-    }
-
-    protected override void Update()
-    {
-        base.Update();
-    }
-
-    private void OnEnable()
+    protected virtual void Awake()
     {
         _animator = transform.GetComponent<Animator>();
+    }
+
+    protected virtual void Start()
+    {
+    }
+
+    protected virtual void Update()
+    {
+        Move();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -56,8 +56,9 @@ public class MonsterUnit : JUnit
         {
             Projectile projectile = collision.GetComponent<Projectile>();
 
-            if(projectile != null && projectile.GetTarget() == this)
+            if(projectile != null && projectile.GetTarget() == this && projectile.IsHit() == false)
             {
+                projectile.MarkHit();
                 TakeDamage(projectile);
             }
         }
@@ -69,6 +70,22 @@ public class MonsterUnit : JUnit
 
 
     #region FUNCTIONS
+    public void SetInitialData(MonsterUnitData monsterUnitData, Queue<Vector3> routeQueue)
+    {
+        // 초기 데이터 설정
+        {
+            MonsterUnitData = monsterUnitData.Clone();
+        }
+        // 가야 할 경로 설정
+        {
+            RouteQueue = new Queue<Vector3>(routeQueue);
+
+            _startPoint = RouteQueue.Dequeue();
+
+            _realPosition = _startPoint - new Vector3(0, OffsetY, 0);
+        }
+    }
+
     private void SetWalkAnimation(Vector3 dir)
     {
         float angle = Mathf.Atan2(dir.y, dir.x) * (180f / Mathf.PI);
@@ -115,7 +132,7 @@ public class MonsterUnit : JUnit
         }
     }
 
-    protected void Move()
+    private void Move()
     {
         if (RouteQueue == null || RouteQueue?.Count == 0)
         {
@@ -144,7 +161,11 @@ public class MonsterUnit : JUnit
 
     protected void TakeDamage(Projectile projectile)
     {
+        int damage = projectile.GetDamage();
+
+        // 맞은 투사체 지움
         Destroy(projectile.gameObject);
+
 
         //Die();
     }
@@ -159,15 +180,6 @@ public class MonsterUnit : JUnit
         // TODO
 
         Destroy(gameObject);
-    }
-
-    public void SetRouteData(Queue<Vector3> routeQueue)
-    {
-        RouteQueue = new Queue<Vector3>(routeQueue);
-
-        _startPoint = RouteQueue.Dequeue();
-
-        _realPosition = _startPoint - new Vector3(0, OffsetY, 0);
     }
 
     public void RegisterAllyUnit(AllyUnit allyUnit)
