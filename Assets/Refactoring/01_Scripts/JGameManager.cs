@@ -42,6 +42,9 @@ public class JGameManager : MonoBehaviour
     [Header("유닛 스포너")]
     public AllySpawner AllySpawner;
 
+    [Header("데이터 로더")]
+    public JDataLoader DataLoader;
+
     [Header("선택된 유닛")]
     private AllyUnit _selectedUnit;
 

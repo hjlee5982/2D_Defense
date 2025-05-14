@@ -1,5 +1,5 @@
 
-public class Cat_Ally : AllyUnit
+public class Ally_Kitty : AllyUnit
 {
     #region VARIABLES
     #endregion

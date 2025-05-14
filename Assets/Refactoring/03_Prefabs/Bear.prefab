@@ -188,8 +188,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99fd96e386451db478c358a121e78156, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UnitData: {fileID: 0}
-  dAtkPower: 0
-  dAtkRange: 0
-  dAtkSpeed: 0
+  MonsterUnitData: {fileID: 0}
   OffsetY: 0.3

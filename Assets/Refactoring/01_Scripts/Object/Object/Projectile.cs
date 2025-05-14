@@ -9,8 +9,9 @@ public class Projectile : MonoBehaviour
     [Header("충돌 플래그")]
     private bool _isHit = false;
 
-    [Header("공격력")]
+    [Header("스테이터스")]
     private int _atkPoint = 0;
+    private int _atkSpeed = 10;
     #endregion
 
 
@@ -89,7 +90,7 @@ public class Projectile : MonoBehaviour
 
         Vector3 dir = (targetPosition - transform.position).normalized;
 
-        transform.position += dir * Time.deltaTime * JGameManager.Instance.ProjectileSpeed;
+        transform.position += dir * Time.deltaTime * _atkSpeed;
     }
     #endregion
 }

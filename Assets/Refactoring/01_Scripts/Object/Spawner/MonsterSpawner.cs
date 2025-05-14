@@ -19,16 +19,11 @@ public class MonsterSpawner : MonoBehaviour
     public Sprite StartPointTileSprite;
     public Sprite EndPointTileSprite;
     public Sprite CheckPointTileSprite;
-    #endregion
 
-
-
-
-
-    #region TEMP->JSON
     [Header("½ºÆù È½¼ö")]
     private int _spawnCount = 0;
     #endregion
+
 
 
 
