@@ -12,7 +12,8 @@ public class JDataTransformer : EditorWindow
     [MenuItem("Data/ExcelToJson")]
     public static void TestFunc()
     {
-        ParseExcelDataToJson<JAllyUnitDataLoader, JAllyUnitData>("AllyUnitData");
+        ParseExcelDataToJson<JAllyUnitDataLoader,    JAllyUnitData   >("AllyUnitData");
+        ParseExcelDataToJson<JMonsterUnitDataLoader, JMonsterUnitData>("MonsterUnitData");
         Debug.Log("Change Success");
     }
 

@@ -1,12 +1,14 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
+
 
 public interface ILoader<Key, Value>
 {
     Dictionary<Key, Value> MakeDic();
 }
 
+
+#region UNIT_DATA
 [Serializable]
 public class JAllyUnitData
 {
@@ -15,7 +17,6 @@ public class JAllyUnitData
     public string UnitName;
 
     public string UnitPrefabPath;
-    public string ProjectilePrefabPath;
 
     public int Grade;
 
@@ -47,3 +48,41 @@ public class JAllyUnitDataLoader : ILoader<int, JAllyUnitData>
         return dic;
     }
 }
+#endregion
+
+
+
+#region MONSTER_DATA
+[Serializable]
+public class JMonsterUnitData
+{
+    public int Index;
+
+    public string UnitName;
+
+    public string UnitPrefabPath;
+
+    public int Health;
+    public int MoveSpeed;
+
+    public int dHealth;
+}
+
+[Serializable]
+public class JMonsterUnitDataLoader : ILoader<int, JMonsterUnitData>
+{
+    public List<JMonsterUnitData> Items = new List<JMonsterUnitData>();
+
+    public Dictionary<int, JMonsterUnitData> MakeDic()
+    {
+        Dictionary<int, JMonsterUnitData> dic = new Dictionary<int, JMonsterUnitData>();
+
+        foreach (JMonsterUnitData data in Items)
+        {
+            dic.Add(data.Index, data);
+        }
+
+        return dic;
+    }
+}
+#endregion
