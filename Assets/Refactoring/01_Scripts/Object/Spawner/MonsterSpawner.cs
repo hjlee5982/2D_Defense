@@ -22,6 +22,12 @@ public class MonsterSpawner : MonoBehaviour
 
     [Header("스폰 횟수")]
     private int _spawnCount = 0;
+
+    [Header("스테이지 데이터")]
+    private StageData _stageData;
+
+    [Header("현제 스테이지에서 소환할 몬스터 정보")]
+    private MonsterUnitData _monsterUnitData;
     #endregion
 
 
@@ -31,7 +37,7 @@ public class MonsterSpawner : MonoBehaviour
     #region MONOBEHAVIOUR
     private void Awake()
     {
-        RouteProcessing();    
+        RouteProcessing();
     }
 
     void Start()
@@ -62,19 +68,23 @@ public class MonsterSpawner : MonoBehaviour
     #region FUNCTIONS
     public void SpawnMonster(BeginSpawnMonsterEvent e)
     {
+        _stageData       = e.StageData;
+        _monsterUnitData = e.MonsterUnitData;
+
         StartCoroutine(SpawnMonsterWithDelay(e));
     }
 
     IEnumerator SpawnMonsterWithDelay(BeginSpawnMonsterEvent e)
     {
-        while(_spawnCount < JGameManager.Instance.NumOfMonster)
+
+        while(_spawnCount < _stageData.NumOfMonster)
         {
             ++_spawnCount;
 
-            MonsterUnit monsterUnit = Instantiate(MonsterInitData[0].UnitPrefab, RouteQueue.Peek(), Quaternion.identity);
-            monsterUnit.SetInitialData(MonsterInitData[0], RouteQueue);
+            MonsterUnit monsterUnit = Instantiate(_monsterUnitData.UnitPrefab, RouteQueue.Peek(), Quaternion.identity);
+            monsterUnit.SetInitialData(_monsterUnitData, RouteQueue);
 
-            yield return new WaitForSeconds(JGameManager.Instance.MonsterSpawnDelay);
+            yield return new WaitForSeconds(_stageData.MonsterSpawnInterval);
         }
 
         _spawnCount = 0;

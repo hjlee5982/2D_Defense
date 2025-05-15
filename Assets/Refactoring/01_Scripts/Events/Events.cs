@@ -34,11 +34,11 @@ public class StartRoundEvent { }
 // JGameManager -> AllySpawner
 public class BeginSpawnAllyEvent
 {
-    public int BtnIdx = -1;
+    public AllyUnitData AllyUnitData;
 
-    public BeginSpawnAllyEvent(int btnIdx) 
+    public BeginSpawnAllyEvent(AllyUnitData allyUnitData) 
     {
-        BtnIdx = btnIdx;
+        AllyUnitData = allyUnitData;
     }
 }
 
@@ -46,7 +46,17 @@ public class BeginSpawnAllyEvent
 
 
 // JGameManager -> MonsterSpawner
-public class BeginSpawnMonsterEvent { }
+public class BeginSpawnMonsterEvent
+{
+    public StageData   StageData;
+    public MonsterUnitData MonsterUnitData;
+
+    public BeginSpawnMonsterEvent(StageData stageData, MonsterUnitData monsterUnitData)
+    {
+        StageData       = stageData;
+        MonsterUnitData = monsterUnitData;
+    }
+}
 
 
 

@@ -1,9 +1,8 @@
 {
   "Items": [
     {
-      "Index": "0",
       "UnitName": "곰돌이",
-      "UnitPrefabPath": "Bear.Prefab",
+      "UnitPrefabName": "Bear",
       "Health": "10",
       "MoveSpeed": "5",
       "dHealth": "0"

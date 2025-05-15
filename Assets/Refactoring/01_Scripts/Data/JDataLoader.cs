@@ -11,8 +11,9 @@ public class JDataLoader : MonoBehaviour
     public Dictionary<string, GameObject> PrefabData = new Dictionary<string, GameObject>();
 
     // JSON -> DATA
-    public Dictionary<int, JAllyUnitData>    AllyUnitData    { get; private set; } = new Dictionary<int, JAllyUnitData>();
-    public Dictionary<int, JMonsterUnitData> MonsterUnitData { get; private set; } = new Dictionary<int, JMonsterUnitData>();
+    public Dictionary<int,    AllyUnitData>    AllyUnitData    { get; private set; } = new Dictionary<int,    AllyUnitData>();
+    public Dictionary<string, MonsterUnitData> MonsterUnitData { get; private set; } = new Dictionary<string, MonsterUnitData>();
+    public Dictionary<int,    StageData>       StageData       { get; private set; } = new Dictionary<int,    StageData>();
     #endregion
 
 
@@ -29,8 +30,9 @@ public class JDataLoader : MonoBehaviour
         }
         // JSON
         {
-            AllyUnitData    = LoadJson<JAllyUnitDataLoader,    int, JAllyUnitData   >("AllyUnitData"   ).MakeDic();
-            MonsterUnitData = LoadJson<JMonsterUnitDataLoader, int, JMonsterUnitData>("MonsterUnitData").MakeDic();
+            AllyUnitData    = LoadJson<AllyUnitDataLoader,    int, AllyUnitData      >("AllyUnitData"   ).MakeDic();
+            MonsterUnitData = LoadJson<MonsterUnitDataLoader, string, MonsterUnitData>("MonsterUnitData").MakeDic();
+            StageData       = LoadJson<StageDataLoader,       int, StageData         >("StageData"      ).MakeDic();
         }
     }
     #endregion

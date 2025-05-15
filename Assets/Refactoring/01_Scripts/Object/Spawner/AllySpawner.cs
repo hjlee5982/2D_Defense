@@ -5,20 +5,17 @@ using UnityEngine.Tilemaps;
 public class AllySpawner : MonoBehaviour
 {
     #region VARIABLES
-    [Header("유닛 초기값 데이터")]
-    public List<AllyUnitData> AllyInitData = new List<AllyUnitData>();
-
     [Header("소환 가능 지역")]
     public Tilemap SpawnEnablePoints;
 
     [Header("소환 미리보기")]
     private GameObject _spawnPreview;
 
+    [Header("소환 할 유닛 데이터")]
+    private AllyUnitData _allyUnitData;
+
     [Header("유닛 스폰 플래그")]
     private bool _doingAllySpawn = false;
-
-    [Header("유닛 소환 버튼 인덱스")]
-    private int _btnIdx = -1;
 
     [Header("소환 위치")]
     private Vector3    _spawnPos;
@@ -86,7 +83,7 @@ public class AllySpawner : MonoBehaviour
     #region FUNCTIONS
     public void BeginSpawnAlly(BeginSpawnAllyEvent e)
     {
-        _btnIdx = e.BtnIdx;
+        _allyUnitData = e.AllyUnitData;
 
         _doingAllySpawn = true;
         SpawnEnablePoints.gameObject.SetActive(true);
@@ -94,8 +91,8 @@ public class AllySpawner : MonoBehaviour
 
     public void ExecuteSpawnAlly()
     {
-        AllyUnit allyUnit = Instantiate(AllyInitData[_btnIdx].UnitPrefab, _spawnPos, Quaternion.identity);
-        allyUnit.SetInitialData(AllyInitData[_btnIdx]);
+        AllyUnit allyUnit = Instantiate(_allyUnitData.UnitPrefab, _spawnPos, Quaternion.identity).GetComponent<AllyUnit>();
+        allyUnit.SetInitialData(_allyUnitData);
 
         TileChange(InavailablePoint);
 

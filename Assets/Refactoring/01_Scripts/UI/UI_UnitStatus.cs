@@ -122,11 +122,11 @@ public class UI_UnitStatus : MonoBehaviour
 
     private void UpdateUI(AllyUnit allyUnit)
     {
-        AllyUnitData allyUnitData = allyUnit.AllyUnitData;
+        AllyUnitData allyUnitData = allyUnit.GetUnitData();
 
         // Profile
         {
-            _unitThumbnail.sprite = allyUnitData.Thumbnail;
+            _unitThumbnail.sprite = allyUnit.transform.Find("Thumbnail").GetComponent<SpriteRenderer>().sprite;
             _unitName.text        = allyUnitData.UnitName + " " + allyUnitData.Grade.ToString("+0");
         }
         // Status

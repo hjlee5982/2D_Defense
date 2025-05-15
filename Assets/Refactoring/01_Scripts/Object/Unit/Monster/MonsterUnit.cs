@@ -7,8 +7,8 @@ public class MonsterUnit : MonoBehaviour
     [Header("애니메이터")]
     protected Animator _animator;
 
-    [Header("유닛 데이터")]
-    public MonsterUnitData MonsterUnitData;
+    [Header("몬스터 데이터")]
+    private MonsterUnitData _monsterUnitData;
 
     [Header("경로 정보")]
     protected Queue<Vector3> RouteQueue;
@@ -74,7 +74,7 @@ public class MonsterUnit : MonoBehaviour
     {
         // 초기 데이터 설정
         {
-            MonsterUnitData = monsterUnitData.Clone();
+            _monsterUnitData = monsterUnitData.Clone();
         }
         // 가야 할 경로 설정
         {
@@ -153,7 +153,7 @@ public class MonsterUnit : MonoBehaviour
         else
         {
             dir.Normalize();
-            _realPosition += dir * Time.deltaTime * JGameManager.Instance.MonsterSpeed;
+            _realPosition += dir * Time.deltaTime * _monsterUnitData.MoveSpeed;
         }
 
         transform.position = _realPosition + new Vector3(0, OffsetY, 0);

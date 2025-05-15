@@ -51,26 +51,10 @@ public class JGameManager : MonoBehaviour
     [Header("랜덤 모듈")]
     public RandomAssistant RandomAssistant;
 
+    [Header("현재 스테이지")]
+    private int _currentStage = 0;
+
     // 아래는 나중에 데이터로 뺄것들
-
-    // 레벨데이터
-    [Header("몬스터 생성 수")]
-    public int NumOfMonster = 1;
-
-    [Header("몬스터 생성 간격")]
-    public float MonsterSpawnDelay = 1.0f;
-
-    [Header("몬스터 이동속도")]
-    public float MonsterSpeed = 1.0f;
-
-
-    // 유닛 데이터
-    [Header("투사체 속도")]
-    public float ProjectileSpeed = 10f;
-
-    [Header("공격 간격")]
-    public float AttackInterval = 1f;
-
 
     // 강화 데이터
     [Header("랜덤 옵션 확률 가중치")]
@@ -86,7 +70,11 @@ public class JGameManager : MonoBehaviour
     {
         SingletonInitialize();
 
+        DataProcess();
+
         RandomAssistant = new RandomAssistant();
+
+
 
         // 강화 데이터(임시)
         // json으로 읽어올꺼임
@@ -131,19 +119,28 @@ public class JGameManager : MonoBehaviour
     #region FUNCTION
     private void StartRound(StartRoundEvent e)
     {
-        // 레벨 데이터를 여기서 넣어주면 될듯?
-        // List<LevelData> levelData
-        // JEventBus.SendEvent(new BeginSpawnMonsterEvent(levelData[0]));
+        if(DataLoader.StageData.Count <= _currentStage)
+        {
+            Debug.Log("스테이지 데이터를 다 순회했어요");
+            return;
+        }
 
-        // levelData는 소환되는 몬스터의 수, 소환 간격, 이동속도 등등을 가지고 있으면 될듯
+        // _currentStage의 데이터 (얼마나 소환할지, 얼마 간격으로 소환할지 등등)
+        StageData   stageData    = DataLoader.StageData[_currentStage];
 
-        JEventBus.SendEvent(new BeginSpawnMonsterEvent());
+        // _currentStage에 소환 할 몬스터의 정보
+        MonsterUnitData spawnMonsterData = DataLoader.MonsterUnitData[stageData.SpawnMonster];
+
+        // JGameManager -> MonsterSpawner
+        JEventBus.SendEvent(new BeginSpawnMonsterEvent(stageData, spawnMonsterData));
+
+        ++_currentStage;
     }
 
     private void BeginSpawnAlly(StartSpawnAllyEvent e)
     {
         // JGameManager -> AllySpawner
-        JEventBus.SendEvent(new BeginSpawnAllyEvent(e.BtnIdx));
+        JEventBus.SendEvent(new BeginSpawnAllyEvent(DataLoader.AllyUnitData[e.BtnIdx]));
     }
 
     private void UnitSelect()
@@ -233,6 +230,24 @@ public class JGameManager : MonoBehaviour
         _selectedUnit.ApplyStatChange(StatType.UpgradeCount, -1);
 
         JEventBus.SendEvent(new EnhanceCompleteEvent(_selectedUnit));
+    }
+
+    private void DataProcess()
+    {
+        foreach(var kvp in DataLoader.AllyUnitData)
+        {
+            if(DataLoader.PrefabData.ContainsKey(kvp.Value.UnitPrefabName) == true)
+            {
+                kvp.Value.UnitPrefab = DataLoader.PrefabData[kvp.Value.UnitPrefabName].GetComponent<AllyUnit>();
+            }
+        }
+        foreach(var kvp in DataLoader.MonsterUnitData)
+        {
+            if(DataLoader.PrefabData.ContainsKey(kvp.Value.UnitPrefabName) == true)
+            {
+                kvp.Value.UnitPrefab = DataLoader.PrefabData[kvp.Value.UnitPrefabName].GetComponent<MonsterUnit>();
+            }
+        }
     }
     #endregion
 }

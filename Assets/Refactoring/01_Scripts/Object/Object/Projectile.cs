@@ -52,10 +52,11 @@ public class Projectile : MonoBehaviour
 
 
     #region FUNCTIONS
-    public void SetTarget(MonsterUnit targetMonster, int atkPoint)
+    public void SetTarget(MonsterUnit targetMonster, int atkPoint, int projectileSpeed = 10)
     {
         _targetMonster = targetMonster;
         _atkPoint = atkPoint;
+        _atkSpeed = projectileSpeed;
     }
 
     public MonsterUnit GetTarget()
