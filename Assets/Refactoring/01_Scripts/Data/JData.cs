@@ -105,6 +105,7 @@ public class MonsterUnitDataLoader : ILoader<string, MonsterUnitData>
 public class StageData
 {
     public int    Index;
+    public int    DropGold;
     public int    NumOfMonster;
     public string SpawnMonster;
     public float  MonsterSpawnInterval;
@@ -120,6 +121,33 @@ public class StageDataLoader : ILoader<int, StageData>
         Dictionary<int, StageData> dic = new Dictionary<int, StageData>();
 
         foreach (StageData data in Items)
+        {
+            dic.Add(data.Index, data);
+        }
+
+        return dic;
+    }
+}
+#endregion
+
+#region GAME_RULE_DATA
+[Serializable]
+public class GameRuleData
+{
+    public int Index;
+    public int LifeLimit;
+}
+
+[Serializable]
+public class GameRuleDataLoader : ILoader<int, GameRuleData>
+{
+    public List<GameRuleData> Items = new List<GameRuleData>();
+
+    public Dictionary<int, GameRuleData> MakeDic()
+    {
+        Dictionary<int, GameRuleData> dic = new Dictionary<int, GameRuleData>();
+
+        foreach (GameRuleData data in Items)
         {
             dic.Add(data.Index, data);
         }

@@ -84,3 +84,20 @@ public class EnhanceCompleteEvent
         SelectedUnit = selectedUnit;
     }
 }
+
+
+
+// JGameManager -> UI_GameStatus
+public class GameStatusChangeEvent
+{
+    public int Life;
+    public int NumOfMonster;
+    public int Gold;
+
+    public GameStatusChangeEvent(int life, int numOfMonster, int gold)
+    {
+        Life         = life;
+        NumOfMonster = numOfMonster;
+        Gold         = gold;
+    }
+}

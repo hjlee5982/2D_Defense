@@ -15,6 +15,7 @@ public class JDataTransformer : EditorWindow
         ParseExcelDataToJson<AllyUnitDataLoader,    AllyUnitData   >("AllyUnitData");
         ParseExcelDataToJson<MonsterUnitDataLoader, MonsterUnitData>("MonsterUnitData");
         ParseExcelDataToJson<StageDataLoader,       StageData      >("StageData");
+        ParseExcelDataToJson<GameRuleDataLoader,    GameRuleData   >("GameRuleData");
 
         Debug.Log("Change Success");
     }
