@@ -90,14 +90,19 @@ public class EnhanceCompleteEvent
 // JGameManager -> UI_GameStatus
 public class GameStatusChangeEvent
 {
-    public int Life;
-    public int NumOfMonster;
-    public int Gold;
-
-    public GameStatusChangeEvent(int life, int numOfMonster, int gold)
+    public enum GameStatusType
     {
-        Life         = life;
-        NumOfMonster = numOfMonster;
-        Gold         = gold;
+        Life,
+        NumOfMonster,
+        Gold
+    }
+
+    public GameStatusType Type;
+    public int Value;
+
+    public GameStatusChangeEvent(GameStatusType type, int value)
+    {
+        Type  = type;
+        Value = value;
     }
 }

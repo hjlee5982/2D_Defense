@@ -194,8 +194,6 @@ public class AllyUnit : MonoBehaviour
 
         while(_monsterList.Count > 0)
         {
-            
-
             yield return new WaitForSeconds(Mathf.Clamp(-0.1f * _allyUnitData.AtkSpeed + 1.3f, 0.1f, 1.9f));
 
             _monsterList.RemoveAll(t => t == null);

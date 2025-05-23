@@ -1,8 +1,26 @@
 using System.Collections.Generic;
 using UnityEngine;
+using static GameStatusChangeEvent;
 
 public class MonsterUnit : MonoBehaviour
 {
+    #region ENUM
+    enum MonsterState
+    {
+        None,
+        Alive,
+        Death
+    }
+    enum MonsterDirection
+    {
+        None,
+        Up,
+        Down,
+        Left,
+        Right
+    }
+    #endregion
+
     #region VARIABLES
     [Header("애니메이터")]
     protected Animator _animator;
@@ -22,6 +40,15 @@ public class MonsterUnit : MonoBehaviour
 
     [Header("자신을 등록한 유닛 리스트")]
     private List<AllyUnit> _registeredUnits = new List<AllyUnit>();
+
+    [Header("상태 플래그")]
+    private MonsterState _currentState = MonsterState.None;
+
+    [Header("방향 플래그")]
+    private MonsterDirection _currentDirection = MonsterDirection.None;
+
+    [Header("죽음 플래그")]
+    private bool _isDeath = false;
     #endregion
 
 
@@ -39,6 +66,8 @@ public class MonsterUnit : MonoBehaviour
     protected virtual void Awake()
     {
         _animator = transform.GetComponent<Animator>();
+
+        _currentState = MonsterState.Alive;
     }
 
     protected virtual void Start()
@@ -47,7 +76,22 @@ public class MonsterUnit : MonoBehaviour
 
     protected virtual void Update()
     {
-        Move();
+        switch (_currentState)
+        {
+            case MonsterState.Alive:
+
+                MoveProcess();
+
+                break;
+
+            case MonsterState.Death:
+
+                DieProcess();
+
+                break;
+        }
+        
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -58,8 +102,10 @@ public class MonsterUnit : MonoBehaviour
 
             if(projectile != null && projectile.GetTarget() == this && projectile.IsHit() == false)
             {
+                // 콜라이더 여러번 타서 막기용 bool변수 추가했음
                 projectile.MarkHit();
-                TakeDamage(projectile);
+
+                UnderAttack(projectile);
             }
         }
     }
@@ -86,65 +132,70 @@ public class MonsterUnit : MonoBehaviour
         }
     }
 
-    private void SetWalkAnimation(Vector3 dir)
+    private void SetDirection(Vector3 dir)
     {
         float angle = Mathf.Atan2(dir.y, dir.x) * (180f / Mathf.PI);
         angle = Mathf.Round(angle);
 
         if(88 <= angle && angle <= 92)
         {
-            _animator.SetTrigger("Walk_Up");
+            _currentDirection = MonsterDirection.Up;
         }
         else if (-92 <= angle && angle <= -88)
         {
-            _animator.SetTrigger("Walk_Down");
+            _currentDirection = MonsterDirection.Down;
         }
         else if(178 <= angle && angle <= 182)
         {
-            _animator.SetTrigger("Walk_Left");
+            _currentDirection = MonsterDirection.Left;
         }
         else if(-2 <= angle && angle <= 2)
         {
-            _animator.SetTrigger("Walk_Right");
+            _currentDirection = MonsterDirection.Right;
         }
     }
 
-    private void SetDieAnimation(Vector3 dir)
+    private void SetAnimation(string trigger)
     {
-        float angle = Mathf.Atan2(dir.y, dir.x) * (180f / Mathf.PI);
-        angle = Mathf.Round(angle);
-
-        if (88 <= angle && angle <= 92)
+        switch (_currentDirection)
         {
-            _animator.SetTrigger("Die_Up");
-        }
-        else if (-92 <= angle && angle <= -88)
-        {
-            _animator.SetTrigger("Die_Down");
-        }
-        else if (178 <= angle && angle <= 182)
-        {
-            _animator.SetTrigger("Die_Left");
-        }
-        else if (-2 <= angle && angle <= 2)
-        {
-            _animator.SetTrigger("Die_Right");
+            case MonsterDirection.Up:
+                _animator.SetTrigger(trigger + "_Up");
+                break;
+            case MonsterDirection.Down:
+                _animator.SetTrigger(trigger + "_Down");
+                break;
+            case MonsterDirection.Left:
+                _animator.SetTrigger(trigger + "_Left");
+                break;
+            case MonsterDirection.Right:
+                _animator.SetTrigger(trigger + "_Right");
+                break;
         }
     }
 
-    private void Move()
+    private void MoveProcess()
     {
+        // 이동 경로가 없으면 움직이지 않음
         if (RouteQueue == null || RouteQueue?.Count == 0)
         {
             return;
         }
 
+
+        // 바라보는 방향 설정
         Vector3 targetPoint = RouteQueue.Peek();
 
         Vector3 dir = (targetPoint - _realPosition).normalized;
 
-        SetWalkAnimation(dir);
+        SetDirection(dir);
 
+
+        // 이동 애니메이션 재생
+        SetAnimation("Move");
+
+
+        // 방향전환
         if (Vector3.Distance(_realPosition, targetPoint) < 0.1f)
         {
             _realPosition = targetPoint;
@@ -156,32 +207,72 @@ public class MonsterUnit : MonoBehaviour
             _realPosition += dir * Time.deltaTime * _monsterUnitData.MoveSpeed;
         }
 
+
+        // 실제 변위 변경
         transform.position = _realPosition + new Vector3(0, OffsetY, 0);
     }
 
-    protected void TakeDamage(Projectile projectile)
+    private void UnderAttack(Projectile projectile)
     {
         int damage = projectile.GetDamage();
 
         // 맞은 투사체 지움
         Destroy(projectile.gameObject);
 
-
-        //Die();
+        // 대미지 계산
+        if(DamageProcess(damage) == true)
+        {
+            _currentState = MonsterState.Death;
+        }
     }
 
-    protected void Die()
+    private bool DamageProcess(int damage)
+    {
+        _monsterUnitData.Health -= damage;
+
+        if (_monsterUnitData.Health <= 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    private void DieProcess()
     {
         foreach(AllyUnit unit in _registeredUnits)
         {
             unit.NotifyMonsterDied(this);
         }
 
-        // TODO
+        // 죽는 애니메이션은 단 1번만 트리거가 들어가야 함
+        if(_isDeath == false)
+        {
+            SetAnimation("Die");
+            JEventBus.SendEvent(new GameStatusChangeEvent(GameStatusType.NumOfMonster, -1));
+            _isDeath = true;
+        }
+        // 죽는 애니메이션이 끝나면 삭제
+        if(_isDeath == true)
+        {
+            AnimatorStateInfo stateInfo = _animator.GetCurrentAnimatorStateInfo(0);
 
-        Destroy(gameObject);
+            if(stateInfo.IsName("Die_Up") || stateInfo.IsName("Die_Down") || stateInfo.IsName("Die_Left") || stateInfo.IsName("Die_Right"))
+            {
+                if(stateInfo.normalizedTime >= 1.0f)
+                {
+                    Destroy(gameObject);
+                }
+            }
+        }
     }
 
+    // 자신(몬스터)을 공격 대상으로 삼은 유닛들을 가져옴
+    // => 자신(몬스터)가 죽어서 삭제되면 위의 유닛의 배열에 null이 존재하게 되니까
+    // => DieProcess에서 자신(몬스터)가 죽었다고 유닛한테 알려주고
+    // => null처리는 유닛이 알아서 함
     public void RegisterAllyUnit(AllyUnit allyUnit)
     {
         if(_registeredUnits.Contains(allyUnit) == false)

@@ -1,17 +1,21 @@
 using TMPro;
 using UnityEngine;
+using static GameStatusChangeEvent;
 
 public class UI_GameStatus : MonoBehaviour
 {
     #region VARIABLES
     [Header("라이프 카운터")]
     private TextMeshProUGUI _lifeCounter;
+    private int _currentLifeCount;
 
     [Header("몬스터 카운터")]
     private TextMeshProUGUI _monsterCounter;
+    private int _currentMonsterCount;
 
     [Header("골드 카운터")]
     private TextMeshProUGUI _goldCounter;
+    private int _currentGoldCount;
     #endregion
 
 
@@ -59,9 +63,23 @@ public class UI_GameStatus : MonoBehaviour
     #region FUNCTIONS
     private void UpdateGameStatusUI(GameStatusChangeEvent e)
     {
-        _lifeCounter.text    = e.Life.ToString();
-        _monsterCounter.text = e.NumOfMonster.ToString();
-        _goldCounter.text    = e.Gold.ToString();
+        switch(e.Type)
+        {
+            case GameStatusType.Life:
+                _currentLifeCount += e.Value;
+                _lifeCounter.text = _currentLifeCount.ToString();
+                break;
+
+            case GameStatusType.NumOfMonster:
+                _currentMonsterCount += e.Value;
+                _monsterCounter.text = _currentMonsterCount.ToString();
+                break;
+
+            case GameStatusType.Gold:
+                _currentGoldCount += e.Value;
+                _goldCounter.text = _currentGoldCount.ToString();
+                break;
+        }
     }
     #endregion
 }

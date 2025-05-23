@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using static GameStatusChangeEvent;
+
 public class JGameManager : MonoBehaviour
 {
     #region SINGLETON
@@ -55,7 +57,7 @@ public class JGameManager : MonoBehaviour
     private int _currentStage = 0;
 
     [Header("현재 체력")]
-    private int _life = 0;
+    private int _life = -1;
     public int Life
     {
         get => _life;
@@ -64,13 +66,13 @@ public class JGameManager : MonoBehaviour
             if(_life != value)
             {
                 _life = value;
-                JEventBus.SendEvent(new GameStatusChangeEvent(_life, _numOfMonster, _gold));
+                JEventBus.SendEvent(new GameStatusChangeEvent(GameStatusType.Life, _life));
             }
         }
     }
 
     [Header("현재 몬스터 수")]
-    private int _numOfMonster = 0;
+    private int _numOfMonster = -1;
     public int NumOfMonster
     {
         get => _numOfMonster;
@@ -79,22 +81,22 @@ public class JGameManager : MonoBehaviour
             if (_numOfMonster != value)
             {
                 _numOfMonster = value;
-                JEventBus.SendEvent(new GameStatusChangeEvent(_life, _numOfMonster, _gold));
+                JEventBus.SendEvent(new GameStatusChangeEvent(GameStatusType.NumOfMonster, _numOfMonster));
             }
         }
     }
 
     [Header("현재 골드")]
-    private int _gold = 0;
+    private int _gold = -1;
     public int Gold
     {
-        get => _numOfMonster;
+        get => _gold;
         set
         {
-            if (_life != value)
+            if (_gold != value)
             {
-                _numOfMonster = value;
-                JEventBus.SendEvent(new GameStatusChangeEvent(_life, _numOfMonster, _gold));
+                _gold = value;
+                JEventBus.SendEvent(new GameStatusChangeEvent(GameStatusType.Gold, _gold));
             }
         }
     }
@@ -135,6 +137,8 @@ public class JGameManager : MonoBehaviour
     void Start()
     {
         Life = DataLoader.GameRule[0].LifeLimit;
+        NumOfMonster = 0;
+        Gold = 0;
     }
 
     void Update()
