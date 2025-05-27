@@ -11,10 +11,11 @@ public class JDataLoader : MonoBehaviour
     public Dictionary<string, GameObject> PrefabData = new Dictionary<string, GameObject>();
 
     // JSON -> DATA
-    public Dictionary<int,    AllyUnitData>    AllyUnitData    { get; private set; } = new Dictionary<int,    AllyUnitData>();
+    public Dictionary<int,    AllyUnitData   > AllyUnitData    { get; private set; } = new Dictionary<int,    AllyUnitData   >();
     public Dictionary<string, MonsterUnitData> MonsterUnitData { get; private set; } = new Dictionary<string, MonsterUnitData>();
-    public Dictionary<int,    StageData>       StageData       { get; private set; } = new Dictionary<int,    StageData>();
-    public Dictionary<int,    GameRuleData>    GameRule        { get; private set; } = new Dictionary<int,    GameRuleData>();
+    public Dictionary<int,    StageData      > StageData       { get; private set; } = new Dictionary<int,    StageData      >();
+    public Dictionary<int,    GameRuleData   > GameRuleData    { get; private set; } = new Dictionary<int,    GameRuleData   >();
+    public Dictionary<int,    RouteData      > RouteData       { get; private set; } = new Dictionary<int,    RouteData      >();
     #endregion
 
 
@@ -31,10 +32,11 @@ public class JDataLoader : MonoBehaviour
         }
         // JSON
         {
-            AllyUnitData    = LoadJson<AllyUnitDataLoader,    int, AllyUnitData      >("AllyUnitData"   ).MakeDic();
-            MonsterUnitData = LoadJson<MonsterUnitDataLoader, string, MonsterUnitData>("MonsterUnitData").MakeDic();
-            StageData       = LoadJson<StageDataLoader,       int, StageData         >("StageData"      ).MakeDic();
-            GameRule        = LoadJson<GameRuleDataLoader,    int, GameRuleData      >("GameRuleData"   ).MakeDic();
+            AllyUnitData    = LoadJson<AllyUnitDataLoader,    int,    AllyUnitData      >("AllyUnitData"   ).MakeDic();
+            MonsterUnitData = LoadJson<MonsterUnitDataLoader, string, MonsterUnitData   >("MonsterUnitData").MakeDic();
+            StageData       = LoadJson<StageDataLoader,       int,    StageData         >("StageData"      ).MakeDic();
+            GameRuleData    = LoadJson<GameRuleDataLoader,    int,    GameRuleData      >("GameRuleData"   ).MakeDic();
+            RouteData       = LoadJson<RouteDataLoader,       int,    RouteData         >("RouteData"      ).MakeDic();
         }
     }
     #endregion

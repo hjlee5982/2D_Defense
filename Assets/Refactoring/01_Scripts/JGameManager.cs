@@ -121,8 +121,6 @@ public class JGameManager : MonoBehaviour
 
         RandomAssistant = new RandomAssistant();
 
-
-
         // 강화 데이터(임시)
         // json으로 읽어올꺼임
         {
@@ -136,9 +134,9 @@ public class JGameManager : MonoBehaviour
 
     void Start()
     {
-        Life = DataLoader.GameRule[0].LifeLimit;
+        Life         = DataLoader.GameRuleData[0].LifeLimit;
         NumOfMonster = 0;
-        Gold = 0;
+        Gold         = 0;
     }
 
     void Update()
@@ -151,6 +149,7 @@ public class JGameManager : MonoBehaviour
         JEventBus.Subscribe<StartRoundEvent>(StartRound);
         JEventBus.Subscribe<StartSpawnAllyEvent>(BeginSpawnAlly);
         JEventBus.Subscribe<StartEnhancementEvent>(EnhancementProcess);
+        JEventBus.Subscribe<MonsterFinishEvent>(IsMonsterFinished);
     }
 
     private void OnDisable()
@@ -158,6 +157,7 @@ public class JGameManager : MonoBehaviour
         JEventBus.Unsubscribe<StartRoundEvent>(StartRound);
         JEventBus.Unsubscribe<StartSpawnAllyEvent>(BeginSpawnAlly);
         JEventBus.Unsubscribe<StartEnhancementEvent>(EnhancementProcess);
+        JEventBus.Unsubscribe<MonsterFinishEvent>(IsMonsterFinished);
     }
     #endregion
 
@@ -207,14 +207,32 @@ public class JGameManager : MonoBehaviour
 
             if (hit.collider != null)
             {
+                // 이전에 선택되었던 유닛의 인디케이터는 꺼줘야함
+                _selectedUnit?.ToggleIndicator(false);
+
                 _selectedUnit = hit.collider.GetComponentInParent<AllyUnit>();
 
                 JEventBus.SendEvent(new UnitSelectEvent(_selectedUnit));
+
+                // if문 바로 뒤의 _selectedUnit은 이 시점에서 선택된 유닛 전에 선택된 유닛임
+                _selectedUnit.ToggleIndicator(true);
             }
         }
         if(Input.GetMouseButtonDown(1) == true)
         {
             JEventBus.SendEvent(new UnitDeselectEvent());
+
+            _selectedUnit?.ToggleIndicator(false);
+        }
+    }
+
+    private void IsMonsterFinished(MonsterFinishEvent e)
+    {
+        Life -= 1;
+
+        if (Life <= 0)
+        {
+            GameOverProcess();
         }
     }
 
@@ -283,6 +301,13 @@ public class JGameManager : MonoBehaviour
         JEventBus.SendEvent(new EnhanceCompleteEvent(_selectedUnit));
     }
 
+    private void GameOverProcess()
+    {
+        Debug.Log("게임끝");
+
+        Time.timeScale = 0;
+    }
+
     private void DataProcess()
     {
         foreach(var kvp in DataLoader.AllyUnitData)
@@ -299,6 +324,8 @@ public class JGameManager : MonoBehaviour
                 kvp.Value.UnitPrefab = DataLoader.PrefabData[kvp.Value.UnitPrefabName].GetComponent<MonsterUnit>();
             }
         }
+
+        MonsterSpawner.RouteDataProcessing(DataLoader.RouteData[0].Route);
     }
     #endregion
 }

@@ -106,3 +106,8 @@ public class GameStatusChangeEvent
         Value = value;
     }
 }
+
+
+
+// MonsterUnit -> JGameManager
+public class MonsterFinishEvent { }

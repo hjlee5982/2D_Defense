@@ -128,7 +128,7 @@ public class MonsterUnit : MonoBehaviour
 
             _startPoint = RouteQueue.Dequeue();
 
-            _realPosition = _startPoint - new Vector3(0, OffsetY, 0);
+            _realPosition = _startPoint;
         }
     }
 
@@ -179,6 +179,12 @@ public class MonsterUnit : MonoBehaviour
         // 이동 경로가 없으면 움직이지 않음
         if (RouteQueue == null || RouteQueue?.Count == 0)
         {
+            // 도착하면 여기로 들어옴
+
+            JEventBus.SendEvent(new MonsterFinishEvent());
+
+            Destroy(gameObject);
+
             return;
         }
 

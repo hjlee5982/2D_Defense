@@ -130,6 +130,8 @@ public class StageDataLoader : ILoader<int, StageData>
 }
 #endregion
 
+
+
 #region GAME_RULE_DATA
 [Serializable]
 public class GameRuleData
@@ -148,6 +150,35 @@ public class GameRuleDataLoader : ILoader<int, GameRuleData>
         Dictionary<int, GameRuleData> dic = new Dictionary<int, GameRuleData>();
 
         foreach (GameRuleData data in Items)
+        {
+            dic.Add(data.Index, data);
+        }
+
+        return dic;
+    }
+}
+#endregion
+
+
+
+#region GAME_RULE_DATA
+[Serializable]
+public class RouteData
+{
+    public int    Index;
+    public string Route;
+}
+
+[Serializable]
+public class RouteDataLoader : ILoader<int, RouteData>
+{
+    public List<RouteData> Items = new List<RouteData>();
+
+    public Dictionary<int, RouteData> MakeDic()
+    {
+        Dictionary<int, RouteData> dic = new Dictionary<int, RouteData>();
+
+        foreach (RouteData data in Items)
         {
             dic.Add(data.Index, data);
         }

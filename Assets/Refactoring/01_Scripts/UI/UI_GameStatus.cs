@@ -66,18 +66,15 @@ public class UI_GameStatus : MonoBehaviour
         switch(e.Type)
         {
             case GameStatusType.Life:
-                _currentLifeCount += e.Value;
-                _lifeCounter.text = _currentLifeCount.ToString();
+                _lifeCounter.text = e.Value.ToString();
                 break;
 
             case GameStatusType.NumOfMonster:
-                _currentMonsterCount += e.Value;
-                _monsterCounter.text = _currentMonsterCount.ToString();
+                _monsterCounter.text = e.Value.ToString();
                 break;
 
             case GameStatusType.Gold:
-                _currentGoldCount += e.Value;
-                _goldCounter.text = _currentGoldCount.ToString();
+                _goldCounter.text = e.Value.ToString();
                 break;
         }
     }

@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Idle_Up
+  m_Name: Tiger_Idle_Up
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -21,9 +21,9 @@ AnimationClip:
   - serializedVersion: 2
     curve:
     - time: 0
-      value: {fileID: 5902472224145541201, guid: 5238b42ae09b8b74f9e86009678993a3, type: 3}
+      value: {fileID: -6712078782016838972, guid: 89cfd95a84cf27f4d8f57bbd6e29fc08, type: 3}
     - time: 0.33333334
-      value: {fileID: 5704146936193991084, guid: 5238b42ae09b8b74f9e86009678993a3, type: 3}
+      value: {fileID: -1512007231425746388, guid: 89cfd95a84cf27f4d8f57bbd6e29fc08, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -46,8 +46,8 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
-    - {fileID: 5902472224145541201, guid: 5238b42ae09b8b74f9e86009678993a3, type: 3}
-    - {fileID: 5704146936193991084, guid: 5238b42ae09b8b74f9e86009678993a3, type: 3}
+    - {fileID: -6712078782016838972, guid: 89cfd95a84cf27f4d8f57bbd6e29fc08, type: 3}
+    - {fileID: -1512007231425746388, guid: 89cfd95a84cf27f4d8f57bbd6e29fc08, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}

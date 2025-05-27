@@ -20,6 +20,9 @@ public class AllyUnit : MonoBehaviour
     [Header("애니메이터")]
     protected Animator _animator;
 
+    [Header("인디케이터")]
+    private GameObject _indicator;
+
     [Header("유닛 데이터")]
     private AllyUnitData _allyUnitData;
 
@@ -58,6 +61,9 @@ public class AllyUnit : MonoBehaviour
     {
         _animator    = transform.GetComponent<Animator>();
         _attackRange = transform.GetComponent<CircleCollider2D>();
+
+        _indicator = transform.Find("Indicator").gameObject;
+        _indicator.SetActive(false);
 
         _statApplier = new Dictionary<StatType, Action<int>>
         {
@@ -171,6 +177,11 @@ public class AllyUnit : MonoBehaviour
         _allyUnitData = allyUnitData.Clone();
 
         _atkInterval = allyUnitData.AtkSpeed;
+    }
+
+    public void ToggleIndicator(bool value)
+    {
+        _indicator.SetActive(value);
     }
 
     public bool IsEnhancable()
