@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using static GameStatusChangeEvent;
+using static MonsterStateChangeEvent;
 
 public class JGameManager : MonoBehaviour
 {
@@ -96,6 +97,7 @@ public class JGameManager : MonoBehaviour
             if (_gold != value)
             {
                 _gold = value;
+                JEventBus.SendEvent(new SummonRestrictionEvent(_gold, DataLoader.AllyUnitData[0].Cost, DataLoader.AllyUnitData[1].Cost, DataLoader.AllyUnitData[2].Cost));
                 JEventBus.SendEvent(new GameStatusChangeEvent(GameStatusType.Gold, _gold));
             }
         }
@@ -136,7 +138,7 @@ public class JGameManager : MonoBehaviour
     {
         Life         = DataLoader.GameRuleData[0].LifeLimit;
         NumOfMonster = 0;
-        Gold         = 0;
+        Gold         = DataLoader.GameRuleData[0].InitialGold;
     }
 
     void Update()
@@ -149,7 +151,9 @@ public class JGameManager : MonoBehaviour
         JEventBus.Subscribe<StartRoundEvent>(StartRound);
         JEventBus.Subscribe<StartSpawnAllyEvent>(BeginSpawnAlly);
         JEventBus.Subscribe<StartEnhancementEvent>(EnhancementProcess);
-        JEventBus.Subscribe<MonsterFinishEvent>(IsMonsterFinished);
+        JEventBus.Subscribe<MonsterStateChangeEvent>(MonsterStateChange);
+        JEventBus.Subscribe<SummonCompleteEvent>(SummonComplete);
+        
     }
 
     private void OnDisable()
@@ -157,7 +161,8 @@ public class JGameManager : MonoBehaviour
         JEventBus.Unsubscribe<StartRoundEvent>(StartRound);
         JEventBus.Unsubscribe<StartSpawnAllyEvent>(BeginSpawnAlly);
         JEventBus.Unsubscribe<StartEnhancementEvent>(EnhancementProcess);
-        JEventBus.Unsubscribe<MonsterFinishEvent>(IsMonsterFinished);
+        JEventBus.Unsubscribe<MonsterStateChangeEvent>(MonsterStateChange);
+        JEventBus.Unsubscribe<SummonCompleteEvent>(SummonComplete);
     }
     #endregion
 
@@ -168,12 +173,6 @@ public class JGameManager : MonoBehaviour
     #region FUNCTION
     private void StartRound(StartRoundEvent e)
     {
-        if(DataLoader.StageData.Count <= _currentStage)
-        {
-            Debug.Log("스테이지 데이터를 다 순회했어요");
-            return;
-        }
-
         // _currentStage의 데이터 (얼마나 소환할지, 얼마 간격으로 소환할지 등등)
         StageData   stageData    = DataLoader.StageData[_currentStage];
 
@@ -184,8 +183,6 @@ public class JGameManager : MonoBehaviour
         JEventBus.SendEvent(new BeginSpawnMonsterEvent(stageData, spawnMonsterData));
 
         NumOfMonster = DataLoader.StageData[_currentStage].NumOfMonster;
-
-        ++_currentStage;
     }
 
     private void BeginSpawnAlly(StartSpawnAllyEvent e)
@@ -226,14 +223,49 @@ public class JGameManager : MonoBehaviour
         }
     }
 
-    private void IsMonsterFinished(MonsterFinishEvent e)
+    // 몬스터가 죽거나 완주하면 호출됨
+    private void MonsterStateChange(MonsterStateChangeEvent e)
     {
-        Life -= 1;
+        switch (e.Type)
+        {
+            case MonsterStateType.Die:
+
+                // TODO
+                // 골드 증가 (현재 스테이지에 설정된 드랍 골드만큼)
+                // 현재 몬스터 수 1 감소
+                Gold         += DataLoader.StageData[_currentStage].DropGold;
+                NumOfMonster -= 1;
+
+                break;
+
+            case MonsterStateType.Finish:
+
+                // TODO
+                // 생명력 1 감소
+                // 현재 몬스터 수 1 감소
+                Life         -= 1;
+                NumOfMonster -= 1;
+
+                break;
+        }
 
         if (Life <= 0)
         {
             GameOverProcess();
         }
+        if (NumOfMonster == 0 && DataLoader.StageData.Count -1 <= _currentStage)
+        {
+            GameClearProcess();
+        }
+        if(NumOfMonster == 0)
+        {
+            ++_currentStage;
+        }
+    }
+
+    private void SummonComplete(SummonCompleteEvent e)
+    {
+        Gold -= e.Gold;
     }
 
     private void EnhancementProcess(StartEnhancementEvent e)
@@ -303,7 +335,14 @@ public class JGameManager : MonoBehaviour
 
     private void GameOverProcess()
     {
-        Debug.Log("게임끝");
+        Debug.Log("게임끝_패배");
+
+        Time.timeScale = 0;
+    }
+
+    private void GameClearProcess()
+    {
+        Debug.Log("게임끝_승리");
 
         Time.timeScale = 0;
     }

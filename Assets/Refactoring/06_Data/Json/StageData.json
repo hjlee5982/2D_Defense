@@ -15,38 +15,6 @@
       "SpawnMonster": "곰돌이",
       "MonsterSpawnInterval": "1.3",
       "": ""
-    },
-    {
-      "Index": "2",
-      "DropGold": "2",
-      "NumOfMonster": "20",
-      "SpawnMonster": "곰돌이",
-      "MonsterSpawnInterval": "1.1",
-      "": ""
-    },
-    {
-      "Index": "3",
-      "DropGold": "3",
-      "NumOfMonster": "25",
-      "SpawnMonster": "곰돌이",
-      "MonsterSpawnInterval": "0.9",
-      "": ""
-    },
-    {
-      "Index": "4",
-      "DropGold": "4",
-      "NumOfMonster": "30",
-      "SpawnMonster": "곰돌이",
-      "MonsterSpawnInterval": "0.7",
-      "": ""
-    },
-    {
-      "Index": "5",
-      "DropGold": "5",
-      "NumOfMonster": "35",
-      "SpawnMonster": "곰돌이",
-      "MonsterSpawnInterval": "0.5",
-      "": ""
     }
   ]
 }

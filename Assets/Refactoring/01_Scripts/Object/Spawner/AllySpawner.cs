@@ -9,7 +9,7 @@ public class AllySpawner : MonoBehaviour
     public Tilemap SpawnEnablePoints;
 
     [Header("소환 미리보기")]
-    private GameObject _spawnPreview;
+    private List<GameObject> _spawnPreviews = new List<GameObject>();
 
     [Header("소환 할 유닛 데이터")]
     private AllyUnitData _allyUnitData;
@@ -40,7 +40,14 @@ public class AllySpawner : MonoBehaviour
     #region MONOBEHAVIOUR
     void Awake()
     {
-        _spawnPreview = SpawnEnablePoints.transform.GetChild(0).gameObject;
+        for(int i = 0; i < 3; ++i)
+        {
+            GameObject preview = SpawnEnablePoints.transform.GetChild(i).gameObject;
+
+            _spawnPreviews.Add(preview);
+
+            preview.SetActive(false);
+        }
     }
 
     void Start()
@@ -94,14 +101,27 @@ public class AllySpawner : MonoBehaviour
         AllyUnit allyUnit = Instantiate(_allyUnitData.UnitPrefab, _spawnPos, Quaternion.identity).GetComponent<AllyUnit>();
         allyUnit.SetInitialData(_allyUnitData);
 
+        // TODO
+        // 여기서 돈을 까야되네
+        JEventBus.SendEvent(new SummonCompleteEvent(_allyUnitData.Cost));
+
+
         TileChange(InavailablePoint);
 
+        foreach(GameObject preview in _spawnPreviews)
+        {
+            preview.SetActive(false);
+        }
         _doingAllySpawn = false;
         SpawnEnablePoints.gameObject.SetActive(false);
     }
 
     public void CancelSpawnAlly()
     {
+        foreach (GameObject preview in _spawnPreviews)
+        {
+            preview.SetActive(false);
+        }
         _doingAllySpawn = false;
         SpawnEnablePoints.gameObject.SetActive(false);
     }
@@ -130,7 +150,7 @@ public class AllySpawner : MonoBehaviour
 
     public void SpawnPreviewOn(Vector3Int tilePos)
     {
-        _spawnPreview.SetActive(true);
+        _spawnPreviews[_allyUnitData.Index].SetActive(true);
 
         Vector3 previewWorldPos = SpawnEnablePoints.CellToWorld(tilePos);
 
@@ -138,12 +158,12 @@ public class AllySpawner : MonoBehaviour
 
         Vector3 yOffset = new Vector3(tileCenterOffset.x, tileCenterOffset.y * 1.4f, tileCenterOffset.z);
 
-        _spawnPreview.transform.position = _spawnPos = previewWorldPos + yOffset;
+        _spawnPreviews[_allyUnitData.Index].transform.position = _spawnPos = previewWorldPos + yOffset;
     }
 
     public void SpawnPreviewOff()
     {
-        _spawnPreview.SetActive(false);
+        _spawnPreviews[_allyUnitData.Index].SetActive(false);
     }
 
     private void TileChange(Sprite newSprite)

@@ -1,15 +1,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 using static GameStatusChangeEvent;
+using static MonsterStateChangeEvent;
 
 public class MonsterUnit : MonoBehaviour
 {
     #region ENUM
-    enum MonsterState
+    enum MonsterBehaviourState
     {
         None,
         Alive,
-        Death
+        Death,
+        Finish
     }
     enum MonsterDirection
     {
@@ -42,7 +44,7 @@ public class MonsterUnit : MonoBehaviour
     private List<AllyUnit> _registeredUnits = new List<AllyUnit>();
 
     [Header("상태 플래그")]
-    private MonsterState _currentState = MonsterState.None;
+    private MonsterBehaviourState _currentState = MonsterBehaviourState.None;
 
     [Header("방향 플래그")]
     private MonsterDirection _currentDirection = MonsterDirection.None;
@@ -67,7 +69,7 @@ public class MonsterUnit : MonoBehaviour
     {
         _animator = transform.GetComponent<Animator>();
 
-        _currentState = MonsterState.Alive;
+        _currentState = MonsterBehaviourState.Alive;
     }
 
     protected virtual void Start()
@@ -78,13 +80,13 @@ public class MonsterUnit : MonoBehaviour
     {
         switch (_currentState)
         {
-            case MonsterState.Alive:
+            case MonsterBehaviourState.Alive:
 
                 MoveProcess();
 
                 break;
 
-            case MonsterState.Death:
+            case MonsterBehaviourState.Death:
 
                 DieProcess();
 
@@ -181,7 +183,7 @@ public class MonsterUnit : MonoBehaviour
         {
             // 도착하면 여기로 들어옴
 
-            JEventBus.SendEvent(new MonsterFinishEvent());
+            JEventBus.SendEvent(new MonsterStateChangeEvent(MonsterStateType.Finish));
 
             Destroy(gameObject);
 
@@ -228,7 +230,7 @@ public class MonsterUnit : MonoBehaviour
         // 대미지 계산
         if(DamageProcess(damage) == true)
         {
-            _currentState = MonsterState.Death;
+            _currentState = MonsterBehaviourState.Death;
         }
     }
 
@@ -257,7 +259,7 @@ public class MonsterUnit : MonoBehaviour
         if(_isDeath == false)
         {
             SetAnimation("Die");
-            JEventBus.SendEvent(new GameStatusChangeEvent(GameStatusType.NumOfMonster, -1));
+            JEventBus.SendEvent(new MonsterStateChangeEvent(MonsterStateType.Die));
             _isDeath = true;
         }
         // 죽는 애니메이션이 끝나면 삭제

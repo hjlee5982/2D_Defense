@@ -110,4 +110,50 @@ public class GameStatusChangeEvent
 
 
 // MonsterUnit -> JGameManager
-public class MonsterFinishEvent { }
+public class MonsterStateChangeEvent
+{
+    public enum MonsterStateType
+    {
+        Die,
+        Finish
+    }
+
+    public MonsterStateType Type;
+    
+    public MonsterStateChangeEvent(MonsterStateType type)
+    {
+        Type = type;
+    }
+}
+
+
+
+// JGameManager -> UI_SpawnAlly
+public class SummonRestrictionEvent
+{
+    public int Gold;
+    public int Level_1;
+    public int Level_2;
+    public int Level_3;
+
+    public SummonRestrictionEvent(int gold, int level_1, int level_2, int level_3)
+    {
+        Gold = gold;
+        Level_1 = level_1;
+        Level_2 = level_2;
+        Level_3 = level_3;
+    }
+}
+
+
+
+// AllySpawner -> JGameManager
+public class SummonCompleteEvent
+{
+    public int Gold;
+
+    public SummonCompleteEvent(int gold)
+    {
+        Gold = gold;
+    }
+}

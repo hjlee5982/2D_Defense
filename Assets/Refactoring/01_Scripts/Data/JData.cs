@@ -24,6 +24,7 @@ public class AllyUnitData
     public int    dAtkRange;
     public int    dAtkSpeed;
     public int    dUpgradeCount;
+    public int    Cost;
 
     [NonSerialized]
     public AllyUnit UnitPrefab;
@@ -138,6 +139,7 @@ public class GameRuleData
 {
     public int Index;
     public int LifeLimit;
+    public int InitialGold;
 }
 
 [Serializable]
