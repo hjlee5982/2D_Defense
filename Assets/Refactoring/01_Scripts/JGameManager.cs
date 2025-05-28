@@ -55,8 +55,19 @@ public class JGameManager : MonoBehaviour
     public RandomAssistant RandomAssistant;
 
     [Header("현재 스테이지")]
-    private int _currentStage = 0;
-
+    private int _currentStage = -1;
+    public int CurrentStage
+    {
+        get => _currentStage;
+        set
+        {
+            if(_currentStage != value)
+            {
+                _currentStage = value;
+                JEventBus.SendEvent(new GameStatusChangeEvent(GameStatusType.Round, _currentStage, DataLoader.StageData.Count));
+            }
+        }
+    }
     [Header("현재 체력")]
     private int _life = -1;
     public int Life
@@ -97,7 +108,7 @@ public class JGameManager : MonoBehaviour
             if (_gold != value)
             {
                 _gold = value;
-                JEventBus.SendEvent(new SummonRestrictionEvent(_gold, DataLoader.AllyUnitData[0].Cost, DataLoader.AllyUnitData[1].Cost, DataLoader.AllyUnitData[2].Cost));
+                JEventBus.SendEvent(new GoldRestrictionEvent(_gold));
                 JEventBus.SendEvent(new GameStatusChangeEvent(GameStatusType.Gold, _gold));
             }
         }
@@ -122,16 +133,6 @@ public class JGameManager : MonoBehaviour
         DataProcess();
 
         RandomAssistant = new RandomAssistant();
-
-        // 강화 데이터(임시)
-        // json으로 읽어올꺼임
-        {
-            weightsTable.Add((1, 50));
-            weightsTable.Add((2, 25));
-            weightsTable.Add((3, 15));
-            weightsTable.Add((4,  7));
-            weightsTable.Add((5,  3));
-        }
     }
 
     void Start()
@@ -139,6 +140,9 @@ public class JGameManager : MonoBehaviour
         Life         = DataLoader.GameRuleData[0].LifeLimit;
         NumOfMonster = 0;
         Gold         = DataLoader.GameRuleData[0].InitialGold;
+        CurrentStage = 0;
+
+        
     }
 
     void Update()
@@ -174,7 +178,7 @@ public class JGameManager : MonoBehaviour
     private void StartRound(StartRoundEvent e)
     {
         // _currentStage의 데이터 (얼마나 소환할지, 얼마 간격으로 소환할지 등등)
-        StageData   stageData    = DataLoader.StageData[_currentStage];
+        StageData   stageData    = DataLoader.StageData[CurrentStage];
 
         // _currentStage에 소환 할 몬스터의 정보
         MonsterUnitData spawnMonsterData = DataLoader.MonsterUnitData[stageData.SpawnMonster];
@@ -182,7 +186,7 @@ public class JGameManager : MonoBehaviour
         // JGameManager -> MonsterSpawner
         JEventBus.SendEvent(new BeginSpawnMonsterEvent(stageData, spawnMonsterData));
 
-        NumOfMonster = DataLoader.StageData[_currentStage].NumOfMonster;
+        NumOfMonster = DataLoader.StageData[CurrentStage].NumOfMonster;
     }
 
     private void BeginSpawnAlly(StartSpawnAllyEvent e)
@@ -233,7 +237,7 @@ public class JGameManager : MonoBehaviour
                 // TODO
                 // 골드 증가 (현재 스테이지에 설정된 드랍 골드만큼)
                 // 현재 몬스터 수 1 감소
-                Gold         += DataLoader.StageData[_currentStage].DropGold;
+                Gold         += DataLoader.StageData[CurrentStage].DropGold;
                 NumOfMonster -= 1;
 
                 break;
@@ -253,13 +257,14 @@ public class JGameManager : MonoBehaviour
         {
             GameOverProcess();
         }
-        if (NumOfMonster == 0 && DataLoader.StageData.Count -1 <= _currentStage)
+        if (NumOfMonster == 0 && DataLoader.StageData.Count -1 <= CurrentStage)
         {
             GameClearProcess();
         }
-        if(NumOfMonster == 0)
+        else if(NumOfMonster == 0)
         {
-            ++_currentStage;
+            JEventBus.SendEvent(new EndRoundEvent());
+            ++CurrentStage;
         }
     }
 
@@ -277,46 +282,51 @@ public class JGameManager : MonoBehaviour
 
         switch (e.BtnIdx)
         {
-            // 100%
             case 0:
                 {
-                    if(RandomAssistant.TryChance(100))
+                    if(RandomAssistant.TryChance(DataLoader.EnhancementData[0].Probability))
                     {
-                        _selectedUnit.ApplyStatChange(StatType.AtkPower, 1);
+                        _selectedUnit.ApplyStatChange(StatType.AtkPower, DataLoader.EnhancementData[0].dAtkPower);
 
                         _selectedUnit.ApplyStatChange(StatType.Grade, 1);
                     }
+
+                    Gold -= DataLoader.EnhancementData[0].Cost;
+
                     break;
                 }
-            // 60%
             case 1:
                 {
-                    if(RandomAssistant.TryChance(60))
+                    if(RandomAssistant.TryChance(DataLoader.EnhancementData[1].Probability))
                     {
-                        _selectedUnit.ApplyStatChange(StatType.AtkPower, 2);
-                        _selectedUnit.ApplyStatChange(StatType.AtkRange, 1);
+                        _selectedUnit.ApplyStatChange(StatType.AtkPower, DataLoader.EnhancementData[1].dAtkPower);
+                        _selectedUnit.ApplyStatChange(StatType.AtkRange, DataLoader.EnhancementData[1].dAtkRange);
 
                         _selectedUnit.ApplyStatChange(StatType.Grade, 1);
                     }
+
+                    Gold -= DataLoader.EnhancementData[1].Cost;
+
                     break;
                 }
-            // 10%
             case 2:
                 {
-                    if (RandomAssistant.TryChance(10))
+                    if (RandomAssistant.TryChance(DataLoader.EnhancementData[2].Probability))
                     {
-                        _selectedUnit.ApplyStatChange(StatType.AtkPower, 5);
-                        _selectedUnit.ApplyStatChange(StatType.AtkRange, 3);
-                        _selectedUnit.ApplyStatChange(StatType.AtkSpeed, 1);
+                        _selectedUnit.ApplyStatChange(StatType.AtkPower, DataLoader.EnhancementData[2].dAtkPower);
+                        _selectedUnit.ApplyStatChange(StatType.AtkRange, DataLoader.EnhancementData[2].dAtkRange);
+                        _selectedUnit.ApplyStatChange(StatType.AtkSpeed, DataLoader.EnhancementData[2].dAtkSpeed);
 
                         _selectedUnit.ApplyStatChange(StatType.Grade, 1);
                     }
+
+                    Gold -= DataLoader.EnhancementData[2].Cost;
+
                     break;
                 }
-            // Chaos 60%
             case 3:
                 {
-                    if (RandomAssistant.TryChance(35))
+                    if (RandomAssistant.TryChance(DataLoader.EnhancementData[3].Probability))
                     {
                         _selectedUnit.ApplyStatChange(StatType.AtkPower, RandomAssistant.GetRandomSign() * RandomAssistant.WeightedRandomSelector(weightsTable));
                         _selectedUnit.ApplyStatChange(StatType.AtkRange, RandomAssistant.GetRandomSign() * RandomAssistant.WeightedRandomSelector(weightsTable));
@@ -324,6 +334,9 @@ public class JGameManager : MonoBehaviour
                        
                         _selectedUnit.ApplyStatChange(StatType.Grade, 1);
                     }
+
+                    Gold -= DataLoader.EnhancementData[3].Cost;
+
                     break;
                 }
         }
@@ -349,6 +362,8 @@ public class JGameManager : MonoBehaviour
 
     private void DataProcess()
     {
+        // 유닛 데이터의 프리펩 네임을 바탕으로
+        // Addressable로 로드된 프리펩들을 찾아서 유닛 데이터에 매칭시켜줌
         foreach(var kvp in DataLoader.AllyUnitData)
         {
             if(DataLoader.PrefabData.ContainsKey(kvp.Value.UnitPrefabName) == true)
@@ -356,7 +371,9 @@ public class JGameManager : MonoBehaviour
                 kvp.Value.UnitPrefab = DataLoader.PrefabData[kvp.Value.UnitPrefabName].GetComponent<AllyUnit>();
             }
         }
-        foreach(var kvp in DataLoader.MonsterUnitData)
+        // 몬스터 데이터의 프리펩 네임을 바탕으로
+        // Addressable로 로드된 프리펩들을 찾아서 몬스터 데이터에 매칭시켜줌
+        foreach (var kvp in DataLoader.MonsterUnitData)
         {
             if(DataLoader.PrefabData.ContainsKey(kvp.Value.UnitPrefabName) == true)
             {
@@ -364,7 +381,25 @@ public class JGameManager : MonoBehaviour
             }
         }
 
+        // 경로 데이터를 뽑아와서 몬스터 생성 시 몬스터에게 경로 정보를 주입시킴
         MonsterSpawner.RouteDataProcessing(DataLoader.RouteData[0].Route);
+
+
+        // 혼돈의 주문서 데이터 파싱
+        foreach (var enhancementData in DataLoader.EnhancementData)
+        {
+            if (enhancementData.Value.isRandom == true)
+            {
+                string[] pairs = enhancementData.Value.RandomWeight.Split(':');
+
+                foreach (string pair in pairs)
+                {
+                    string[] parsedPair = pair.Split(',');
+
+                    weightsTable.Add((int.Parse(parsedPair[0]), int.Parse(parsedPair[1])));
+                }
+            }
+        }
     }
     #endregion
 }

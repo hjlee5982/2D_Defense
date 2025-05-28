@@ -16,6 +16,7 @@ public class JDataLoader : MonoBehaviour
     public Dictionary<int,    StageData      > StageData       { get; private set; } = new Dictionary<int,    StageData      >();
     public Dictionary<int,    GameRuleData   > GameRuleData    { get; private set; } = new Dictionary<int,    GameRuleData   >();
     public Dictionary<int,    RouteData      > RouteData       { get; private set; } = new Dictionary<int,    RouteData      >();
+    public Dictionary<int,    EnhancementData> EnhancementData { get; private set; } = new Dictionary<int,    EnhancementData>();
     #endregion
 
 
@@ -32,11 +33,12 @@ public class JDataLoader : MonoBehaviour
         }
         // JSON
         {
-            AllyUnitData    = LoadJson<AllyUnitDataLoader,    int,    AllyUnitData      >("AllyUnitData"   ).MakeDic();
-            MonsterUnitData = LoadJson<MonsterUnitDataLoader, string, MonsterUnitData   >("MonsterUnitData").MakeDic();
-            StageData       = LoadJson<StageDataLoader,       int,    StageData         >("StageData"      ).MakeDic();
-            GameRuleData    = LoadJson<GameRuleDataLoader,    int,    GameRuleData      >("GameRuleData"   ).MakeDic();
-            RouteData       = LoadJson<RouteDataLoader,       int,    RouteData         >("RouteData"      ).MakeDic();
+            AllyUnitData    = LoadJson<AllyUnitDataLoader,    int,    AllyUnitData   >("AllyUnitData"   ).MakeDic();
+            MonsterUnitData = LoadJson<MonsterUnitDataLoader, string, MonsterUnitData>("MonsterUnitData").MakeDic();
+            StageData       = LoadJson<StageDataLoader,       int,    StageData      >("StageData"      ).MakeDic();
+            GameRuleData    = LoadJson<GameRuleDataLoader,    int,    GameRuleData   >("GameRuleData"   ).MakeDic();
+            RouteData       = LoadJson<RouteDataLoader,       int,    RouteData      >("RouteData"      ).MakeDic();
+            EnhancementData = LoadJson<EnhancementDataLoader, int,    EnhancementData>("EnhancementData").MakeDic();
         }
     }
     #endregion

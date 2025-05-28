@@ -66,9 +66,9 @@ public class MonsterUnitData
 {
     public string UnitName;
     public string UnitPrefabName;
+    public int    MaxHealth;
     public int    Health;
     public int    MoveSpeed;
-    public int    dHealth;
 
     [NonSerialized]
     public MonsterUnit UnitPrefab;
@@ -110,6 +110,7 @@ public class StageData
     public int    NumOfMonster;
     public string SpawnMonster;
     public float  MonsterSpawnInterval;
+    public int    dHealth;
 }
 
 [Serializable]
@@ -181,6 +182,41 @@ public class RouteDataLoader : ILoader<int, RouteData>
         Dictionary<int, RouteData> dic = new Dictionary<int, RouteData>();
 
         foreach (RouteData data in Items)
+        {
+            dic.Add(data.Index, data);
+        }
+
+        return dic;
+    }
+}
+#endregion
+
+
+
+#region GAME_RULE_DATA
+[Serializable]
+public class EnhancementData
+{
+    public int Index;
+    public int Probability;
+    public int Cost;
+    public int dAtkPower;
+    public int dAtkRange;
+    public int dAtkSpeed;
+    public bool isRandom;
+    public string RandomWeight;
+}
+
+[Serializable]
+public class EnhancementDataLoader : ILoader<int, EnhancementData>
+{
+    public List<EnhancementData> Items = new List<EnhancementData>();
+
+    public Dictionary<int, EnhancementData> MakeDic()
+    {
+        Dictionary<int, EnhancementData> dic = new Dictionary<int, EnhancementData>();
+
+        foreach (EnhancementData data in Items)
         {
             dic.Add(data.Index, data);
         }

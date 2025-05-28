@@ -26,8 +26,9 @@ public class StartEnhancementEvent
 
 
 
-// JUIManager에 있는 StartButton -> JGameManager 
+// JUIManager에 있는 StartButton <-> JGameManager
 public class StartRoundEvent { }
+public class EndRoundEvent { }
 
 
 
@@ -94,16 +95,19 @@ public class GameStatusChangeEvent
     {
         Life,
         NumOfMonster,
-        Gold
+        Gold,
+        Round
     }
 
     public GameStatusType Type;
     public int Value;
+    public int MaxRound;
 
-    public GameStatusChangeEvent(GameStatusType type, int value)
+    public GameStatusChangeEvent(GameStatusType type, int value, int maxRound = 0)
     {
         Type  = type;
         Value = value;
+        MaxRound = maxRound;
     }
 }
 
@@ -128,20 +132,14 @@ public class MonsterStateChangeEvent
 
 
 
-// JGameManager -> UI_SpawnAlly
-public class SummonRestrictionEvent
+// JGameManager -> UI_Enhancement, UI_SpawnAlly
+public class GoldRestrictionEvent
 {
-    public int Gold;
-    public int Level_1;
-    public int Level_2;
-    public int Level_3;
+    public int CurrentGold;
 
-    public SummonRestrictionEvent(int gold, int level_1, int level_2, int level_3)
+    public GoldRestrictionEvent(int currentGold)
     {
-        Gold = gold;
-        Level_1 = level_1;
-        Level_2 = level_2;
-        Level_3 = level_3;
+        CurrentGold = currentGold;
     }
 }
 

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using static GameStatusChangeEvent;
 using static MonsterStateChangeEvent;
 
@@ -51,6 +52,9 @@ public class MonsterUnit : MonoBehaviour
 
     [Header("죽음 플래그")]
     private bool _isDeath = false;
+
+    [Header("HP 게이지")]
+    private Image _hpGauge;
     #endregion
 
 
@@ -68,6 +72,7 @@ public class MonsterUnit : MonoBehaviour
     protected virtual void Awake()
     {
         _animator = transform.GetComponent<Animator>();
+        _hpGauge  = transform.Find("UI_HPGauge").GetChild(0).GetChild(0).GetComponent<Image>();
 
         _currentState = MonsterBehaviourState.Alive;
     }
@@ -237,6 +242,11 @@ public class MonsterUnit : MonoBehaviour
     private bool DamageProcess(int damage)
     {
         _monsterUnitData.Health -= damage;
+
+        // HP 게이지 업데이트
+        _hpGauge.fillAmount = (float)_monsterUnitData.Health / (float)_monsterUnitData.MaxHealth;
+        _hpGauge.color = Color.HSVToRGB(_hpGauge.fillAmount / 3, 1.0f, 1.0f);
+
 
         if (_monsterUnitData.Health <= 0)
         {

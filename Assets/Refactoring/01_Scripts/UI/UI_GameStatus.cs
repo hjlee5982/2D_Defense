@@ -7,15 +7,15 @@ public class UI_GameStatus : MonoBehaviour
     #region VARIABLES
     [Header("라이프 카운터")]
     private TextMeshProUGUI _lifeCounter;
-    private int _currentLifeCount;
 
     [Header("몬스터 카운터")]
     private TextMeshProUGUI _monsterCounter;
-    private int _currentMonsterCount;
 
     [Header("골드 카운터")]
     private TextMeshProUGUI _goldCounter;
-    private int _currentGoldCount;
+
+    [Header("라운드 카운터")]
+    private TextMeshProUGUI _roundCounter;
     #endregion
 
 
@@ -35,6 +35,7 @@ public class UI_GameStatus : MonoBehaviour
         _lifeCounter    = transform.Find("Life")   .GetChild(1).GetComponent<TextMeshProUGUI>();
         _monsterCounter = transform.Find("Monster").GetChild(1).GetComponent<TextMeshProUGUI>();
         _goldCounter    = transform.Find("Gold")   .GetChild(1).GetComponent<TextMeshProUGUI>();
+        _roundCounter   = transform.Find("Round").GetComponent<TextMeshProUGUI>();
     }
 
     void Start()
@@ -75,6 +76,11 @@ public class UI_GameStatus : MonoBehaviour
 
             case GameStatusType.Gold:
                 _goldCounter.text = e.Value.ToString();
+                break;
+
+            case GameStatusType.Round:
+                string str = "현재 라운드 : " + (e.Value + 1).ToString() + " / " + e.MaxRound.ToString();
+                _roundCounter.text = str;
                 break;
         }
     }

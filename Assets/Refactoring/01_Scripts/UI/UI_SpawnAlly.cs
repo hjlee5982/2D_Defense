@@ -1,19 +1,13 @@
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using static GameStatusChangeEvent;
 
 public class UI_SpawnAlly : MonoBehaviour
 {
     #region VARIABLES
-    [Header("구매 제한 UI")]
-    private GameObject _restrictor_1;
-    private GameObject _restrictor_2;
-    private GameObject _restrictor_3;
-
-    [Header("유닛 소환 비용(업데이트용)")]
-    private int _summonCost_1;
-    private int _summonCost_2;
-    private int _summonCost_3;
+    [Header("강화 버튼 + 가림막 + 비용")]
+    private List<CostOptionUI> _options = new List<CostOptionUI>();
     #endregion
 
 
@@ -30,21 +24,37 @@ public class UI_SpawnAlly : MonoBehaviour
     #region MONOBEHAVIOUR
     void Awake()
     {
-        _restrictor_1 = transform.Find("Restrictor_1").gameObject;
-        _restrictor_2 = transform.Find("Restrictor_2").gameObject;
-        _restrictor_3 = transform.Find("Restrictor_3").gameObject;
-
-        _restrictor_1.SetActive(false);
-        _restrictor_2.SetActive(false);
-        _restrictor_3.SetActive(false);
-
-        transform.Find("SummonButton_1").GetComponent<Button>().onClick.AddListener(() => BeginSpawnAlly(0));
-        transform.Find("SummonButton_2").GetComponent<Button>().onClick.AddListener(() => BeginSpawnAlly(1));
-        transform.Find("SummonButton_3").GetComponent<Button>().onClick.AddListener(() => BeginSpawnAlly(2));
     }
 
     void Start()
     {
+        for(int i = 0; i < 3; ++i)
+        {
+            // 해당 데이터
+            AllyUnitData data = JGameManager.Instance.DataLoader.AllyUnitData[i];
+
+            // 각 버튼 Transform
+            Transform buttonTransform = transform.Find("SummonButton_" + i.ToString()).transform;
+
+            // 소환 버튼 이벤트 바인딩
+            int index = i;
+            Button button = buttonTransform.GetComponent<Button>();
+            button.onClick.AddListener(() => BeginSpawnAlly(index));
+
+            // 유닛 이름 설정
+            TextMeshProUGUI nameText = buttonTransform.Find("Name").GetComponent<TextMeshProUGUI>();
+            nameText.text = data.UnitName;
+
+            // 유닛 비용 설정
+            TextMeshProUGUI costText = buttonTransform.Find("Cost").GetComponent<TextMeshProUGUI>();
+            costText.text = data.Cost.ToString();
+
+            // 소환 제한 UI 설정
+            GameObject restrictor = transform.Find("Restrictor_" + i.ToString()).gameObject;
+            restrictor.SetActive(false);
+
+            _options.Add(new CostOptionUI(button, restrictor, data.Cost));
+        }
     }
 
     void Update()
@@ -53,13 +63,13 @@ public class UI_SpawnAlly : MonoBehaviour
 
     private void OnEnable()
     {
-        UpdateRestrictor();
-        JEventBus.Subscribe<SummonRestrictionEvent>(GoldChanged);
+        UpdateRestrictor(JGameManager.Instance.Gold);
+        JEventBus.Subscribe<GoldRestrictionEvent>(GoldChanged);
     }
 
     private void OnDisable()
     {
-        JEventBus.Unsubscribe<SummonRestrictionEvent>(GoldChanged);
+        JEventBus.Unsubscribe<GoldRestrictionEvent>(GoldChanged);
     }
     #endregion
 
@@ -74,65 +84,20 @@ public class UI_SpawnAlly : MonoBehaviour
         JEventBus.SendEvent(new StartSpawnAllyEvent(btnIdx));
     }
 
-    private void GoldChanged(SummonRestrictionEvent e)
+    private void GoldChanged(GoldRestrictionEvent e)
     {
-        _summonCost_1 = e.Level_1;
-        _summonCost_2 = e.Level_2;
-        _summonCost_3 = e.Level_3;
-
-        if (e.Gold < e.Level_1)
-        {
-            _restrictor_1.SetActive(true);
-            _restrictor_2.SetActive(true);
-            _restrictor_3.SetActive(true);
-        }
-        else if(e.Gold < e.Level_2)
-        {
-            _restrictor_1.SetActive(false);
-            _restrictor_2.SetActive(true);
-            _restrictor_3.SetActive(true);
-        }
-        else if (e.Gold < e.Level_3)
-        {
-            _restrictor_1.SetActive(false);
-            _restrictor_2.SetActive(false);
-            _restrictor_3.SetActive(true);
-        }
-        else
-        {
-            _restrictor_1.SetActive(false);
-            _restrictor_2.SetActive(false);
-            _restrictor_3.SetActive(false);
-        }
+        UpdateRestrictor(e.CurrentGold);
     }
 
-    private void UpdateRestrictor()
+    private void UpdateRestrictor(int currentGold)
     {
-        int currentGold = JGameManager.Instance.Gold;
+        foreach (var option in _options)
+        {
+            // 현재 소지 골드가 가격보다 많으면 활성화 가능
+            bool canActivate = currentGold >= option.cost;
 
-        if (currentGold < _summonCost_1)
-        {
-            _restrictor_1.SetActive(true);
-            _restrictor_2.SetActive(true);
-            _restrictor_3.SetActive(true);
-        }
-        else if (currentGold < _summonCost_2)
-        {
-            _restrictor_1.SetActive(false);
-            _restrictor_2.SetActive(true);
-            _restrictor_3.SetActive(true);
-        }
-        else if (currentGold < _summonCost_3)
-        {
-            _restrictor_1.SetActive(false);
-            _restrictor_2.SetActive(false);
-            _restrictor_3.SetActive(true);
-        }
-        else
-        {
-            _restrictor_1.SetActive(false);
-            _restrictor_2.SetActive(false);
-            _restrictor_3.SetActive(false);
+            // 활성화가 가능하다면 가림막은 해제해야 함
+            option.Restrictor.SetActive(!canActivate);
         }
     }
     #endregion

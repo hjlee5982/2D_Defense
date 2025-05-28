@@ -45,6 +45,12 @@ public class JUIManager : MonoBehaviour
 
     [Header("강화 UI")]
     private UI_Enhancement _enhancementUI;
+
+    [Header("시작 버튼")]
+    private Button _startButton;
+
+    [Header("라운드 플래그")]
+    private bool _isRoundStart = false;
     #endregion
 
 
@@ -56,8 +62,9 @@ public class JUIManager : MonoBehaviour
     {
         SingletonInitialize();
 
-        transform.GetChild(1).Find("StartButton").GetComponent<Button>().onClick.AddListener(StartButtonClick);
-    
+        _startButton = transform.GetChild(1).Find("StartButton").GetComponent<Button>();
+        _startButton.onClick.AddListener(StartButtonClick);
+
         _spawnAllyUI   = transform.Find("GameController").Find("SpawnAlly").GetComponent<UI_SpawnAlly>();
         _enhancementUI = transform.Find("GameController").Find("Enhancement").GetComponent<UI_Enhancement>();
     }
@@ -76,12 +83,14 @@ public class JUIManager : MonoBehaviour
     {
         JEventBus.Subscribe<UnitSelectEvent>(UnitSelected);
         JEventBus.Subscribe<UnitDeselectEvent>(UnitDeselected);
+        JEventBus.Subscribe<EndRoundEvent>(EndRoundEvent);
     }
 
     private void OnDisable()
     {
         JEventBus.Subscribe<UnitSelectEvent>(UnitSelected);
         JEventBus.Subscribe<UnitDeselectEvent>(UnitDeselected);
+        JEventBus.Subscribe<EndRoundEvent>(EndRoundEvent);
     }
     #endregion
 
@@ -93,18 +102,39 @@ public class JUIManager : MonoBehaviour
     public void StartButtonClick()
     {
         JEventBus.SendEvent(new StartRoundEvent());
+
+        _startButton.gameObject.SetActive(false);
+        _spawnAllyUI.gameObject.SetActive(false);
+        _enhancementUI.gameObject.SetActive(false);
+
+        _isRoundStart = true;
+    }
+
+    private void EndRoundEvent(EndRoundEvent e)
+    {
+        _startButton.gameObject.SetActive(true);
+        _spawnAllyUI.gameObject.SetActive(true);
+        _enhancementUI.gameObject.SetActive(false);
+
+        _isRoundStart = false;
     }
 
     private void UnitSelected(UnitSelectEvent e)
     {
-        _spawnAllyUI.gameObject.SetActive(false);
-        _enhancementUI.gameObject.SetActive(true);
+        if(_isRoundStart == false)
+        {
+            _spawnAllyUI.gameObject.SetActive(false);
+            _enhancementUI.gameObject.SetActive(true);
+        }
     }
 
     private void UnitDeselected(UnitDeselectEvent e)
     {
-        _spawnAllyUI.gameObject.SetActive(true);
-        _enhancementUI.gameObject.SetActive(false);
+        if (_isRoundStart == false)
+        {
+            _spawnAllyUI.gameObject.SetActive(true);
+            _enhancementUI.gameObject.SetActive(false);
+        }
     }
     #endregion
 }

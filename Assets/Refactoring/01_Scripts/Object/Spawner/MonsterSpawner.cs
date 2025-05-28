@@ -72,6 +72,10 @@ public class MonsterSpawner : MonoBehaviour
         _stageData       = e.StageData;
         _monsterUnitData = e.MonsterUnitData;
 
+        // 라운드가 시작되면 몬스터의 HP가 증가함
+        _monsterUnitData.MaxHealth += _stageData.dHealth;
+        _monsterUnitData.Health    += _stageData.dHealth;
+
         StartCoroutine(SpawnMonsterWithDelay(e));
     }
 
@@ -160,9 +164,11 @@ public class MonsterSpawner : MonoBehaviour
             }
         }
 
-        for(int i = 0; i < routeData.Length; ++i)
+        string[] routeIndices = routeData.Split(',');
+
+        foreach(string index in routeIndices)
         {
-            int routeIndex = (int)routeData[i] - '0';
+            int routeIndex = int.Parse(index);
 
             RouteDataQueue.Enqueue(_points[routeIndex]);
         }

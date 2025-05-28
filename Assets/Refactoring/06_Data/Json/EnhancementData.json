@@ -1,0 +1,48 @@
+{
+  "Items": [
+    {
+      "Index": "0",
+      "Probability": "100",
+      "Cost": "2",
+      "dAtkPower": "1",
+      "dAtkRange": "0",
+      "dAtkSpeed": "0",
+      "isRandom": "False",
+      "RandomWeight": "0",
+      "": ""
+    },
+    {
+      "Index": "1",
+      "Probability": "60",
+      "Cost": "4",
+      "dAtkPower": "2",
+      "dAtkRange": "1",
+      "dAtkSpeed": "0",
+      "isRandom": "False",
+      "RandomWeight": "0",
+      "": ""
+    },
+    {
+      "Index": "2",
+      "Probability": "10",
+      "Cost": "4",
+      "dAtkPower": "5",
+      "dAtkRange": "3",
+      "dAtkSpeed": "1",
+      "isRandom": "False",
+      "RandomWeight": "0",
+      "": ""
+    },
+    {
+      "Index": "3",
+      "Probability": "35",
+      "Cost": "5",
+      "dAtkPower": "5",
+      "dAtkRange": "5",
+      "dAtkSpeed": "5",
+      "isRandom": "True",
+      "RandomWeight": "1,15:2,25:3,15:4,7:5,3",
+      "": ""
+    }
+  ]
+}

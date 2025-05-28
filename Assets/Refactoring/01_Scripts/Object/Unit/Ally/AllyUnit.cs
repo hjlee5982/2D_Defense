@@ -127,7 +127,7 @@ public class AllyUnit : MonoBehaviour
             SetThrowAnimation(_monsterList[0].transform.position);
 
             Projectile projectile = Instantiate(Projectile, transform.position, Quaternion.identity);
-            projectile.SetTarget(_monsterList[0], 2, _allyUnitData.AtkSpeed + 10);
+            projectile.SetTarget(_monsterList[0], _allyUnitData.AtkPower, _allyUnitData.AtkSpeed + 10);
 
             _atkInterval = Mathf.Clamp(-0.1f * _allyUnitData.AtkSpeed + 1.3f, 0.1f, 1.9f);
         }
@@ -199,17 +199,17 @@ public class AllyUnit : MonoBehaviour
         _attackRange.radius = Mathf.Clamp(0.3f * _allyUnitData.AtkRange + 1.5f, 1.8f, 5.7f);
     }
 
-    private IEnumerator Attack()
-    {
-        _monsterList.RemoveAll(t => t == null);
+    //private IEnumerator Attack()
+    //{
+    //    _monsterList.RemoveAll(t => t == null);
 
-        while(_monsterList.Count > 0)
-        {
-            yield return new WaitForSeconds(Mathf.Clamp(-0.1f * _allyUnitData.AtkSpeed + 1.3f, 0.1f, 1.9f));
+    //    while(_monsterList.Count > 0)
+    //    {
+    //        yield return new WaitForSeconds(Mathf.Clamp(-0.1f * _allyUnitData.AtkSpeed + 1.3f, 0.1f, 1.9f));
 
-            _monsterList.RemoveAll(t => t == null);
-        }
-    }
+    //        _monsterList.RemoveAll(t => t == null);
+    //    }
+    //}
 
     public void ApplyStatChange(StatType statType, int value)
     {
