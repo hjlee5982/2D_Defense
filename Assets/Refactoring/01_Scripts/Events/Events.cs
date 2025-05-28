@@ -157,3 +157,8 @@ public class SummonCompleteEvent
         Gold = gold;
     }
 }
+
+
+
+// JTitleManager -> JSettingManager
+public class SettingMenuActivationEvent { }
