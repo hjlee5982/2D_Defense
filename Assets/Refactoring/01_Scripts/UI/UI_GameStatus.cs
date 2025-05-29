@@ -53,7 +53,7 @@ public class UI_GameStatus : MonoBehaviour
 
     private void OnDisable()
     {
-        JEventBus.Subscribe<GameStatusChangeEvent>(UpdateGameStatusUI);
+        JEventBus.Unsubscribe<GameStatusChangeEvent>(UpdateGameStatusUI);
     }
     #endregion
 

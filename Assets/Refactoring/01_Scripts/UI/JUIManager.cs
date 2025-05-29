@@ -46,6 +46,9 @@ public class JUIManager : MonoBehaviour
     [Header("강화 UI")]
     private UI_Enhancement _enhancementUI;
 
+    [Header("결과 UI")]
+    private UI_ResultPanel _resultPanelUI;
+
     [Header("시작 버튼")]
     private Button _startButton;
 
@@ -67,6 +70,7 @@ public class JUIManager : MonoBehaviour
 
         _spawnAllyUI   = transform.Find("GameController").Find("SpawnAlly").GetComponent<UI_SpawnAlly>();
         _enhancementUI = transform.Find("GameController").Find("Enhancement").GetComponent<UI_Enhancement>();
+        _resultPanelUI = transform.Find("ResultPanel").GetComponent<UI_ResultPanel>();
     }
 
     void Start()
@@ -84,13 +88,18 @@ public class JUIManager : MonoBehaviour
         JEventBus.Subscribe<UnitSelectEvent>(UnitSelected);
         JEventBus.Subscribe<UnitDeselectEvent>(UnitDeselected);
         JEventBus.Subscribe<EndRoundEvent>(EndRoundEvent);
+        JEventBus.Subscribe<GameStartEvent>(GameStartEvent);
+        JEventBus.Subscribe<GameEndEvent>(GameEndEvent);
+
     }
 
     private void OnDisable()
     {
-        JEventBus.Subscribe<UnitSelectEvent>(UnitSelected);
-        JEventBus.Subscribe<UnitDeselectEvent>(UnitDeselected);
-        JEventBus.Subscribe<EndRoundEvent>(EndRoundEvent);
+        JEventBus.Unsubscribe<UnitSelectEvent>(UnitSelected);
+        JEventBus.Unsubscribe<UnitDeselectEvent>(UnitDeselected);
+        JEventBus.Unsubscribe<EndRoundEvent>(EndRoundEvent);
+        JEventBus.Unsubscribe<GameStartEvent>(GameStartEvent);
+        JEventBus.Unsubscribe<GameEndEvent>(GameEndEvent);
     }
     #endregion
 
@@ -117,6 +126,17 @@ public class JUIManager : MonoBehaviour
         _enhancementUI.gameObject.SetActive(false);
 
         _isRoundStart = false;
+    }
+
+    private void GameStartEvent(GameStartEvent e)
+    {
+
+    }
+
+    private void GameEndEvent(GameEndEvent e)
+    {
+        _resultPanelUI.gameObject.SetActive(true);
+        _resultPanelUI.SetCounter(e.Round, e.Life, e.Gold);
     }
 
     private void UnitSelected(UnitSelectEvent e)

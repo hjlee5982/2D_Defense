@@ -150,7 +150,7 @@ public class SummonCompleteEvent
 {
     public int Gold;
 
-    public SummonCompleteEvent(int gold)
+    public SummonCompleteEvent(int gold = 0)
     {
         Gold = gold;
     }
@@ -160,3 +160,24 @@ public class SummonCompleteEvent
 
 // JTitleManager -> JSettingManager
 public class SettingMenuActivationEvent { }
+
+
+
+// JGameManager -> UIManager
+public class GameStartEvent { }
+
+
+// JGameManager -> UI_ResultUI
+public class GameEndEvent
+{
+    public int Round;
+    public int Life;
+    public int Gold;
+
+    public GameEndEvent(int round, int life, int gold)
+    {
+        Round = round;
+        Life  = life;
+        Gold  = gold;
+    }   
+}

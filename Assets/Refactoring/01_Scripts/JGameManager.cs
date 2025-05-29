@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -114,11 +115,12 @@ public class JGameManager : MonoBehaviour
         }
     }
 
-    // 아래는 나중에 데이터로 뺄것들
-
     // 강화 데이터
     [Header("랜덤 옵션 확률 가중치")]
     private List<(int value, int weight)> weightsTable = new List<(int value, int weight)>();
+
+    [Header("소환 플래그")]
+    private bool _isSpawning = false;
     #endregion
 
 
@@ -192,12 +194,14 @@ public class JGameManager : MonoBehaviour
     private void BeginSpawnAlly(StartSpawnAllyEvent e)
     {
         // JGameManager -> AllySpawner
+
+        _isSpawning = true;
         JEventBus.SendEvent(new BeginSpawnAllyEvent(DataLoader.AllyUnitData[e.BtnIdx]));
     }
 
     private void UnitSelect()
     {
-        if(Input.GetMouseButtonDown(0) == true)
+        if(Input.GetMouseButtonDown(0) == true && _isSpawning == false)
         {
             Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector3 mousePos2D    = new Vector2(mouseWorldPos.x, mouseWorldPos.y);
@@ -255,11 +259,12 @@ public class JGameManager : MonoBehaviour
 
         if (Life <= 0)
         {
-            GameOverProcess();
+            GameEndProcess();
+            return;
         }
         if (NumOfMonster == 0 && DataLoader.StageData.Count -1 <= CurrentStage)
         {
-            GameClearProcess();
+            GameEndProcess();
         }
         else if(NumOfMonster == 0)
         {
@@ -270,7 +275,16 @@ public class JGameManager : MonoBehaviour
 
     private void SummonComplete(SummonCompleteEvent e)
     {
+        StartCoroutine(Delay());
+
         Gold -= e.Gold;
+    }
+
+    IEnumerator Delay()
+    {
+        yield return new WaitForEndOfFrame();
+
+        _isSpawning = false;
     }
 
     private void EnhancementProcess(StartEnhancementEvent e)
@@ -346,18 +360,13 @@ public class JGameManager : MonoBehaviour
         JEventBus.SendEvent(new EnhanceCompleteEvent(_selectedUnit));
     }
 
-    private void GameOverProcess()
+    private void GameEndProcess()
     {
-        Debug.Log("게임끝_패배");
+        Debug.Log("게임 끝");
 
-        Time.timeScale = 0;
-    }
+        JEventBus.SendEvent(new GameEndEvent(_currentStage + 1, Life, Gold));
 
-    private void GameClearProcess()
-    {
-        Debug.Log("게임끝_승리");
-
-        Time.timeScale = 0;
+        Time.timeScale = 0f;
     }
 
     private void DataProcess()

@@ -105,7 +105,6 @@ public class AllySpawner : MonoBehaviour
         // 여기서 돈을 까야되네
         JEventBus.SendEvent(new SummonCompleteEvent(_allyUnitData.Cost));
 
-
         TileChange(InavailablePoint);
 
         foreach(GameObject preview in _spawnPreviews)
