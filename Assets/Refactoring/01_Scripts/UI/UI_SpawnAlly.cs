@@ -39,7 +39,11 @@ public class UI_SpawnAlly : MonoBehaviour
             // 소환 버튼 이벤트 바인딩
             int index = i;
             Button button = buttonTransform.GetComponent<Button>();
-            button.onClick.AddListener(() => BeginSpawnAlly(index));
+            button.onClick.AddListener(() => 
+            { 
+                BeginSpawnAlly(index); 
+                JAudioManager.Instance.PlaySFX("ButtonClick"); 
+            });
 
             // 유닛 이름 설정
             TextMeshProUGUI nameText = buttonTransform.Find("Name").GetComponent<TextMeshProUGUI>();

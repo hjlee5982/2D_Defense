@@ -40,7 +40,11 @@ public class UI_Enhancement : MonoBehaviour
             // 강화 버튼 이벤트 바인딩
             int index = i;
             Button button = buttonTransform.GetComponent<Button>();
-            button.onClick.AddListener(() => { EnhancementButtonClicked(index); EventSystem.current.SetSelectedGameObject(null); }); 
+            button.onClick.AddListener(() => 
+            { 
+                EnhancementButtonClicked(index);
+                EventSystem.current.SetSelectedGameObject(null); 
+            }); 
 
             // 강화 확률 설정
             TextMeshProUGUI probabilityText = buttonTransform.Find("Percentage").GetComponent<TextMeshProUGUI>();

@@ -21,7 +21,12 @@ public class UI_ResultPanel : MonoBehaviour
     {
         Transform child = transform.GetChild(0);
 
-        child.Find("ReturnButton").GetComponent<Button>().onClick.AddListener(() => { SceneManager.LoadSceneAsync("NewTitleScene"); Time.timeScale = 1f; });
+        child.Find("ReturnButton").GetComponent<Button>().onClick.AddListener(() => 
+        {
+            SceneManager.LoadSceneAsync("NewTitleScene");
+            Time.timeScale = 1f;
+            JAudioManager.Instance.PlaySFX("ButtonClick");
+        });
 
         _roundCount = child.Find("RoundCount").GetComponent<TextMeshProUGUI>();
         _lifeCount  = child.Find("LifeCount") .GetComponent<TextMeshProUGUI>();

@@ -104,6 +104,7 @@ public class AllySpawner : MonoBehaviour
         // TODO
         // 여기서 돈을 까야되네
         JEventBus.SendEvent(new SummonCompleteEvent(_allyUnitData.Cost));
+        JAudioManager.Instance.PlaySFX("AllySummon");
 
         TileChange(InavailablePoint);
 

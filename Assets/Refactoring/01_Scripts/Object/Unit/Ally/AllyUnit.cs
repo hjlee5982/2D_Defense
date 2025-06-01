@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor.Rendering;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
 public enum StatType
@@ -43,6 +45,9 @@ public class AllyUnit : MonoBehaviour
 
     [Header("공격 간격")]
     private float _atkInterval;
+
+    [Header("공격 범위 시각화")]
+    private Transform _atkRangeView;
     #endregion
 
 
@@ -59,11 +64,14 @@ public class AllyUnit : MonoBehaviour
     #region MONOBEHAVIOUR
     protected virtual void Awake()
     {
-        _animator    = transform.GetComponent<Animator>();
-        _attackRange = transform.GetComponent<CircleCollider2D>();
+        _animator     = transform.GetComponent<Animator>();
+        _attackRange  = transform.GetComponent<CircleCollider2D>();
 
         _indicator = transform.Find("Indicator").gameObject;
         _indicator.SetActive(false);
+
+        _atkRangeView = transform.Find("AtkRange");
+        _atkRangeView.gameObject.SetActive(false);
 
         _statApplier = new Dictionary<StatType, Action<int>>
         {
@@ -106,6 +114,7 @@ public class AllyUnit : MonoBehaviour
 
     protected virtual void Start()
     {
+        ModifyAttackRange();
     }
 
     protected virtual void Update()
@@ -182,6 +191,8 @@ public class AllyUnit : MonoBehaviour
     public void ToggleIndicator(bool value)
     {
         _indicator.SetActive(value);
+
+        _atkRangeView.gameObject.SetActive(value);
     }
 
     public bool IsEnhancable()
@@ -197,6 +208,7 @@ public class AllyUnit : MonoBehaviour
     private void ModifyAttackRange()
     {
         _attackRange.radius = Mathf.Clamp(0.3f * _allyUnitData.AtkRange + 1.5f, 1.8f, 5.7f);
+        _atkRangeView.localScale = new Vector3(2f, 2f, 2f) * _attackRange.radius;
     }
 
     //private IEnumerator Attack()
