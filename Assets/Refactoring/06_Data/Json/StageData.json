@@ -2,21 +2,103 @@
   "Items": [
     {
       "Index": "0",
-      "DropGold": "1",
-      "NumOfMonster": "10",
+      "DropGold": "3",
+      "NumOfMonster": "30",
       "SpawnMonster": "곰돌이",
-      "MonsterSpawnInterval": "1.5",
-      "dHealth": "0",
-      "": ""
+      "MonsterSpawnInterval": "0.8",
+      "dHealth": "10",
+      "MoveSpeed": "3",
+      "IsBossStage": "false"
     },
     {
       "Index": "1",
-      "DropGold": "1",
-      "NumOfMonster": "15",
+      "DropGold": "3",
+      "NumOfMonster": "30",
       "SpawnMonster": "곰돌이",
-      "MonsterSpawnInterval": "1.3",
-      "dHealth": "5",
-      "": ""
+      "MonsterSpawnInterval": "0.8",
+      "dHealth": "50",
+      "MoveSpeed": "3",
+      "IsBossStage": "false"
+    },
+    {
+      "Index": "2",
+      "DropGold": "3",
+      "NumOfMonster": "30",
+      "SpawnMonster": "곰돌이",
+      "MonsterSpawnInterval": "0.8",
+      "dHealth": "100",
+      "MoveSpeed": "3",
+      "IsBossStage": "false"
+    },
+    {
+      "Index": "3",
+      "DropGold": "5",
+      "NumOfMonster": "30",
+      "SpawnMonster": "곰돌이",
+      "MonsterSpawnInterval": "0.8",
+      "dHealth": "180",
+      "MoveSpeed": "3",
+      "IsBossStage": "false"
+    },
+    {
+      "Index": "4",
+      "DropGold": "5",
+      "NumOfMonster": "30",
+      "SpawnMonster": "곰돌이",
+      "MonsterSpawnInterval": "0.8",
+      "dHealth": "300",
+      "MoveSpeed": "3",
+      "IsBossStage": "false"
+    },
+    {
+      "Index": "5",
+      "DropGold": "10",
+      "NumOfMonster": "30",
+      "SpawnMonster": "곰돌이",
+      "MonsterSpawnInterval": "0.8",
+      "dHealth": "500",
+      "MoveSpeed": "3",
+      "IsBossStage": "false"
+    },
+    {
+      "Index": "6",
+      "DropGold": "10",
+      "NumOfMonster": "30",
+      "SpawnMonster": "곰돌이",
+      "MonsterSpawnInterval": "0.8",
+      "dHealth": "800",
+      "MoveSpeed": "3",
+      "IsBossStage": "false"
+    },
+    {
+      "Index": "7",
+      "DropGold": "15",
+      "NumOfMonster": "30",
+      "SpawnMonster": "곰돌이",
+      "MonsterSpawnInterval": "0.8",
+      "dHealth": "1200",
+      "MoveSpeed": "3",
+      "IsBossStage": "false"
+    },
+    {
+      "Index": "8",
+      "DropGold": "15",
+      "NumOfMonster": "30",
+      "SpawnMonster": "곰돌이",
+      "MonsterSpawnInterval": "0.8",
+      "dHealth": "1800",
+      "MoveSpeed": "3",
+      "IsBossStage": "false"
+    },
+    {
+      "Index": "9",
+      "DropGold": "100",
+      "NumOfMonster": "1",
+      "SpawnMonster": "곰돌이",
+      "MonsterSpawnInterval": "0.8",
+      "dHealth": "5000",
+      "MoveSpeed": "1",
+      "IsBossStage": "true"
     }
   ]
 }

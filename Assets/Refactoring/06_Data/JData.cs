@@ -111,6 +111,8 @@ public class StageData
     public string SpawnMonster;
     public float  MonsterSpawnInterval;
     public int    dHealth;
+    public int    MoveSpeed;
+    public bool   IsBossStage;
 }
 
 [Serializable]

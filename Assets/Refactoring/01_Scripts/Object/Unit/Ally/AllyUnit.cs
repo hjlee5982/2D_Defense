@@ -48,6 +48,9 @@ public class AllyUnit : MonoBehaviour
 
     [Header("공격 범위 시각화")]
     private Transform _atkRangeView;
+
+    [Header("외곽선 효과")]
+    private SpriteRenderer _outline;
     #endregion
 
 
@@ -73,28 +76,29 @@ public class AllyUnit : MonoBehaviour
         _atkRangeView = transform.Find("AtkRange");
         _atkRangeView.gameObject.SetActive(false);
 
+        _outline = transform.GetComponent<SpriteRenderer>();
+
         _statApplier = new Dictionary<StatType, Action<int>>
         {
             {
                 StatType.AtkPower, value =>
                 {
-                    _allyUnitData.AtkPower += value;
-                    _allyUnitData.dAtkPower += value;
+                    _allyUnitData.AtkPower += CulcValue(_allyUnitData.AtkPower, value);
+                    _allyUnitData.dAtkPower += CulcValue(_allyUnitData.dAtkPower, value);
                 }
             },
             {
                 StatType.AtkRange, value =>
                 {
-                    _allyUnitData.AtkRange += value;
-                    _allyUnitData.dAtkRange += value;
-                    ModifyAttackRange();
+                    _allyUnitData.AtkRange += CulcValue(_allyUnitData.AtkRange, value);
+                    _allyUnitData.dAtkRange += CulcValue(_allyUnitData.dAtkRange, value);
                 }
             },
             {
                 StatType.AtkSpeed, value =>
                 {
-                    _allyUnitData.AtkSpeed += value;
-                    _allyUnitData.dAtkSpeed += value;
+                    _allyUnitData.AtkSpeed += CulcValue(_allyUnitData.AtkSpeed, value);
+                    _allyUnitData.dAtkSpeed += CulcValue(_allyUnitData.dAtkSpeed, value);
                 }
             },
             {
@@ -129,17 +133,7 @@ public class AllyUnit : MonoBehaviour
         //    _attackCoroutine = null;
         //}
 
-        _atkInterval -= Time.deltaTime;
-
-        if(_monsterList.Count > 0 && _atkInterval <= 0f)
-        {
-            SetThrowAnimation(_monsterList[0].transform.position);
-
-            Projectile projectile = Instantiate(Projectile, transform.position, Quaternion.identity);
-            projectile.SetTarget(_monsterList[0], _allyUnitData.AtkPower, _allyUnitData.AtkSpeed + 10);
-
-            _atkInterval = Mathf.Clamp(-0.1f * _allyUnitData.AtkSpeed + 1.3f, 0.1f, 1.9f);
-        }
+        AttackProcess();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -188,11 +182,11 @@ public class AllyUnit : MonoBehaviour
         _atkInterval = allyUnitData.AtkSpeed;
     }
 
-    public void ToggleIndicator(bool value)
+    public void ToggleIndicator(bool flag)
     {
-        _indicator.SetActive(value);
+        _indicator.SetActive(flag);
 
-        _atkRangeView.gameObject.SetActive(value);
+        _atkRangeView.gameObject.SetActive(flag);
     }
 
     public bool IsEnhancable()
@@ -203,6 +197,110 @@ public class AllyUnit : MonoBehaviour
     public void NotifyMonsterDied(MonsterUnit monsterUnit)
     {
         _monsterList.Remove(monsterUnit);
+    }
+
+    public void ApplyStatChange(StatType statType, int value)
+    {
+        if (_statApplier.ContainsKey(statType) == true)
+        {
+            _statApplier[statType](value);
+        }
+
+        ModifyAttackRange();
+        ToggleOutline();
+    }
+
+    private void AttackProcess()
+    {
+        _atkInterval -= Time.deltaTime;
+
+        if (_monsterList.Count > 0 && _atkInterval <= 0f)
+        {
+            SetThrowAnimation(_monsterList[0].transform.position);
+
+            Projectile projectile = Instantiate(Projectile, transform.position, Quaternion.identity);
+            projectile.SetTarget(_monsterList[0], _allyUnitData.AtkPower, _allyUnitData.AtkSpeed + 10);
+
+            JAudioManager.Instance.PlaySFX("Throw");
+
+            _atkInterval = Mathf.Clamp(-0.1f * _allyUnitData.AtkSpeed + 1.3f, 0.1f, 1.9f);
+        }
+    }
+
+    private int CulcValue(int value, int delta)
+    {
+        int dValue = value + delta;
+
+        if(dValue <= 0)
+        {
+            return -(value - 1);
+        }
+        else
+        {
+            return delta;
+        }
+    }
+
+    private void ToggleOutline()
+    {
+        _outline.material.SetFloat("_IsOutline", 1f);
+        _outline.material.SetFloat("_Thickness", 1.3f);
+
+        int statDelta = _allyUnitData.dAtkPower + _allyUnitData.dAtkRange + _allyUnitData.dAtkSpeed;
+
+        Color32 outlineColor;
+
+        //if(statDelta == 1)
+        //{
+        //    outlineColor = new Color32(100, 202, 224, 255);
+        //}
+        //else if(statDelta == 2)
+        //{
+        //    outlineColor = new Color32(157, 94, 223, 255);
+        //}
+        //else if(statDelta == 3)
+        //{
+        //    outlineColor = new Color32(222, 0, 222, 255);
+        //}
+        //else if(statDelta == 4)
+        //{
+        //    outlineColor = new Color32(212, 100, 0, 255);
+        //}
+        //else if(statDelta == 5)
+        //{
+        //    outlineColor = new Color32(236, 167, 0, 255);
+        //}
+        //else
+        //{
+        //    outlineColor = new Color32(88, 233, 151, 255);
+        //}
+
+        if (statDelta <= 7)
+        {
+            outlineColor = new Color32(255, 165, 29, 255);
+        }
+        else if (statDelta <= 13)
+        {
+            outlineColor = new Color32(41, 77, 255, 255);
+        }
+        else if (statDelta <= 20)
+        {
+            outlineColor = new Color32(164, 28, 255, 255);
+        }
+        else if (statDelta <= 27)
+        {
+            outlineColor = new Color32(240, 240, 63, 255);
+        }
+        else if (statDelta <= 36)
+        {
+            outlineColor = new Color32(0, 157, 0, 255);
+        }
+        else
+        {
+            outlineColor = new Color32(255, 0, 0, 255);
+        }
+
+        _outline.material.SetColor("_Color", outlineColor);
     }
 
     private void ModifyAttackRange()
@@ -222,14 +320,6 @@ public class AllyUnit : MonoBehaviour
     //        _monsterList.RemoveAll(t => t == null);
     //    }
     //}
-
-    public void ApplyStatChange(StatType statType, int value)
-    {
-        if (_statApplier.ContainsKey(statType) == true)
-        {
-            _statApplier[statType](value);
-        }
-    }
 
     private void SetThrowAnimation(Vector3 targetPos)
     {

@@ -20,30 +20,30 @@
       "UnitName": "고양이",
       "UnitPrefabName": "Cat",
       "Grade": "0",
-      "AtkPower": "5",
+      "AtkPower": "15",
       "AtkRange": "3",
-      "AtkSpeed": "3",
-      "UpgradeCount": "7",
-      "dAtkPower": "0",
-      "dAtkRange": "0",
-      "dAtkSpeed": "0",
-      "dUpgradeCount": "0",
-      "Cost": "4"
-    },
-    {
-      "Index": "2",
-      "UnitName": "호랑이",
-      "UnitPrefabName": "Tiger",
-      "Grade": "0",
-      "AtkPower": "7",
-      "AtkRange": "4",
       "AtkSpeed": "5",
       "UpgradeCount": "7",
       "dAtkPower": "0",
       "dAtkRange": "0",
       "dAtkSpeed": "0",
       "dUpgradeCount": "0",
-      "Cost": "6"
+      "Cost": "15"
+    },
+    {
+      "Index": "2",
+      "UnitName": "호랑이",
+      "UnitPrefabName": "Tiger",
+      "Grade": "0",
+      "AtkPower": "24",
+      "AtkRange": "3",
+      "AtkSpeed": "7",
+      "UpgradeCount": "7",
+      "dAtkPower": "0",
+      "dAtkRange": "0",
+      "dAtkSpeed": "0",
+      "dUpgradeCount": "0",
+      "Cost": "40"
     }
   ]
 }

@@ -1104,7 +1104,7 @@
     "m_Group": {
         "m_Id": ""
     },
-    "m_Name": "TestSub",
+    "m_Name": "OutlineSample",
     "m_DrawState": {
         "m_Expanded": true,
         "m_Position": {
@@ -1204,7 +1204,7 @@
     "m_Group": {
         "m_Id": ""
     },
-    "m_Name": "TestSub",
+    "m_Name": "OutlineSample",
     "m_DrawState": {
         "m_Expanded": true,
         "m_Position": {
@@ -3265,7 +3265,7 @@
     "m_Group": {
         "m_Id": ""
     },
-    "m_Name": "TestSub",
+    "m_Name": "OutlineSample",
     "m_DrawState": {
         "m_Expanded": true,
         "m_Position": {
@@ -3416,7 +3416,7 @@
         "a": 1.0
     },
     "isMainColor": false,
-    "m_ColorMode": 1
+    "m_ColorMode": 0
 }
 
 {
@@ -3509,7 +3509,7 @@
     "m_Group": {
         "m_Id": ""
     },
-    "m_Name": "TestSub",
+    "m_Name": "OutlineSample",
     "m_DrawState": {
         "m_Expanded": true,
         "m_Position": {

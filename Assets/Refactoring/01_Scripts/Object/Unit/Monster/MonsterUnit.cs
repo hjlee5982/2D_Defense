@@ -232,6 +232,9 @@ public class MonsterUnit : MonoBehaviour
         // 맞은 투사체 지움
         Destroy(projectile.gameObject);
 
+        // 피격 사운드
+        JAudioManager.Instance.PlaySFX("Hit_2");
+
         // 대미지 계산
         if(DamageProcess(damage) == true)
         {
@@ -271,6 +274,8 @@ public class MonsterUnit : MonoBehaviour
             SetAnimation("Die");
             JEventBus.SendEvent(new MonsterStateChangeEvent(MonsterStateType.Die));
             _isDeath = true;
+
+            JAudioManager.Instance.PlaySFX("Die");
         }
         // 죽는 애니메이션이 끝나면 삭제
         if(_isDeath == true)

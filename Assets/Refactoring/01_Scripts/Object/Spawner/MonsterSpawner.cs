@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using VInspector.Libs;
 
 public class MonsterSpawner : MonoBehaviour
 {
@@ -10,8 +11,7 @@ public class MonsterSpawner : MonoBehaviour
     public List<MonsterUnitData> MonsterInitData = new List<MonsterUnitData>();
 
     [Header("몬스터가 이동 할 경로")]
-    private Queue<Vector3> RouteQueue     = new Queue<Vector3>();
-    private Queue<Vector3> RouteDataQueue = new Queue<Vector3>();
+    private List<Queue<Vector3>> RouteDataQueueList = new List<Queue<Vector3>>();
 
     [Header("포인트 타일맵")]
     public Tilemap PointTilemap;
@@ -73,8 +73,9 @@ public class MonsterSpawner : MonoBehaviour
         _monsterUnitData = e.MonsterUnitData;
 
         // 라운드가 시작되면 몬스터의 HP가 증가함
-        _monsterUnitData.MaxHealth += _stageData.dHealth;
-        _monsterUnitData.Health    += _stageData.dHealth;
+        _monsterUnitData.MaxHealth = _stageData.dHealth;
+        _monsterUnitData.Health    = _stageData.dHealth;
+        _monsterUnitData.MoveSpeed = _stageData.MoveSpeed;
 
         StartCoroutine(SpawnMonsterWithDelay(e));
     }
@@ -85,8 +86,8 @@ public class MonsterSpawner : MonoBehaviour
         {
             ++_spawnCount;
 
-            MonsterUnit monsterUnit = Instantiate(_monsterUnitData.UnitPrefab, RouteDataQueue.Peek(), Quaternion.identity);
-            monsterUnit.SetInitialData(_monsterUnitData, RouteDataQueue);
+            MonsterUnit monsterUnit = Instantiate(_monsterUnitData.UnitPrefab, RouteDataQueueList[Random.Range(0,100) < 70? 0 : 1].Peek(), Quaternion.identity);
+            monsterUnit.SetInitialData(_monsterUnitData, RouteDataQueueList[Random.Range(0, 100) < 70 ? 0 : 1]);
 
             yield return new WaitForSeconds(_stageData.MonsterSpawnInterval);
         }
@@ -142,7 +143,7 @@ public class MonsterSpawner : MonoBehaviour
 
     public void RouteDataProcessing(string routeData)
     {
-        List<Vector3> _points = new List<Vector3>();
+        List<Vector3> points = new List<Vector3>();
 
         // 타일맵을 순회하면서(좌하단부터 우측 방향으로 순회함)
         foreach (Vector3Int pointTilePos in PointTilemap.cellBounds.allPositionsWithin)
@@ -159,18 +160,29 @@ public class MonsterSpawner : MonoBehaviour
                     pointTile.sprite == EndPointTileSprite   ||
                     pointTile.sprite == CheckPointTileSprite)
                 {
-                    _points.Add(PointTilemap.GetCellCenterWorld(pointTilePos));
+                    points.Add(PointTilemap.GetCellCenterWorld(pointTilePos));
                 }
             }
         }
 
-        string[] routeIndices = routeData.Split(',');
+        // 2가지의 루트
+        string[] routeList = routeData.Split("&");
 
-        foreach(string index in routeIndices)
+        for(int i = 0; i < routeList.Length; ++i)
         {
-            int routeIndex = int.Parse(index);
+            string[] routeIndices = routeList[i].Split(",");
 
-            RouteDataQueue.Enqueue(_points[routeIndex]);
+            Queue<Vector3> routeQueue = new Queue<Vector3>();
+
+            foreach (string index in routeIndices)
+            {
+                int routeIndex = int.Parse(index);
+
+                routeQueue.Enqueue(points[routeIndex]);
+
+            }
+
+            RouteDataQueueList.Add(routeQueue);
         }
     }
     #endregion

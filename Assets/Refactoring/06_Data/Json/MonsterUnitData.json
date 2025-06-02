@@ -4,7 +4,7 @@
       "UnitName": "곰돌이",
       "UnitPrefabName": "Bear",
       "MaxHealth": "10",
-      "Health": "10",
+      "Health": "5",
       "MoveSpeed": "5"
     }
   ]

@@ -144,12 +144,14 @@ public class JGameManager : MonoBehaviour
         Gold         = DataLoader.GameRuleData[0].InitialGold;
         CurrentStage = 0;
 
-        
+        Time.timeScale = 2f;
     }
 
     void Update()
     {
         UnitSelect();
+
+        SpawnForKeyboard();
     }
 
     private void OnEnable()
@@ -189,6 +191,22 @@ public class JGameManager : MonoBehaviour
         JEventBus.SendEvent(new BeginSpawnMonsterEvent(stageData, spawnMonsterData));
 
         NumOfMonster = DataLoader.StageData[CurrentStage].NumOfMonster;
+    }
+
+    private void SpawnForKeyboard()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            JEventBus.SendEvent(new BeginSpawnAllyEvent(DataLoader.AllyUnitData[0]));
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            JEventBus.SendEvent(new BeginSpawnAllyEvent(DataLoader.AllyUnitData[1]));
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            JEventBus.SendEvent(new BeginSpawnAllyEvent(DataLoader.AllyUnitData[2]));
+        }
     }
 
     private void BeginSpawnAlly(StartSpawnAllyEvent e)
