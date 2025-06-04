@@ -1,0 +1,188 @@
+{
+  "Items": [
+    {
+      "ID": "ID_Start_Button_Title",
+      "KR": "시작",
+      "EN": "Start",
+      "JP": "スタート",
+      "CN": "开始",
+      "": ""
+    },
+    {
+      "ID": "ID_Setting_Button",
+      "KR": "설정",
+      "EN": "Settings",
+      "JP": "設定",
+      "CN": "设置",
+      "": ""
+    },
+    {
+      "ID": "ID_Exit_Button",
+      "KR": "종료",
+      "EN": "Quit",
+      "JP": "終了",
+      "CN": "退出",
+      "": ""
+    },
+    {
+      "ID": "ID_AtkPower_UnitStatus",
+      "KR": "공격력",
+      "EN": "AtkPower",
+      "JP": "攻撃力",
+      "CN": "攻击力",
+      "": ""
+    },
+    {
+      "ID": "ID_AtkRange_UnitStatus",
+      "KR": "공격범위",
+      "EN": "AtkRange",
+      "JP": "攻撃範囲",
+      "CN": "攻击范围",
+      "": ""
+    },
+    {
+      "ID": "ID_AtkSpeed_UnitStatus",
+      "KR": "공격속도",
+      "EN": "AtkSpeed",
+      "JP": "攻撃速度",
+      "CN": "攻击速度",
+      "": ""
+    },
+    {
+      "ID": "ID_Upgrade_UnitStatus",
+      "KR": "강화 가능 횟수",
+      "EN": "Upgrade Limit",
+      "JP": "強化可能回数",
+      "CN": "可强化次数",
+      "": ""
+    },
+    {
+      "ID": "ID_AtkPower_Enhancement",
+      "KR": "공격력",
+      "EN": "AtkPower",
+      "JP": "攻撃力",
+      "CN": "攻击力",
+      "": ""
+    },
+    {
+      "ID": "ID_AtkRange_Enhancement",
+      "KR": "공격범위",
+      "EN": "AtkRange",
+      "JP": "攻撃範囲",
+      "CN": "攻击范围",
+      "": ""
+    },
+    {
+      "ID": "ID_AtkSpeed_Enhancement",
+      "KR": "공격속도",
+      "EN": "AtkSpeed",
+      "JP": "攻撃速度",
+      "CN": "攻击速度",
+      "": ""
+    },
+    {
+      "ID": "ID_Start_Button_Game",
+      "KR": "시작",
+      "EN": "Start",
+      "JP": "スタート",
+      "CN": "开始",
+      "": ""
+    },
+    {
+      "ID": "ID_Result_ResultPanel",
+      "KR": "결과",
+      "EN": "Result",
+      "JP": "結果",
+      "CN": "结果",
+      "": ""
+    },
+    {
+      "ID": "ID_Round_GameStatus",
+      "KR": "라운드",
+      "EN": "Round",
+      "JP": "ラウンド",
+      "CN": "回合",
+      "": ""
+    },
+    {
+      "ID": "ID_Round_ResultPanel",
+      "KR": "라운드",
+      "EN": "Round",
+      "JP": "ラウンド",
+      "CN": "回合",
+      "": ""
+    },
+    {
+      "ID": "ID_Gold_ResultPanel",
+      "KR": "골드",
+      "EN": "Gold",
+      "JP": "ゴールド",
+      "CN": "金币",
+      "": ""
+    },
+    {
+      "ID": "ID_Life_ResultPanel",
+      "KR": "라이프",
+      "EN": "Life",
+      "JP": "ライフ",
+      "CN": "生命值",
+      "": ""
+    },
+    {
+      "ID": "ID_Return_ResultPanel",
+      "KR": "돌아가기",
+      "EN": "Return",
+      "JP": "戻る",
+      "CN": "返回",
+      "": ""
+    },
+    {
+      "ID": "ID_BGM_Setting",
+      "KR": "배경음",
+      "EN": "BGM",
+      "JP": "BGM",
+      "CN": "背景音乐",
+      "": ""
+    },
+    {
+      "ID": "ID_SFX_Setting",
+      "KR": "효과음",
+      "EN": "SFX",
+      "JP": "SFX",
+      "CN": "音效",
+      "": ""
+    },
+    {
+      "ID": "ID_Language_Setting",
+      "KR": "언어",
+      "EN": "Language",
+      "JP": "言語",
+      "CN": "语言",
+      "": ""
+    },
+    {
+      "ID": "ID_Summon_SpawnAlly",
+      "KR": "소환",
+      "EN": "Summon",
+      "JP": "召喚",
+      "CN": "传唤",
+      "": ""
+    },
+    {
+      "ID": "ID_Mute_Setting",
+      "KR": "음소거",
+      "EN": "Mute",
+      "JP": "ミュート",
+      "CN": "静音",
+      "": ""
+    },
+    {
+      "ID": "ID_Save_Setting",
+      "KR": "저장",
+      "EN": "Save",
+      "JP": "セーブ",
+      "CN": "保存",
+      "": ""
+    }
+  ]
+}

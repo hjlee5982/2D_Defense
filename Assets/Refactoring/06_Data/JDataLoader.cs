@@ -6,6 +6,22 @@ using UnityEngine.AddressableAssets;
 
 public class JDataLoader : MonoBehaviour
 {
+    #region SINGLETON
+    public static JDataLoader Instance { get; private set; }
+
+    private void SingletonInitialize()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
+    #endregion
+
     #region VARIABLES
     // Addressable
     public Dictionary<string, GameObject> PrefabData = new Dictionary<string, GameObject>();
@@ -17,6 +33,7 @@ public class JDataLoader : MonoBehaviour
     public Dictionary<int,    GameRuleData   > GameRuleData    { get; private set; } = new Dictionary<int,    GameRuleData   >();
     public Dictionary<int,    RouteData      > RouteData       { get; private set; } = new Dictionary<int,    RouteData      >();
     public Dictionary<int,    EnhancementData> EnhancementData { get; private set; } = new Dictionary<int,    EnhancementData>();
+    public Dictionary<string, LocalizeData>    LocalizeData    { get; private set; } = new Dictionary<string, LocalizeData   >();
     #endregion
 
 
@@ -26,6 +43,8 @@ public class JDataLoader : MonoBehaviour
     #region MONOBEHAVIOUR
     void Awake()
     {
+        SingletonInitialize();
+
         // Addressable
         {
             var prefabsLoadOperationHandle = Addressables.LoadAssetsAsync<GameObject>("Prefab" /*어드레서블 라벨*/, prefab => PrefabData[prefab.name] = prefab);
@@ -39,6 +58,7 @@ public class JDataLoader : MonoBehaviour
             GameRuleData    = LoadJson<GameRuleDataLoader,    int,    GameRuleData   >("GameRuleData"   ).MakeDic();
             RouteData       = LoadJson<RouteDataLoader,       int,    RouteData      >("RouteData"      ).MakeDic();
             EnhancementData = LoadJson<EnhancementDataLoader, int,    EnhancementData>("EnhancementData").MakeDic();
+            LocalizeData    = LoadJson<LocalizeDataLoader,    string, LocalizeData   >("Localizer"      ).MakeDic();
         }
     }
     #endregion

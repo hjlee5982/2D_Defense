@@ -13,12 +13,18 @@ public class UI_UnitStatus : MonoBehaviour
 
     [Header("유닛 데이터를 표시 할 UI")]
     private TextMeshProUGUI _atkPower;
-    private TextMeshProUGUI _atkSpeed;
     private TextMeshProUGUI _atkRange;
+    private TextMeshProUGUI _atkSpeed;
     private TextMeshProUGUI _upgradeCount;
 
     [Header("토글용 컨테이너")]
     private List<GameObject> _ui = new List<GameObject>();
+
+    [Header("스테이터스 텍스트")]
+    private TextMeshProUGUI ID_AtkPower_UnitStatus;
+    private TextMeshProUGUI ID_AtkRange_UnitStatus;
+    private TextMeshProUGUI ID_AtkSpeed_UnitStatus;
+    private TextMeshProUGUI ID_Upgrade_UnitStatus;
     #endregion
 
 
@@ -54,8 +60,8 @@ public class UI_UnitStatus : MonoBehaviour
             _ui.Add(Profile.Find("Name").GetChild(0).gameObject);
 
             _ui.Add(Status.Find("AtkPower").gameObject);
-            _ui.Add(Status.Find("AtkSpeed").gameObject);
             _ui.Add(Status.Find("AtkRange").gameObject);
+            _ui.Add(Status.Find("AtkSpeed").gameObject);
             _ui.Add(Status.Find("AtkRange").gameObject);
             _ui.Add(Status.Find("UpgradeCount").gameObject);
 
@@ -66,6 +72,15 @@ public class UI_UnitStatus : MonoBehaviour
         foreach(GameObject go in _ui)
         {
             go.SetActive(false);
+        }
+
+
+        Transform desc = transform.GetChild(0).Find("Status").Find("StatusDesc");
+        {
+            ID_AtkPower_UnitStatus = desc.Find("ID_AtkPower_UnitStatus").GetComponent<TextMeshProUGUI>();
+            ID_AtkRange_UnitStatus = desc.Find("ID_AtkRange_UnitStatus").GetComponent<TextMeshProUGUI>();
+            ID_AtkSpeed_UnitStatus = desc.Find("ID_AtkSpeed_UnitStatus").GetComponent<TextMeshProUGUI>();
+            ID_Upgrade_UnitStatus  = desc.Find("ID_Upgrade_UnitStatus").GetComponent<TextMeshProUGUI>();
         }
     }
 
@@ -82,6 +97,9 @@ public class UI_UnitStatus : MonoBehaviour
         JEventBus.Subscribe<UnitSelectEvent>(UnitSelected);
         JEventBus.Subscribe<UnitDeselectEvent>(UnitDeselected);
         JEventBus.Subscribe<EnhanceCompleteEvent>(EnhanceComplete);
+        JEventBus.Subscribe<LanguageChangeEvent>(LanguageChange);
+
+        LanguageChange(null);
     }
 
     private void OnDisable()
@@ -89,6 +107,7 @@ public class UI_UnitStatus : MonoBehaviour
         JEventBus.Unsubscribe<UnitSelectEvent>(UnitSelected);
         JEventBus.Unsubscribe<UnitDeselectEvent>(UnitDeselected);
         JEventBus.Unsubscribe<EnhanceCompleteEvent>(EnhanceComplete);
+        JEventBus.Unsubscribe<LanguageChangeEvent>(LanguageChange);
     }
     #endregion
 
@@ -127,7 +146,7 @@ public class UI_UnitStatus : MonoBehaviour
         // Profile
         {
             _unitThumbnail.sprite = allyUnit.transform.Find("Thumbnail").GetComponent<SpriteRenderer>().sprite;
-            _unitName.text        = allyUnitData.UnitName + " " + allyUnitData.Grade.ToString("+0");
+            _unitName.text        = allyUnitData.UnitID + " " + allyUnitData.Grade.ToString("+0");
         }
         // Status
         {
@@ -136,6 +155,15 @@ public class UI_UnitStatus : MonoBehaviour
             _atkSpeed.text     = allyUnitData.AtkSpeed.ToString() + " (" + allyUnitData.dAtkSpeed.ToString("+0;-0;0") + ")"; ;
             _upgradeCount.text = allyUnitData.UpgradeCount.ToString();
         }
+    }
+
+
+    private void LanguageChange(LanguageChangeEvent e)
+    {
+        ID_AtkPower_UnitStatus.text = JSettingManager.Instance.GetText(ID_AtkPower_UnitStatus.name);
+        ID_AtkRange_UnitStatus.text = JSettingManager.Instance.GetText(ID_AtkRange_UnitStatus.name);
+        ID_AtkSpeed_UnitStatus.text = JSettingManager.Instance.GetText(ID_AtkSpeed_UnitStatus.name);
+        ID_Upgrade_UnitStatus .text = JSettingManager.Instance.GetText(ID_Upgrade_UnitStatus.name);
     }
     #endregion
 }

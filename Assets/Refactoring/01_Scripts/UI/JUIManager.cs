@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -52,6 +53,9 @@ public class JUIManager : MonoBehaviour
     [Header("시작 버튼")]
     private Button _startButton;
 
+    [Header("시작 버튼 텍스트")]
+    private TextMeshProUGUI ID_Start_Button_Game;
+
     [Header("라운드 플래그")]
     private bool _isRoundStart = false;
     #endregion
@@ -67,6 +71,8 @@ public class JUIManager : MonoBehaviour
 
         _startButton = transform.GetChild(1).Find("StartButton").GetComponent<Button>();
         _startButton.onClick.AddListener(StartButtonClick);
+
+        ID_Start_Button_Game = _startButton.transform.Find("ID_Start_Button_Game").GetComponent<TextMeshProUGUI>();
 
         _spawnAllyUI   = transform.Find("GameController").Find("SpawnAlly").GetComponent<UI_SpawnAlly>();
         _enhancementUI = transform.Find("GameController").Find("Enhancement").GetComponent<UI_Enhancement>();
@@ -90,7 +96,9 @@ public class JUIManager : MonoBehaviour
         JEventBus.Subscribe<EndRoundEvent>(EndRoundEvent);
         JEventBus.Subscribe<GameStartEvent>(GameStartEvent);
         JEventBus.Subscribe<GameEndEvent>(GameEndEvent);
+        JEventBus.Subscribe<LanguageChangeEvent>(LanguageChange);
 
+        LanguageChange(null);
     }
 
     private void OnDisable()
@@ -100,6 +108,7 @@ public class JUIManager : MonoBehaviour
         JEventBus.Unsubscribe<EndRoundEvent>(EndRoundEvent);
         JEventBus.Unsubscribe<GameStartEvent>(GameStartEvent);
         JEventBus.Unsubscribe<GameEndEvent>(GameEndEvent);
+        JEventBus.Unsubscribe<LanguageChangeEvent>(LanguageChange);
     }
     #endregion
 
@@ -155,6 +164,11 @@ public class JUIManager : MonoBehaviour
             _spawnAllyUI.gameObject.SetActive(true);
             _enhancementUI.gameObject.SetActive(false);
         }
+    }
+
+    private void LanguageChange(LanguageChangeEvent e)
+    {
+        ID_Start_Button_Game.text = JSettingManager.Instance.GetText(ID_Start_Button_Game.name);
     }
     #endregion
 }

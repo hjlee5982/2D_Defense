@@ -18,6 +18,7 @@ public class JDataTransformer : EditorWindow
         ParseExcelDataToJson<GameRuleDataLoader,    GameRuleData   >("GameRuleData");
         ParseExcelDataToJson<RouteDataLoader,       RouteData      >("RouteData");
         ParseExcelDataToJson<EnhancementDataLoader, EnhancementData>("EnhancementData");
+        ParseExcelDataToJson<LocalizeDataLoader,    LocalizeData   >("Localizer");
 
         Debug.Log("Change Success");
     }

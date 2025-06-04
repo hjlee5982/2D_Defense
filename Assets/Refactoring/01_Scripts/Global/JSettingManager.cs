@@ -1,4 +1,8 @@
+using System.Collections.Generic;
+using System.Linq;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class JSettingManager : MonoBehaviour
 {
@@ -22,30 +26,89 @@ public class JSettingManager : MonoBehaviour
 
 
 
+    #region VARIABLES
+    [Header("로컬라이저")]
+    private Dictionary<string, Dictionary<string, string>> _localizer = new Dictionary<string, Dictionary<string, string>>();
+
+    [Header("언어설정")]
+    public string CurrentLanguage = "KR";
+
+    [Header("옵션 UI들")]
+    private Slider   _bgmSlider;
+    private Slider   _sfxSlider;
+    private Toggle   _bgmToggle;
+    private Toggle   _sfxToggle;
+    private TMP_Dropdown _languageDropdown;
+    private Button   _saveButton;
+
+    [Header("UI 텍스트")]
+    private TextMeshProUGUI ID_BGM_Setting;
+    private TextMeshProUGUI ID_SFX_Setting;
+    private TextMeshProUGUI ID_Language_Setting;
+    private TextMeshProUGUI ID_Save_Setting;
+    private TextMeshProUGUI ID_Mute_Setting_1;
+    private TextMeshProUGUI ID_Mute_Setting_2;
+    #endregion
+
+
+
+
     #region MONOBEHAVIOUR
     private void Awake()
     {
         SingletonInitialize();
+
+        LocalizeDataProcess();
+
+        Transform child = transform.GetChild(0);
+        {
+            _bgmSlider        = child.Find("BGM_Slider"       ).GetComponent<Slider>();
+            _bgmToggle        = child.Find("BGM_MuteToggle"   ).GetComponent<Toggle>();
+
+            _sfxSlider        = child.Find("SFX_Slider"       ).GetComponent<Slider>();
+            _sfxToggle        = child.Find("SFX_MuteToggle"   ).GetComponent<Toggle>();
+
+            _languageDropdown = child.Find("Language_Dropdown").GetComponent<TMP_Dropdown>();
+            
+            _saveButton       = child.Find("SaveButton"       ).GetComponent<Button>();
+        }
+        {
+            _bgmSlider.onValueChanged.AddListener(SetBGMVolume);
+            _bgmToggle.onValueChanged.AddListener(ToggleBGM);
+            
+            _sfxSlider.onValueChanged.AddListener(SetSFXVolume);
+            _sfxToggle.onValueChanged.AddListener(ToggleSFX);
+
+            _languageDropdown.onValueChanged.AddListener(LanguageSelect);
+
+            _saveButton.onClick.AddListener(ClickSaveButton);
+        }
+        {
+            ID_BGM_Setting      = child.Find("ID_BGM_Setting"     ).GetComponent<TextMeshProUGUI>();
+            ID_SFX_Setting      = child.Find("ID_SFX_Setting"     ).GetComponent<TextMeshProUGUI>();
+            ID_Language_Setting = child.Find("ID_Language_Setting").GetComponent<TextMeshProUGUI>();
+            ID_Save_Setting     = child.Find("SaveButton").Find("ID_Save_Setting").GetComponent<TextMeshProUGUI>();
+            ID_Mute_Setting_1   = _bgmToggle.transform.Find("ID_Mute_Setting").GetComponent<TextMeshProUGUI>();
+            ID_Mute_Setting_2   = _sfxToggle.transform.Find("ID_Mute_Setting").GetComponent<TextMeshProUGUI>();
+        }
+
+
+        gameObject.SetActive(false);
     }
 
     private void Start()
     {
-        
-    }
-
-    private void Update()
-    {
-        
+        JEventBus.SendEvent(new LanguageChangeEvent());
     }
 
     private void OnEnable()
     {
-        JEventBus.Subscribe<SettingMenuActivationEvent>(OepnSettingMenu);
-    }
+        Canvas canvas = FindFirstObjectByType<Canvas>();
 
-    private void OnDisable()
-    {
-        JEventBus.Unsubscribe<SettingMenuActivationEvent>(OepnSettingMenu);
+        if (canvas != null)
+        {
+            transform.SetParent(canvas.transform, false);
+        }
     }
     #endregion
 
@@ -54,9 +117,98 @@ public class JSettingManager : MonoBehaviour
 
 
     #region FUNCTION
-    private void OepnSettingMenu(SettingMenuActivationEvent e)
+    public string GetText(string ID)
     {
-        Debug.Log("설정창 오픈");
+        return _localizer[ID][CurrentLanguage];
+    }
+
+    private void LocalizeDataProcess()
+    {
+        _localizer = JDataLoader.Instance.LocalizeData.ToDictionary(kvp => kvp.Key, kvp =>
+        {
+            var dict = new Dictionary<string, string>();
+            var fields = typeof(LocalizeData).GetFields();
+
+            foreach (var field in fields)
+            {
+                if(field.Name == "ID")
+                {
+                    continue;
+                }
+
+                var value = field.GetValue(kvp.Value)?.ToString() ?? "";
+                dict[field.Name] = value;
+            }
+
+            return dict;
+        });
+    }
+
+    private void SetBGMVolume(float value)
+    {
+        Debug.Log("BGM 슬라이더 값 : " + value);
+    }
+
+    private void SetSFXVolume(float value)
+    {
+        Debug.Log("SFX 슬라이더 값 : " + value);
+    }
+
+    private void ToggleBGM(bool value)
+    {
+        JAudioManager.Instance.PlaySFX("ButtonClick");
+
+        Debug.Log("BGM 토글 값 : " + value);
+    }
+
+    private void ToggleSFX(bool value)
+    {
+        JAudioManager.Instance.PlaySFX("ButtonClick");
+
+        Debug.Log("SFX 토글 값 : " + value);
+
+    }
+
+    private void LanguageSelect(int index)
+    {
+        Debug.Log("선택한 인덱스 : " + index);
+
+        LanguageChange(index);
+    }
+
+    private void ClickSaveButton()
+    {
+        JAudioManager.Instance.PlaySFX("ButtonClick");
+
+        gameObject.SetActive(false);
+    }
+
+    private void LanguageChange(int index)
+    {
+        switch (index)
+        {
+            case 0:
+                CurrentLanguage = "KR";
+                break;
+            case 1:
+                CurrentLanguage = "EN";
+                break;
+            case 2:
+                CurrentLanguage = "JP";
+                break;
+            case 3:
+                CurrentLanguage = "CN";
+                break;
+        }
+
+        ID_BGM_Setting      .text = _localizer[ID_BGM_Setting     .name][CurrentLanguage];
+        ID_SFX_Setting      .text = _localizer[ID_SFX_Setting     .name][CurrentLanguage];
+        ID_Language_Setting .text = _localizer[ID_Language_Setting.name][CurrentLanguage];
+        ID_Save_Setting     .text = _localizer[ID_Save_Setting    .name][CurrentLanguage];
+        ID_Mute_Setting_1   .text = _localizer[ID_Save_Setting    .name][CurrentLanguage];
+        ID_Mute_Setting_2   .text = _localizer[ID_Save_Setting    .name][CurrentLanguage];
+
+        JEventBus.SendEvent(new LanguageChangeEvent());
     }
     #endregion
 }

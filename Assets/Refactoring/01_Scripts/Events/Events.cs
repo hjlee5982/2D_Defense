@@ -158,10 +158,6 @@ public class SummonCompleteEvent
 
 
 
-// JTitleManager -> JSettingManager
-public class SettingMenuActivationEvent { }
-
-
 
 // JGameManager -> UIManager
 public class GameStartEvent { }
@@ -181,3 +177,8 @@ public class GameEndEvent
         Gold  = gold;
     }   
 }
+
+
+
+// JSettingManager -> 텍스트들
+public class LanguageChangeEvent { }

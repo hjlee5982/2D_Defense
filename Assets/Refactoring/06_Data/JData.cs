@@ -13,21 +13,34 @@ public interface ILoader<Key, Value>
 public class AllyUnitData
 {
     public int    Index;
-    public string UnitName;
-    public string UnitPrefabName;
-    public int    Grade;
+
+    public string UnitID;
+    public string UnitPrefabID;
+
+    public string NameKR;
+    public string NameEN;
+    public string NameJP;
+    public string NameCN;
+
     public int    AtkPower;
     public int    AtkRange;
     public int    AtkSpeed;
     public int    UpgradeCount;
-    public int    dAtkPower;
-    public int    dAtkRange;
-    public int    dAtkSpeed;
-    public int    dUpgradeCount;
+    
     public int    Cost;
 
     [NonSerialized]
     public AllyUnit UnitPrefab;
+
+    [NonSerialized]
+    public List<string> UnitNames;
+
+    [NonSerialized]
+    public int Grade;
+    public int dAtkPower;
+    public int dAtkRange;
+    public int dAtkSpeed;
+    public int dUpgradeCount;
 
     public AllyUnitData Clone()
     {
@@ -36,6 +49,22 @@ public class AllyUnitData
 
         string json = JsonUtility.ToJson(this);
         return JsonUtility.FromJson<AllyUnitData>(json);
+    }
+
+    public string GetName(string currentLanguage)
+    {
+        switch (currentLanguage)
+        {
+            case "KR":
+                return NameKR;
+            case "EN":
+                return NameEN;
+            case "JP":
+                return NameJP;
+            case "CN":
+                return NameCN;
+        }
+        return "ID_NOT_FOUND";
     }
 }
 
@@ -221,6 +250,39 @@ public class EnhancementDataLoader : ILoader<int, EnhancementData>
         foreach (EnhancementData data in Items)
         {
             dic.Add(data.Index, data);
+        }
+
+        return dic;
+    }
+}
+#endregion
+
+
+
+#region LOCALIZER
+[Serializable]
+public class LocalizeData
+{
+    public string ID;
+
+    public string KR;
+    public string EN;
+    public string JP;
+    public string CN;
+}
+
+[Serializable]
+public class LocalizeDataLoader : ILoader<string, LocalizeData>
+{
+    public List<LocalizeData> Items = new List<LocalizeData>();
+
+    public Dictionary<string, LocalizeData> MakeDic()
+    {
+        Dictionary<string, LocalizeData> dic = new Dictionary<string, LocalizeData>();
+
+        foreach (LocalizeData data in Items)
+        {
+            dic.Add(data.ID, data);
         }
 
         return dic;

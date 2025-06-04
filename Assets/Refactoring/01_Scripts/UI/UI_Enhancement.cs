@@ -9,6 +9,9 @@ public class UI_Enhancement : MonoBehaviour
     #region VARIABLES
     [Header("강화 버튼 + 가림막 + 비용")]
     private List<CostOptionUI> _options = new List<CostOptionUI>();
+
+    [Header("강화옵션 텍스트")]
+    private Dictionary<int, Dictionary<string, TextMeshProUGUI>> _optionTexts = new Dictionary<int, Dictionary<string, TextMeshProUGUI>>();
     #endregion
 
 
@@ -25,6 +28,17 @@ public class UI_Enhancement : MonoBehaviour
     #region MONOBEHAVIOUR
     void Awake()
     {
+        for(int i = 0; i < 4; ++i)
+        {
+            // 강화 옵션 텍스트 설정
+            Dictionary<string, TextMeshProUGUI> _optionText = new Dictionary<string, TextMeshProUGUI>();
+            {
+                _optionText.Add("ID_AtkPower_Enhancement", transform.GetChild(i).Find("ID_AtkPower_Enhancement").GetComponent<TextMeshProUGUI>());
+                _optionText.Add("ID_AtkRange_Enhancement", transform.GetChild(i).Find("ID_AtkRange_Enhancement").GetComponent<TextMeshProUGUI>());
+                _optionText.Add("ID_AtkSpeed_Enhancement", transform.GetChild(i).Find("ID_AtkSpeed_Enhancement").GetComponent<TextMeshProUGUI>());
+            }
+            _optionTexts.Add(i, _optionText);
+        }
     }
 
     void Start()
@@ -76,19 +90,20 @@ public class UI_Enhancement : MonoBehaviour
         }
     }
 
-    void Update()
-    {
-    }
-
     private void OnEnable()
     {
         UpdateRestrictor(JGameManager.Instance.Gold);
+
         JEventBus.Subscribe<GoldRestrictionEvent>(GoldChanged);
+        JEventBus.Subscribe<LanguageChangeEvent>(LanguageChange);
+
+        LanguageChange(null);
     }
 
     private void OnDisable()
     {
         JEventBus.Unsubscribe<GoldRestrictionEvent>(GoldChanged);
+        JEventBus.Unsubscribe<LanguageChangeEvent>(LanguageChange);
     }
     #endregion
 
@@ -117,6 +132,18 @@ public class UI_Enhancement : MonoBehaviour
 
             // 활성화가 가능하다면 가림막은 해제해야 함
             option.Restrictor.SetActive(!canActivate);
+        }
+    }
+
+
+    private void LanguageChange(LanguageChangeEvent e)
+    {
+        foreach(var kvp_1 in _optionTexts)
+        {
+            foreach(var kvp_2 in kvp_1.Value)
+            {
+                kvp_2.Value.text = JSettingManager.Instance.GetText(kvp_2.Key);
+            }
         }
     }
     #endregion

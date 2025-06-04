@@ -132,9 +132,12 @@ public class JGameManager : MonoBehaviour
     {
         SingletonInitialize();
 
+        DataLoader = JDataLoader.Instance;
+
         DataProcess();
 
         RandomAssistant = new RandomAssistant();
+
     }
 
     void Start()
@@ -425,13 +428,13 @@ public class JGameManager : MonoBehaviour
 
     private void DataProcess()
     {
-        // 유닛 데이터의 프리펩 네임을 바탕으로
+        // 유닛 데이터의 프리펩ID를 바탕으로
         // Addressable로 로드된 프리펩들을 찾아서 유닛 데이터에 매칭시켜줌
         foreach(var kvp in DataLoader.AllyUnitData)
         {
-            if(DataLoader.PrefabData.ContainsKey(kvp.Value.UnitPrefabName) == true)
+            if(DataLoader.PrefabData.ContainsKey(kvp.Value.UnitPrefabID) == true)
             {
-                kvp.Value.UnitPrefab = DataLoader.PrefabData[kvp.Value.UnitPrefabName].GetComponent<AllyUnit>();
+                kvp.Value.UnitPrefab = DataLoader.PrefabData[kvp.Value.UnitPrefabID].GetComponent<AllyUnit>();
             }
         }
         // 몬스터 데이터의 프리펩 네임을 바탕으로

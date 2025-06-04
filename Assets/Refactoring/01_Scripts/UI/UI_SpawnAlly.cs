@@ -8,6 +8,12 @@ public class UI_SpawnAlly : MonoBehaviour
     #region VARIABLES
     [Header("강화 버튼 + 가림막 + 비용")]
     private List<CostOptionUI> _options = new List<CostOptionUI>();
+
+    [Header("타이틀 텍스트")]
+    private TextMeshProUGUI ID_Summon_SpawnAlly;
+
+    [Header("이름 텍스트")]
+    private List<TextMeshProUGUI> ID_UnitName_SummonAlly;
     #endregion
 
 
@@ -24,6 +30,7 @@ public class UI_SpawnAlly : MonoBehaviour
     #region MONOBEHAVIOUR
     void Awake()
     {
+        ID_Summon_SpawnAlly = transform.GetChild(0).Find("ID_Summon_SpawnAlly").GetComponent<TextMeshProUGUI>();
     }
 
     void Start()
@@ -46,8 +53,8 @@ public class UI_SpawnAlly : MonoBehaviour
             });
 
             // 유닛 이름 설정
-            TextMeshProUGUI nameText = buttonTransform.Find("Name").GetComponent<TextMeshProUGUI>();
-            nameText.text = data.UnitName;
+            TextMeshProUGUI nameText = buttonTransform.Find("ID_UnitName_SummonAlly").GetComponent<TextMeshProUGUI>();
+            nameText.text = data.GetName(JSettingManager.Instance.CurrentLanguage);
 
             // 유닛 비용 설정
             TextMeshProUGUI costText = buttonTransform.Find("Cost").GetComponent<TextMeshProUGUI>();
@@ -59,6 +66,7 @@ public class UI_SpawnAlly : MonoBehaviour
 
             _options.Add(new CostOptionUI(button, restrictor, data.Cost));
         }
+
     }
 
     void Update()
@@ -69,11 +77,15 @@ public class UI_SpawnAlly : MonoBehaviour
     {
         UpdateRestrictor(JGameManager.Instance.Gold);
         JEventBus.Subscribe<GoldRestrictionEvent>(GoldChanged);
+        JEventBus.Subscribe<LanguageChangeEvent>(LanguageChange);
+
+        LanguageChange(null);
     }
 
     private void OnDisable()
     {
         JEventBus.Unsubscribe<GoldRestrictionEvent>(GoldChanged);
+JEventBus.Unsubscribe<LanguageChangeEvent>(LanguageChange);
     }
     #endregion
 
@@ -103,6 +115,12 @@ public class UI_SpawnAlly : MonoBehaviour
             // 활성화가 가능하다면 가림막은 해제해야 함
             option.Restrictor.SetActive(!canActivate);
         }
+    }
+
+
+    private void LanguageChange(LanguageChangeEvent e)
+    {
+        ID_Summon_SpawnAlly.text = JSettingManager.Instance.GetText(ID_Summon_SpawnAlly.name);
     }
     #endregion
 }

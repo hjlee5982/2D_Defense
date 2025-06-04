@@ -15,7 +15,8 @@ public class UI_GameStatus : MonoBehaviour
     private TextMeshProUGUI _goldCounter;
 
     [Header("라운드 카운터")]
-    private TextMeshProUGUI _roundCounter;
+    private TextMeshProUGUI ID_Round_GameStatus;
+    private string _temp;
     #endregion
 
 
@@ -32,10 +33,10 @@ public class UI_GameStatus : MonoBehaviour
     #region MONOBEHAVIOUR
     void Awake()
     {
-        _lifeCounter    = transform.Find("Life")   .GetChild(1).GetComponent<TextMeshProUGUI>();
-        _monsterCounter = transform.Find("Monster").GetChild(1).GetComponent<TextMeshProUGUI>();
-        _goldCounter    = transform.Find("Gold")   .GetChild(1).GetComponent<TextMeshProUGUI>();
-        _roundCounter   = transform.Find("Round").GetComponent<TextMeshProUGUI>();
+        _lifeCounter        = transform.Find("Life")   .GetChild(1).GetComponent<TextMeshProUGUI>();
+        _monsterCounter     = transform.Find("Monster").GetChild(1).GetComponent<TextMeshProUGUI>();
+        _goldCounter        = transform.Find("Gold")   .GetChild(1).GetComponent<TextMeshProUGUI>();
+        ID_Round_GameStatus = transform.Find("ID_Round_GameStatus").GetComponent<TextMeshProUGUI>();
     }
 
     void Start()
@@ -49,11 +50,15 @@ public class UI_GameStatus : MonoBehaviour
     private void OnEnable()
     {
         JEventBus.Subscribe<GameStatusChangeEvent>(UpdateGameStatusUI);
+        JEventBus.Subscribe<LanguageChangeEvent>(LanguageChange);
+
+        LanguageChange(null);
     }
 
     private void OnDisable()
     {
         JEventBus.Unsubscribe<GameStatusChangeEvent>(UpdateGameStatusUI);
+JEventBus.Unsubscribe<LanguageChangeEvent>(LanguageChange);
     }
     #endregion
 
@@ -79,10 +84,18 @@ public class UI_GameStatus : MonoBehaviour
                 break;
 
             case GameStatusType.Round:
-                string str = "현재 라운드 : " + (e.Value + 1).ToString() + " / " + e.MaxRound.ToString();
-                _roundCounter.text = str;
+                // TODO : ID_RoundCount
+                ID_Round_GameStatus.text = _temp + " : " + (e.Value + 1).ToString() + " / " + e.MaxRound.ToString(); ;
                 break;
         }
+    }
+
+
+    private void LanguageChange(LanguageChangeEvent e)
+    {
+        ID_Round_GameStatus.text = JSettingManager.Instance.GetText(ID_Round_GameStatus.name);
+
+        _temp = ID_Round_GameStatus.text;
     }
     #endregion
 }
