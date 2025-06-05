@@ -7,8 +7,14 @@ using UnityEngine.UI;
 public class JTitleManager : MonoBehaviour
 {
     #region VARIABLES
-    [Header("타이틀 스프라이트")]
+    [Header("타이틀 이미지")]
     private Image _titleImage;
+
+    [Header("타이틀 스프라이트")]
+    public Sprite TitleSpriteKR;
+    public Sprite TitleSpriteEN;
+    public Sprite TitleSpriteJP;
+    public Sprite TitleSpriteCN;
 
     [Header("버튼 텍스트")]
     private TextMeshProUGUI ID_Start_Button_Scene;
@@ -83,20 +89,27 @@ public class JTitleManager : MonoBehaviour
         Application.Quit();
     }
 
-    private void SetLanguage()
-    {
-        // TODO : ID_Start, ID_Setting, ID_Exit
-        //_startButtonText.text;
-        //_settingButtonText.text;
-        //_exitButtonText.text;
-    }
-
-
     private void LanguageChange(LanguageChangeEvent e)
     {
+        switch(JSettingManager.Instance.CurrentLanguage)
+        {
+            case "KR":
+                _titleImage.sprite = TitleSpriteKR;
+                break;
+            case "EN":
+                _titleImage.sprite = TitleSpriteEN;
+                break;
+            case "JP":
+                _titleImage.sprite = TitleSpriteJP;
+                break;
+            case "CN":
+                _titleImage.sprite = TitleSpriteCN;
+                break;
+        }
+
         ID_Start_Button_Scene.text = JSettingManager.Instance.GetText(ID_Start_Button_Scene.name);
-        ID_Setting_Button.text    = JSettingManager.Instance.GetText(ID_Setting_Button.name);
-        ID_Exit_Button.text       = JSettingManager.Instance.GetText(ID_Exit_Button.name);
+        ID_Setting_Button.text     = JSettingManager.Instance.GetText(ID_Setting_Button.name);
+        ID_Exit_Button.text        = JSettingManager.Instance.GetText(ID_Exit_Button.name);
     }
     #endregion
 }

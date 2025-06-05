@@ -48,6 +48,10 @@ public class JSettingManager : MonoBehaviour
     private TextMeshProUGUI ID_Save_Setting;
     private TextMeshProUGUI ID_Mute_Setting_1;
     private TextMeshProUGUI ID_Mute_Setting_2;
+
+    [Header("토글용 변수")]
+    private float _prevBGMValue = 0f;
+    private float _prevSFXValue = 0f;
     #endregion
 
 
@@ -71,6 +75,10 @@ public class JSettingManager : MonoBehaviour
             _languageDropdown = child.Find("Language_Dropdown").GetComponent<TMP_Dropdown>();
             
             _saveButton       = child.Find("SaveButton"       ).GetComponent<Button>();
+        }
+        {
+            _bgmSlider.value = 0.5f;
+            _sfxSlider.value = 0.5f;
         }
         {
             _bgmSlider.onValueChanged.AddListener(SetBGMVolume);
@@ -146,33 +154,46 @@ public class JSettingManager : MonoBehaviour
 
     private void SetBGMVolume(float value)
     {
-        Debug.Log("BGM 슬라이더 값 : " + value);
+        JAudioManager.Instance.SetBGMVolume(value);
     }
 
     private void SetSFXVolume(float value)
     {
-        Debug.Log("SFX 슬라이더 값 : " + value);
+        JAudioManager.Instance.SetSFXVolume(value);
     }
 
     private void ToggleBGM(bool value)
     {
         JAudioManager.Instance.PlaySFX("ButtonClick");
 
-        Debug.Log("BGM 토글 값 : " + value);
+        // 체크가 된 상태 = true
+        if (value == true)
+        {
+            JAudioManager.Instance.ToggleBGM(true);
+        }
+        else
+        {
+            JAudioManager.Instance.ToggleBGM(false);
+        }
     }
 
     private void ToggleSFX(bool value)
     {
         JAudioManager.Instance.PlaySFX("ButtonClick");
 
-        Debug.Log("SFX 토글 값 : " + value);
-
+        // 체크가 된 상태 = true
+        if (value == true)
+        {
+            JAudioManager.Instance.ToggleSFX(true);
+        }
+        else
+        {
+            JAudioManager.Instance.ToggleSFX(false);
+        }
     }
 
     private void LanguageSelect(int index)
     {
-        Debug.Log("선택한 인덱스 : " + index);
-
         LanguageChange(index);
     }
 
@@ -205,8 +226,8 @@ public class JSettingManager : MonoBehaviour
         ID_SFX_Setting      .text = _localizer[ID_SFX_Setting     .name][CurrentLanguage];
         ID_Language_Setting .text = _localizer[ID_Language_Setting.name][CurrentLanguage];
         ID_Save_Setting     .text = _localizer[ID_Save_Setting    .name][CurrentLanguage];
-        ID_Mute_Setting_1   .text = _localizer[ID_Save_Setting    .name][CurrentLanguage];
-        ID_Mute_Setting_2   .text = _localizer[ID_Save_Setting    .name][CurrentLanguage];
+        ID_Mute_Setting_1   .text = _localizer["ID_Mute_Setting"][CurrentLanguage];
+        ID_Mute_Setting_2   .text = _localizer["ID_Mute_Setting"][CurrentLanguage];
 
         JEventBus.SendEvent(new LanguageChangeEvent());
     }
