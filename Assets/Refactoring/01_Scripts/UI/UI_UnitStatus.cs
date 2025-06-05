@@ -146,7 +146,7 @@ public class UI_UnitStatus : MonoBehaviour
         // Profile
         {
             _unitThumbnail.sprite = allyUnit.transform.Find("Thumbnail").GetComponent<SpriteRenderer>().sprite;
-            _unitName.text        = allyUnitData.UnitID + " " + allyUnitData.Grade.ToString("+0");
+            _unitName.text        = allyUnitData.GetName(JSettingManager.Instance.CurrentLanguage) + allyUnitData.Grade.ToString(" + 0");
         }
         // Status
         {

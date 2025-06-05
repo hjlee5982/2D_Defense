@@ -1,24 +1,27 @@
 using System.Collections.Generic;
 using System.Linq;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
+
+using static SettingValueChangeEvent;
 
 public class JSettingManager : MonoBehaviour
 {
     #region SINGLETON
     public static JSettingManager Instance { get; private set; }
 
-    private void SingletonInitialize()
+    private bool SingletonInitialize()
     {
-        if(Instance != null && Instance != this)
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+            return true;
+        }
+        else
         {
             Destroy(gameObject);
-            return;
+            return false;
         }
-
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
     }
     #endregion
 
@@ -30,29 +33,13 @@ public class JSettingManager : MonoBehaviour
     [Header("로컬라이저")]
     private Dictionary<string, Dictionary<string, string>> _localizer = new Dictionary<string, Dictionary<string, string>>();
 
-    [Header("언어설정")]
+    [Header("초기 언어설정")]
     public string CurrentLanguage = "KR";
 
-    [Header("옵션 UI들")]
-    private Slider   _bgmSlider;
-    private Slider   _sfxSlider;
-    private Toggle   _bgmToggle;
-    private Toggle   _sfxToggle;
-    private TMP_Dropdown _languageDropdown;
-    private Button   _saveButton;
-
-    [Header("UI 텍스트")]
-    private TextMeshProUGUI ID_BGM_Setting;
-    private TextMeshProUGUI ID_SFX_Setting;
-    private TextMeshProUGUI ID_Language_Setting;
-    private TextMeshProUGUI ID_Save_Setting;
-    private TextMeshProUGUI ID_Mute_Setting_1;
-    private TextMeshProUGUI ID_Mute_Setting_2;
-
-    [Header("토글용 변수")]
-    private float _prevBGMValue = 0f;
-    private float _prevSFXValue = 0f;
+    [Header("설정 UI 초기값")]
+    public SettingValue SettingValue = new SettingValue();
     #endregion
+
 
 
 
@@ -60,63 +47,30 @@ public class JSettingManager : MonoBehaviour
     #region MONOBEHAVIOUR
     private void Awake()
     {
-        SingletonInitialize();
+        if(!SingletonInitialize())
+        {
+            return; ;
+        }
 
         LocalizeDataProcess();
 
-        Transform child = transform.GetChild(0);
         {
-            _bgmSlider        = child.Find("BGM_Slider"       ).GetComponent<Slider>();
-            _bgmToggle        = child.Find("BGM_MuteToggle"   ).GetComponent<Toggle>();
-
-            _sfxSlider        = child.Find("SFX_Slider"       ).GetComponent<Slider>();
-            _sfxToggle        = child.Find("SFX_MuteToggle"   ).GetComponent<Toggle>();
-
-            _languageDropdown = child.Find("Language_Dropdown").GetComponent<TMP_Dropdown>();
-            
-            _saveButton       = child.Find("SaveButton"       ).GetComponent<Button>();
+            SettingValue.BGM_Slider_Value = 0.5f;
+            SettingValue.BGM_Toggle_Value = false;
+            SettingValue.SFX_Slider_Value = 0.5f;
+            SettingValue.SFX_Toggle_Value = false;
+            SettingValue.LanguageIndex    = 0;
         }
-        {
-            _bgmSlider.value = 0.5f;
-            _sfxSlider.value = 0.5f;
-        }
-        {
-            _bgmSlider.onValueChanged.AddListener(SetBGMVolume);
-            _bgmToggle.onValueChanged.AddListener(ToggleBGM);
-            
-            _sfxSlider.onValueChanged.AddListener(SetSFXVolume);
-            _sfxToggle.onValueChanged.AddListener(ToggleSFX);
-
-            _languageDropdown.onValueChanged.AddListener(LanguageSelect);
-
-            _saveButton.onClick.AddListener(ClickSaveButton);
-        }
-        {
-            ID_BGM_Setting      = child.Find("ID_BGM_Setting"     ).GetComponent<TextMeshProUGUI>();
-            ID_SFX_Setting      = child.Find("ID_SFX_Setting"     ).GetComponent<TextMeshProUGUI>();
-            ID_Language_Setting = child.Find("ID_Language_Setting").GetComponent<TextMeshProUGUI>();
-            ID_Save_Setting     = child.Find("SaveButton").Find("ID_Save_Setting").GetComponent<TextMeshProUGUI>();
-            ID_Mute_Setting_1   = _bgmToggle.transform.Find("ID_Mute_Setting").GetComponent<TextMeshProUGUI>();
-            ID_Mute_Setting_2   = _sfxToggle.transform.Find("ID_Mute_Setting").GetComponent<TextMeshProUGUI>();
-        }
-
-
-        gameObject.SetActive(false);
-    }
-
-    private void Start()
-    {
-        JEventBus.SendEvent(new LanguageChangeEvent());
     }
 
     private void OnEnable()
     {
-        Canvas canvas = FindFirstObjectByType<Canvas>();
+        JEventBus.Subscribe<SettingValueChangeEvent>(GetSettingValue);
+    }
 
-        if (canvas != null)
-        {
-            transform.SetParent(canvas.transform, false);
-        }
+    private void OnDisable()
+    {
+        JEventBus.Unsubscribe<SettingValueChangeEvent>(GetSettingValue);
     }
     #endregion
 
@@ -139,7 +93,7 @@ public class JSettingManager : MonoBehaviour
 
             foreach (var field in fields)
             {
-                if(field.Name == "ID")
+                if (field.Name == "ID")
                 {
                     continue;
                 }
@@ -152,61 +106,16 @@ public class JSettingManager : MonoBehaviour
         });
     }
 
-    private void SetBGMVolume(float value)
+    private void GetSettingValue(SettingValueChangeEvent e)
     {
-        JAudioManager.Instance.SetBGMVolume(value);
-    }
+        SettingValue = e.Values;
 
-    private void SetSFXVolume(float value)
-    {
-        JAudioManager.Instance.SetSFXVolume(value);
-    }
+        JAudioManager.Instance.SetBGMVolume(e.Values.BGM_Slider_Value);
+        JAudioManager.Instance.SetSFXVolume(e.Values.SFX_Slider_Value);
+        JAudioManager.Instance.ToggleBGM   (e.Values.BGM_Toggle_Value);
+        JAudioManager.Instance.ToggleSFX   (e.Values.SFX_Toggle_Value);
 
-    private void ToggleBGM(bool value)
-    {
-        JAudioManager.Instance.PlaySFX("ButtonClick");
-
-        // 체크가 된 상태 = true
-        if (value == true)
-        {
-            JAudioManager.Instance.ToggleBGM(true);
-        }
-        else
-        {
-            JAudioManager.Instance.ToggleBGM(false);
-        }
-    }
-
-    private void ToggleSFX(bool value)
-    {
-        JAudioManager.Instance.PlaySFX("ButtonClick");
-
-        // 체크가 된 상태 = true
-        if (value == true)
-        {
-            JAudioManager.Instance.ToggleSFX(true);
-        }
-        else
-        {
-            JAudioManager.Instance.ToggleSFX(false);
-        }
-    }
-
-    private void LanguageSelect(int index)
-    {
-        LanguageChange(index);
-    }
-
-    private void ClickSaveButton()
-    {
-        JAudioManager.Instance.PlaySFX("ButtonClick");
-
-        gameObject.SetActive(false);
-    }
-
-    private void LanguageChange(int index)
-    {
-        switch (index)
+        switch (e.Values.LanguageIndex)
         {
             case 0:
                 CurrentLanguage = "KR";
@@ -221,13 +130,6 @@ public class JSettingManager : MonoBehaviour
                 CurrentLanguage = "CN";
                 break;
         }
-
-        ID_BGM_Setting      .text = _localizer[ID_BGM_Setting     .name][CurrentLanguage];
-        ID_SFX_Setting      .text = _localizer[ID_SFX_Setting     .name][CurrentLanguage];
-        ID_Language_Setting .text = _localizer[ID_Language_Setting.name][CurrentLanguage];
-        ID_Save_Setting     .text = _localizer[ID_Save_Setting    .name][CurrentLanguage];
-        ID_Mute_Setting_1   .text = _localizer["ID_Mute_Setting"][CurrentLanguage];
-        ID_Mute_Setting_2   .text = _localizer["ID_Mute_Setting"][CurrentLanguage];
 
         JEventBus.SendEvent(new LanguageChangeEvent());
     }

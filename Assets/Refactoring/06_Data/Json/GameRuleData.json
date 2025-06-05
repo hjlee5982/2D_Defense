@@ -2,7 +2,7 @@
   "Items": [
     {
       "Index": "0",
-      "LifeLimit": "30",
+      "LifeLimit": "1",
       "InitialGold": "15",
       "": ""
     }

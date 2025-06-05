@@ -182,3 +182,31 @@ public class GameEndEvent
 
 // JSettingManager -> 텍스트들
 public class LanguageChangeEvent { }
+
+
+
+
+// UI_SettingPanel -> JSettingManager
+public class SettingValueChangeEvent 
+{
+    public struct SettingValue
+    {
+        public float BGM_Slider_Value;
+        public float SFX_Slider_Value;
+        public bool  BGM_Toggle_Value;
+        public bool  SFX_Toggle_Value;
+        public int   LanguageIndex;
+    }
+
+    public SettingValue Values;
+
+    public SettingValueChangeEvent(SettingValue values)
+    {
+        Values = values;
+    }
+}
+
+
+
+// JTitleManager -> UI_SettingPanel
+public class OpenSettingPanelEvent { }

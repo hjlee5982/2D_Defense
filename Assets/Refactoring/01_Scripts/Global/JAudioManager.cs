@@ -1,21 +1,25 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class JAudioManager : MonoBehaviour
 {
     #region SINGLETON
     public static JAudioManager Instance { get; private set; }
 
-    private void SingletonInitialize()
+    private bool SingletonInitialize()
     {
-        if (Instance != null && Instance != this)
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+            return true;
+        }
+        else
         {
             Destroy(gameObject);
-            return;
+            return false;
         }
-
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
     }
     #endregion
 
@@ -34,13 +38,11 @@ public class JAudioManager : MonoBehaviour
     public  AudioSource                   SFX_Player;
     public  List<AudioClip>               SFXs;
     private Dictionary<string, AudioClip> SFXsDict = new Dictionary<string, AudioClip>();
+    public  AudioMixer                    SFX_Mixer;
 
     [Header("기본 음량")]
     private float _bgmVolume = 0.1f;
     private float _sfxVolume = 0.5f;
-
-    [Header("SFX 플래그")]
-    private bool _sfxState = true;
     #endregion
 
 
@@ -49,8 +51,11 @@ public class JAudioManager : MonoBehaviour
     #region MONOBEHAVIOUR
     private void Awake()
     {
-        SingletonInitialize();
-        
+        if(!SingletonInitialize())
+        {
+            return;
+        }
+
         // BGM Source 초기화
         {
             BGM_Player.clip   = BGM;
@@ -112,17 +117,17 @@ public class JAudioManager : MonoBehaviour
     {
         if (value == true)
         {
-            _sfxState = false;
+            SFX_Mixer.SetFloat("SFX", -80f);
         }
         else
         {
-            _sfxState = true;
+            SFX_Mixer.SetFloat("SFX", 0f);
         }
     }
 
     public void PlaySFX(string name)
     {
-        if(SFXsDict.TryGetValue(name, out AudioClip clip) == true && _sfxState == true)
+        if(SFXsDict.TryGetValue(name, out AudioClip clip) == true)
         {
             SFX_Player.PlayOneShot(clip);
         }

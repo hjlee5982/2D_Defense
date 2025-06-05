@@ -17,7 +17,7 @@ public class JTitleManager : MonoBehaviour
     public Sprite TitleSpriteCN;
 
     [Header("버튼 텍스트")]
-    private TextMeshProUGUI ID_Start_Button_Scene;
+    private TextMeshProUGUI ID_Start_Button_Title;
     private TextMeshProUGUI ID_Setting_Button;
     private TextMeshProUGUI ID_Exit_Button;
     #endregion
@@ -32,18 +32,22 @@ public class JTitleManager : MonoBehaviour
         Button btn;
 
         btn = transform.Find("StartButton").GetComponent<Button>();
-        btn.onClick.AddListener(() => { StartButtonEvent(); JAudioManager.Instance.PlaySFX("ButtonClick"); });
-        ID_Start_Button_Scene = btn.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+        btn.onClick.AddListener(StartButtonEvent);
+        ID_Start_Button_Title = btn.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
 
         btn = transform.Find("SettingButton").GetComponent<Button>();
-        btn.onClick.AddListener(() => { SettingButtonEvent(); JAudioManager.Instance.PlaySFX("ButtonClick"); });
+        btn.onClick.AddListener(SettingButtonEvent);
         ID_Setting_Button = btn.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
 
         btn = transform.Find("ExitButton").GetComponent<Button>();
-        btn.onClick.AddListener(() => { ExitButtonEvent(); JAudioManager.Instance.PlaySFX("ButtonClick"); });
+        btn.onClick.AddListener(ExitButtonEvent);
         ID_Exit_Button = btn.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
 
         _titleImage = transform.Find("TitleImage").GetComponent<Image>();
+    }
+
+    private void Update()
+    {
     }
 
     private void OnEnable()
@@ -66,25 +70,24 @@ public class JTitleManager : MonoBehaviour
     #region FUNCTION
     private void StartButtonEvent()
     {
-        Debug.Log("시작버튼 클릭");
+        EventSystem.current.SetSelectedGameObject(null);
+        JAudioManager.Instance.PlaySFX("ButtonClick");
 
         SceneManager.LoadSceneAsync("NewGameScene");
-
-        EventSystem.current.SetSelectedGameObject(null);
     }
 
     private void SettingButtonEvent()
     {
-        JSettingManager.Instance.gameObject.SetActive(true);
-
         EventSystem.current.SetSelectedGameObject(null);
+        JAudioManager.Instance.PlaySFX("ButtonClick");
+
+        JEventBus.SendEvent(new OpenSettingPanelEvent());
     }
 
     private void ExitButtonEvent()
     {
-        Debug.Log("종료버튼 클릭");
-
         EventSystem.current.SetSelectedGameObject(null);
+        JAudioManager.Instance.PlaySFX("ButtonClick");
 
         Application.Quit();
     }
@@ -107,7 +110,7 @@ public class JTitleManager : MonoBehaviour
                 break;
         }
 
-        ID_Start_Button_Scene.text = JSettingManager.Instance.GetText(ID_Start_Button_Scene.name);
+        ID_Start_Button_Title.text = JSettingManager.Instance.GetText(ID_Start_Button_Title.name);
         ID_Setting_Button.text     = JSettingManager.Instance.GetText(ID_Setting_Button.name);
         ID_Exit_Button.text        = JSettingManager.Instance.GetText(ID_Exit_Button.name);
     }

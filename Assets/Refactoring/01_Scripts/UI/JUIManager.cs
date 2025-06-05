@@ -120,6 +120,7 @@ public class JUIManager : MonoBehaviour
     public void StartButtonClick()
     {
         JEventBus.SendEvent(new StartRoundEvent());
+        JAudioManager.Instance.PlaySFX("ButtonClick");
 
         _startButton.gameObject.SetActive(false);
         _spawnAllyUI.gameObject.SetActive(false);

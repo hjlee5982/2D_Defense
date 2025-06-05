@@ -137,7 +137,6 @@ public class JGameManager : MonoBehaviour
         DataProcess();
 
         RandomAssistant = new RandomAssistant();
-
     }
 
     void Start()
@@ -419,8 +418,6 @@ public class JGameManager : MonoBehaviour
 
     private void GameEndProcess()
     {
-        Debug.Log("∞‘¿” ≥°");
-
         JEventBus.SendEvent(new GameEndEvent(_currentStage + 1, Life, Gold));
 
         Time.timeScale = 0f;

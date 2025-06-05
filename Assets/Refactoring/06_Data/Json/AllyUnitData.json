@@ -8,15 +8,10 @@
       "NameEN": "Kitty",
       "NameJP": "ニャオ",
       "NameCN": "喵喵",
-      "Grade": "0",
       "AtkPower": "3",
       "AtkRange": "3",
       "AtkSpeed": "3",
       "UpgradeCount": "7",
-      "dAtkPower": "0",
-      "dAtkRange": "0",
-      "dAtkSpeed": "0",
-      "dUpgradeCount": "0",
       "Cost": "2"
     },
     {
@@ -27,15 +22,10 @@
       "NameEN": "Cat",
       "NameJP": "ネコ",
       "NameCN": "猫",
-      "Grade": "0",
       "AtkPower": "15",
       "AtkRange": "3",
       "AtkSpeed": "5",
       "UpgradeCount": "7",
-      "dAtkPower": "0",
-      "dAtkRange": "0",
-      "dAtkSpeed": "0",
-      "dUpgradeCount": "0",
       "Cost": "15"
     },
     {
@@ -46,15 +36,10 @@
       "NameEN": "Tiger",
       "NameJP": "トラ",
       "NameCN": "老虎",
-      "Grade": "0",
       "AtkPower": "24",
       "AtkRange": "3",
       "AtkSpeed": "7",
       "UpgradeCount": "7",
-      "dAtkPower": "0",
-      "dAtkRange": "0",
-      "dAtkSpeed": "0",
-      "dUpgradeCount": "0",
       "Cost": "40"
     }
   ]

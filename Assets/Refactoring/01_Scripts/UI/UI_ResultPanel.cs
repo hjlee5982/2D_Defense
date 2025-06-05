@@ -39,7 +39,11 @@ public class UI_ResultPanel : MonoBehaviour
         _lifeCount  = child.Find("LifeCount") .GetComponent<TextMeshProUGUI>();
         _goldCount  = child.Find("GoldCount") .GetComponent<TextMeshProUGUI>();
 
-        LanguageChange(null);
+        ID_Result_ResultPanel = child.Find("ID_Result_ResultPanel").GetComponent<TextMeshProUGUI>();
+        ID_Round_ResultPanel  = child.Find("ID_Round_ResultPanel" ).GetComponent<TextMeshProUGUI>();
+        ID_Life_ResultPanel   = child.Find("ID_Life_ResultPanel"  ).GetComponent<TextMeshProUGUI>();
+        ID_Gold_ResultPanel   = child.Find("ID_Gold_ResultPanel"  ).GetComponent<TextMeshProUGUI>();
+        ID_Return_ResultPanel = child.Find("ReturnButton").Find("ID_Return_ResultPanel").GetComponent<TextMeshProUGUI>();
     }
 
     private void OnEnable()
