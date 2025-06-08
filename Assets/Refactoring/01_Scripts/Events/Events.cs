@@ -187,15 +187,20 @@ public class LanguageChangeEvent { }
 
 
 // UI_SettingPanel -> JSettingManager
-public class SettingValueChangeEvent 
+public class SettingValueChangeEvent
 {
+    public enum SettingOption
+    {
+        BGM_Slider, BGM_Toggle, SFX_Slider, SFX_Toggle, Language_Dropdown
+    }
     public struct SettingValue
     {
-        public float BGM_Slider_Value;
-        public float SFX_Slider_Value;
-        public bool  BGM_Toggle_Value;
-        public bool  SFX_Toggle_Value;
-        public int   LanguageIndex;
+        public float         BGM_Slider_Value;
+        public float         SFX_Slider_Value;
+        public bool          BGM_Toggle_Value;
+        public bool          SFX_Toggle_Value;
+        public int           LanguageIndex;
+        public SettingOption Option;
     }
 
     public SettingValue Values;

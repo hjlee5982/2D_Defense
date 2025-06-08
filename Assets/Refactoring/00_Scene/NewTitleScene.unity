@@ -1566,6 +1566,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f96673b292bcc6498be2d990ff55662, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AudioMixer: {fileID: 24100000, guid: c37f422c2f6591743985f36a97bc6199, type: 2}
   BGM_Player: {fileID: 7757784046372396820}
   BGM: {fileID: 8300000, guid: ec7f526bb033660428f8d5f83dc4f42d, type: 3}
   SFX_Player: {fileID: 4688032532488839348}
@@ -1578,7 +1579,6 @@ MonoBehaviour:
   - {fileID: 8300000, guid: b2cfac234830ce94c9437a3e0eb8abb3, type: 3}
   - {fileID: 8300000, guid: f743e4d9835902847bd2f2cb94f9fa6f, type: 3}
   - {fileID: 8300000, guid: f51df49b87bb86b46885e64d7477b58e, type: 3}
-  SFX_Mixer: {fileID: 24100000, guid: c37f422c2f6591743985f36a97bc6199, type: 2}
 --- !u!1 &2675891735979164568
 GameObject:
   m_ObjectHideFlags: 0

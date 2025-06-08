@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.Rendering;
 
 public class JAudioManager : MonoBehaviour
 {
@@ -28,6 +29,9 @@ public class JAudioManager : MonoBehaviour
 
 
     #region VARIABLES
+    [Header("오디오 믹서")]
+    public AudioMixer AudioMixer;
+
     [Space(10)]
     [Header("BGM")]
     public AudioSource BGM_Player;
@@ -38,11 +42,14 @@ public class JAudioManager : MonoBehaviour
     public  AudioSource                   SFX_Player;
     public  List<AudioClip>               SFXs;
     private Dictionary<string, AudioClip> SFXsDict = new Dictionary<string, AudioClip>();
-    public  AudioMixer                    SFX_Mixer;
 
-    [Header("기본 음량")]
-    private float _bgmVolume = 0.1f;
-    private float _sfxVolume = 0.5f;
+    [Header("초기 음량")]
+    private float _bgmVolume = 0.3f;
+    private float _sfxVolume = 0.8f;
+
+    [Header("음량")]
+    private float _currentBGMVolume;
+    private float _currentSFXVolume;
     #endregion
 
 
@@ -91,7 +98,11 @@ public class JAudioManager : MonoBehaviour
     #region FUNCTIONS
     public void SetBGMVolume(float volume)
     {
-        BGM_Player.volume = (volume - 0.5f) * 0.2f + 0.1f;
+        float dB = Mathf.Log10(Mathf.Clamp(volume, 0.0001f, 1f)) * 20f;
+        AudioMixer.SetFloat("BGM", dB);
+
+        // 여기서 줄여도
+        // 아래에서 체크하고 해제하고 하면 0으로 돌아오고 -80되고 난리나는거잖아
     }
 
     // true == 체크가 된 상태
@@ -99,17 +110,22 @@ public class JAudioManager : MonoBehaviour
     {
         if (value == true)
         {
-            BGM_Player.Pause();
+            if(AudioMixer.GetFloat("BGM", out float bgmVolume) == true)
+            {
+                _currentBGMVolume = bgmVolume;
+            }
+            AudioMixer.SetFloat("BGM", -80f);
         }
         else
         {
-            BGM_Player.UnPause();
+            AudioMixer.SetFloat("BGM", _currentBGMVolume);
         }
     }
 
     public void SetSFXVolume(float volume)
     {
-        SFX_Player.volume = volume;
+        float dB = Mathf.Log10(Mathf.Clamp(volume, 0.0001f, 1f)) * 20f;
+        AudioMixer.SetFloat("SFX", dB);
     }
 
     // true == 체크가 된 상태
@@ -117,11 +133,15 @@ public class JAudioManager : MonoBehaviour
     {
         if (value == true)
         {
-            SFX_Mixer.SetFloat("SFX", -80f);
+            if (AudioMixer.GetFloat("SFX", out float sfxVolume) == true)
+            {
+                _currentSFXVolume = sfxVolume;
+            }
+            AudioMixer.SetFloat("SFX", -80f);
         }
         else
         {
-            SFX_Mixer.SetFloat("SFX", 0f);
+            AudioMixer.SetFloat("SFX", _currentSFXVolume);
         }
     }
 

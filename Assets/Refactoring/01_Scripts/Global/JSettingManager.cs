@@ -110,27 +110,42 @@ public class JSettingManager : MonoBehaviour
     {
         SettingValue = e.Values;
 
-        JAudioManager.Instance.SetBGMVolume(e.Values.BGM_Slider_Value);
-        JAudioManager.Instance.SetSFXVolume(e.Values.SFX_Slider_Value);
-        JAudioManager.Instance.ToggleBGM   (e.Values.BGM_Toggle_Value);
-        JAudioManager.Instance.ToggleSFX   (e.Values.SFX_Toggle_Value);
-
-        switch (e.Values.LanguageIndex)
+        switch(SettingValue.Option)
         {
-            case 0:
-                CurrentLanguage = "KR";
+            case SettingOption.BGM_Slider:
+                JAudioManager.Instance.SetBGMVolume(e.Values.BGM_Slider_Value);
                 break;
-            case 1:
-                CurrentLanguage = "EN";
+
+            case SettingOption.SFX_Slider:
+                JAudioManager.Instance.SetSFXVolume(e.Values.SFX_Slider_Value);
                 break;
-            case 2:
-                CurrentLanguage = "JP";
+
+            case SettingOption.BGM_Toggle:
+                JAudioManager.Instance.ToggleBGM   (e.Values.BGM_Toggle_Value);
                 break;
-            case 3:
-                CurrentLanguage = "CN";
+
+            case SettingOption.SFX_Toggle:
+                JAudioManager.Instance.ToggleSFX   (e.Values.SFX_Toggle_Value);
+                break;
+
+            case SettingOption.Language_Dropdown:
+                switch (e.Values.LanguageIndex)
+                {
+                    case 0:
+                        CurrentLanguage = "KR";
+                        break;
+                    case 1:
+                        CurrentLanguage = "EN";
+                        break;
+                    case 2:
+                        CurrentLanguage = "JP";
+                        break;
+                    case 3:
+                        CurrentLanguage = "CN";
+                        break;
+                }
                 break;
         }
-
         JEventBus.SendEvent(new LanguageChangeEvent());
     }
     #endregion

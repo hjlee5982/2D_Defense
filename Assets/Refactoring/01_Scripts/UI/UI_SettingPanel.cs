@@ -117,37 +117,35 @@ public class UI_SettingPanel : MonoBehaviour
 
     private void SetBGMVolume(float value)
     {
-        Debug.Log("bgm슬라이더");
-        SentValueChangeEvent();
+        _bgmToggle.isOn = false;
+        SentValueChangeEvent(SettingOption.BGM_Slider);
     }
 
     private void SetSFXVolume(float value)
     {
-        Debug.Log("sfx슬라이더");
-        SentValueChangeEvent();
+        _sfxToggle.isOn = false;
+        SentValueChangeEvent(SettingOption.SFX_Slider);
     }
 
     private void ToggleBGM(bool value)
     {
-        Debug.Log("sfx슬라이더");
         JAudioManager.Instance.PlaySFX("ButtonClick");
-        SentValueChangeEvent();
+        SentValueChangeEvent(SettingOption.BGM_Toggle);
     }
 
     private void ToggleSFX(bool value)
     {
-        Debug.Log("sfx토글");
         JAudioManager.Instance.PlaySFX("ButtonClick");
-        SentValueChangeEvent();
+        SentValueChangeEvent(SettingOption.SFX_Toggle);
     }
 
     private void LanguageSelect(int index)
     {
-        Debug.Log("드롭다운");
-        SentValueChangeEvent();
+        JAudioManager.Instance.PlaySFX("ButtonClick");
+        SentValueChangeEvent(SettingOption.Language_Dropdown);
     }
 
-    private void SentValueChangeEvent()
+    private void SentValueChangeEvent(SettingOption option)
     {
         SettingValue Values = new SettingValue();
         {
@@ -156,6 +154,7 @@ public class UI_SettingPanel : MonoBehaviour
             Values.SFX_Slider_Value = _sfxSlider.value;
             Values.SFX_Toggle_Value = _sfxToggle.isOn;
             Values.LanguageIndex    = _languageDropdown.value;
+            Values.Option           = option;
         }
         JEventBus.SendEvent(new SettingValueChangeEvent(Values));
     }
