@@ -41,6 +41,7 @@ public class AllyUnitData
     public int dAtkRange;
     public int dAtkSpeed;
     public int dUpgradeCount;
+    public int PaybackGold;
 
     public AllyUnitData Clone()
     {

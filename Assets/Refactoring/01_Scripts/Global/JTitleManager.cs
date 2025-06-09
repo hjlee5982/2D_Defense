@@ -29,6 +29,8 @@ public class JTitleManager : MonoBehaviour
     #region MONOBEHAVIOUR
     private void Awake()
     {
+        Time.timeScale = 1f;
+
         Button btn;
 
         btn = transform.Find("StartButton").GetComponent<Button>();

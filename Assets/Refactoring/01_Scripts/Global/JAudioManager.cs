@@ -73,6 +73,7 @@ public class JAudioManager : MonoBehaviour
             {
                 BGM_Player.Play();
             }
+
         }
         // SFX Source 초기화
         {
@@ -88,6 +89,15 @@ public class JAudioManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    private void Start()
+    {
+        // 클램프 첫번째 인자(0.5f)는 볼륨슬라이더 중간값임
+        // 오디오믹서는 에셋이라 여기서 초기화 해줘야 함
+        float dB = Mathf.Log10(Mathf.Clamp(0.5f, 0.0001f, 1f)) * 20f;
+        AudioMixer.SetFloat("BGM", dB);
+        AudioMixer.SetFloat("SFX", dB);
     }
     #endregion
 

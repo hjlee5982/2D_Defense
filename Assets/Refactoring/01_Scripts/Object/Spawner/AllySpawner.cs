@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -24,6 +25,9 @@ public class AllySpawner : MonoBehaviour
     [Header("소환 플래그 스프라이트")]
     public Sprite AvailablePoint;
     public Sprite InavailablePoint;
+
+    [Header("유닛 배치 상황")]
+    private Dictionary<Vector3Int, AllyUnit> _arrangementState = new Dictionary<Vector3Int, AllyUnit>();
     #endregion
 
 
@@ -75,11 +79,13 @@ public class AllySpawner : MonoBehaviour
     private void OnEnable()
     {
         JEventBus.Subscribe<BeginSpawnAllyEvent>(BeginSpawnAlly);
+        JEventBus.Subscribe<UnitRecallPhase2Event>(UnitRecall);
     }
 
     private void OnDisable()
     {
         JEventBus.Unsubscribe<BeginSpawnAllyEvent>(BeginSpawnAlly);
+        JEventBus.Unsubscribe<UnitRecallPhase2Event>(UnitRecall);
     }
     #endregion
 
@@ -105,10 +111,20 @@ public class AllySpawner : MonoBehaviour
         // 여기서 돈을 까야되네
         JEventBus.SendEvent(new SummonCompleteEvent(_allyUnitData.Cost));
         JAudioManager.Instance.PlaySFX("AllySummon");
+        
+        CreateTile(InavailablePoint, _tilePos);
 
-        TileChange(InavailablePoint);
+        if(_arrangementState.ContainsKey(_tilePos) == true)
+        {
+            _arrangementState[_tilePos] = allyUnit;
+        }
+        else
+        {
+            _arrangementState.Add(_tilePos, allyUnit);
+        }
 
-        foreach(GameObject preview in _spawnPreviews)
+
+        foreach (GameObject preview in _spawnPreviews)
         {
             preview.SetActive(false);
         }
@@ -166,19 +182,43 @@ public class AllySpawner : MonoBehaviour
         _spawnPreviews[_allyUnitData.Index].SetActive(false);
     }
 
-    private void TileChange(Sprite newSprite)
+    private void UnitRecall(UnitRecallPhase2Event e)
+    {
+        // 유닛이 지워졌을 때 호출됨
+        // 그 때 벨류값이 null인 부분이 지워진거임
+        // 그런데 지금 오브젝트를 지우고 동일 프레임에서 타일을 수정하려 함
+        // Destroy는 프레임의 마지막에서 작동함
+        // 그래서 다음 프레임에 타일을 정리해야 함
+
+        StartCoroutine(CreateTileNextFrame());
+    }
+
+    private IEnumerator CreateTileNextFrame()
+    {
+        yield return null;
+
+        foreach (var kvp in _arrangementState)
+        {
+            if (kvp.Value == null)
+            {
+                CreateTile(AvailablePoint, kvp.Key);
+            }
+        }
+    }
+
+    private void CreateTile(Sprite sprite, Vector3Int tilePos)
     {
         TileBase originalTileBase = SpawnEnablePoints.GetTile(_tilePos);
         Tile originalTile = originalTileBase as Tile;
 
         Tile newTile = ScriptableObject.CreateInstance<Tile>();
         {
-            newTile.sprite       = newSprite;
-            newTile.color        = originalTile.color;
+            newTile.sprite = sprite;
+            newTile.color = originalTile.color;
             newTile.colliderType = originalTile.colliderType;
         }
 
-        SpawnEnablePoints.SetTile(_tilePos, newTile);
+        SpawnEnablePoints.SetTile(tilePos, newTile);
     }
     #endregion
 }

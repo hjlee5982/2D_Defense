@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using static GameStatusChangeEvent;
 
 public class UI_GameStatus : MonoBehaviour
@@ -15,8 +16,13 @@ public class UI_GameStatus : MonoBehaviour
     private TextMeshProUGUI _goldCounter;
 
     [Header("라운드 카운터")]
-    private TextMeshProUGUI ID_Round_GameStatus;
+    private TextMeshProUGUI ID_Round_GameStatus; // 라운드 "텍스트"
+    private TextMeshProUGUI _counter; // 실제 라운드 "int"
     private string _temp;
+
+    [Header("배속 버튼 카운트")]
+    private TextMeshProUGUI _speedText;
+    private int _buttonClickCount = 0;
     #endregion
 
 
@@ -36,7 +42,19 @@ public class UI_GameStatus : MonoBehaviour
         _lifeCounter        = transform.Find("Life")   .GetChild(1).GetComponent<TextMeshProUGUI>();
         _monsterCounter     = transform.Find("Monster").GetChild(1).GetComponent<TextMeshProUGUI>();
         _goldCounter        = transform.Find("Gold")   .GetChild(1).GetComponent<TextMeshProUGUI>();
-        ID_Round_GameStatus = transform.Find("ID_Round_GameStatus").GetComponent<TextMeshProUGUI>();
+        ID_Round_GameStatus = transform.Find("Round").Find("ID_Round_GameStatus").GetComponent<TextMeshProUGUI>();
+        _counter            = transform.Find("Round").Find("Counter").GetComponent<TextMeshProUGUI>();
+        _speedText          = transform.Find("SpeedChange").Find("SpeedText").GetComponent<TextMeshProUGUI>();
+
+        transform.Find("SettingButton").GetComponent<Button>().onClick.AddListener(() => 
+        {
+            JAudioManager.Instance.PlaySFX("ButtonClick");
+            JEventBus.SendEvent(new OpenSettingPanelEvent());
+        });
+        transform.Find("SpeedChange").Find("SpeedChangeButton").GetComponent<Button>().onClick.AddListener(() =>
+        {
+            SpeedChangeButton();
+        });
     }
 
     void Start()
@@ -58,7 +76,7 @@ public class UI_GameStatus : MonoBehaviour
     private void OnDisable()
     {
         JEventBus.Unsubscribe<GameStatusChangeEvent>(UpdateGameStatusUI);
-JEventBus.Unsubscribe<LanguageChangeEvent>(LanguageChange);
+        JEventBus.Unsubscribe<LanguageChangeEvent>(LanguageChange);
     }
     #endregion
 
@@ -85,17 +103,33 @@ JEventBus.Unsubscribe<LanguageChangeEvent>(LanguageChange);
 
             case GameStatusType.Round:
                 // TODO : ID_RoundCount
-                ID_Round_GameStatus.text = _temp + " : " + (e.Value + 1).ToString() + " / " + e.MaxRound.ToString(); ;
+                _counter.text = (e.Value + 1).ToString() + " / " + e.MaxRound.ToString();
                 break;
         }
     }
 
+    private void SpeedChangeButton()
+    {
+        JAudioManager.Instance.PlaySFX("ButtonClick");
+
+        ++_buttonClickCount;
+
+        // 0 -> 1, 1 -> 1.5, 2 -> 2
+        if(_buttonClickCount > 2)
+        {
+            _buttonClickCount = 0;
+        }
+
+        float speed = 0.5f * _buttonClickCount + 1;
+
+        _speedText.text = "x" + speed.ToString("0.0");
+
+        JEventBus.SendEvent(new GameSpeedChangeEvent(speed + 0.2f));
+    }
 
     private void LanguageChange(LanguageChangeEvent e)
     {
         ID_Round_GameStatus.text = JSettingManager.Instance.GetText(ID_Round_GameStatus.name);
-
-        _temp = ID_Round_GameStatus.text;
     }
     #endregion
 }

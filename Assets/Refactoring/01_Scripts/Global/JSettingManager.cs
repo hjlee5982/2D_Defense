@@ -133,20 +133,23 @@ public class JSettingManager : MonoBehaviour
                 {
                     case 0:
                         CurrentLanguage = "KR";
+                        JEventBus.SendEvent(new LanguageChangeEvent());
                         break;
                     case 1:
                         CurrentLanguage = "EN";
+                        JEventBus.SendEvent(new LanguageChangeEvent());
                         break;
                     case 2:
                         CurrentLanguage = "JP";
+                        JEventBus.SendEvent(new LanguageChangeEvent());
                         break;
                     case 3:
                         CurrentLanguage = "CN";
+                        JEventBus.SendEvent(new LanguageChangeEvent());
                         break;
                 }
                 break;
         }
-        JEventBus.SendEvent(new LanguageChangeEvent());
     }
     #endregion
 }

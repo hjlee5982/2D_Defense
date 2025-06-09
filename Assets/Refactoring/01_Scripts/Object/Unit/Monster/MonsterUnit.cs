@@ -55,6 +55,9 @@ public class MonsterUnit : MonoBehaviour
 
     [Header("HP 게이지")]
     private Image _hpGauge;
+
+    [Header("피격 이펙트")]
+    public GameObject HitEffect;
     #endregion
 
 
@@ -234,6 +237,9 @@ public class MonsterUnit : MonoBehaviour
 
         // 피격 사운드
         JAudioManager.Instance.PlaySFX("Hit_2");
+
+        // 피격 이펙트
+        Instantiate(HitEffect, transform.position, Quaternion.identity);
 
         // 대미지 계산
         if(DamageProcess(damage) == true)

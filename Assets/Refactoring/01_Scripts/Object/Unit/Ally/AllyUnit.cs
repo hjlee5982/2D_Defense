@@ -40,7 +40,7 @@ public class AllyUnit : MonoBehaviour
     private Dictionary<StatType, Action<int>> _statApplier;
 
     [Header("공격 간격")]
-    private float _atkInterval;
+    private float _atkInterval = 0f;
 
     [Header("공격 범위 시각화")]
     private Transform _atkRangeView;
@@ -175,7 +175,9 @@ public class AllyUnit : MonoBehaviour
     {
         _allyUnitData = allyUnitData.Clone();
 
-        _atkInterval = allyUnitData.AtkSpeed;
+        // _atkInterval = allyUnitData.AtkSpeed;
+
+        _allyUnitData.PaybackGold += _allyUnitData.Cost / 2;
     }
 
     public void ToggleIndicator(bool flag)
@@ -204,6 +206,11 @@ public class AllyUnit : MonoBehaviour
 
         ModifyAttackRange();
         ToggleOutline();
+    }
+
+    public void SetPaybackGold(int gold)
+    {
+        _allyUnitData.PaybackGold += gold;
     }
 
     private void AttackProcess()
@@ -270,8 +277,12 @@ public class AllyUnit : MonoBehaviour
         //{
         //    outlineColor = new Color32(88, 233, 151, 255);
         //}
-
-        if (statDelta <= 7)
+        if(statDelta == 0)
+        {
+            _outline.material.SetFloat("_IsOutline", 0);
+            return;
+        }
+        else if (statDelta <= 7)
         {
             outlineColor = new Color32(255, 165, 29, 255);
         }
@@ -296,6 +307,7 @@ public class AllyUnit : MonoBehaviour
             outlineColor = new Color32(255, 0, 0, 255);
         }
 
+        _outline.material.SetFloat("_IsOutline", 1);
         _outline.material.SetColor("_Color", outlineColor);
     }
 

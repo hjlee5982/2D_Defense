@@ -381,6 +381,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OffsetY: 0.3
+  HitEffect: {fileID: 3742272123933930542, guid: cb510b41c8009264ca4a6b7577840dbb, type: 3}
 --- !u!1 &7092344490911450325
 GameObject:
   m_ObjectHideFlags: 0

@@ -29,7 +29,8 @@ public class StartEnhancementEvent
 // JUIManager¿¡ ÀÖ´Â StartButton <-> JGameManager
 public class StartRoundEvent { }
 public class EndRoundEvent { }
-
+public class UnitRecallPhase1Event { }
+public class UnitRecallPhase2Event { }
 
 
 // JGameManager -> AllySpawner
@@ -215,3 +216,16 @@ public class SettingValueChangeEvent
 
 // JTitleManager -> UI_SettingPanel
 public class OpenSettingPanelEvent { }
+
+
+
+// UI_GameStatus -> JGameManager;
+public class GameSpeedChangeEvent 
+{
+    public float Speed;
+
+    public GameSpeedChangeEvent(float speed)
+    {
+        Speed = speed;
+    }
+}

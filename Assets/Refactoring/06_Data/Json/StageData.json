@@ -3,11 +3,11 @@
     {
       "Index": "0",
       "DropGold": "3",
-      "NumOfMonster": "1",
+      "NumOfMonster": "30",
       "SpawnMonster": "곰돌이",
       "MonsterSpawnInterval": "0.8",
       "dHealth": "10",
-      "MoveSpeed": "10",
+      "MoveSpeed": "3",
       "IsBossStage": "false"
     },
     {

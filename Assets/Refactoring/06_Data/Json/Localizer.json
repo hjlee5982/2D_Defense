@@ -183,6 +183,14 @@
       "JP": "セーブ",
       "CN": "保存",
       "": ""
+    },
+    {
+      "ID": "ID_Recall_GameController",
+      "KR": "귀환",
+      "EN": "Recall",
+      "JP": "帰還",
+      "CN": "召回",
+      "": ""
     }
   ]
 }

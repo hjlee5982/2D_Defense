@@ -7,6 +7,9 @@ using UnityEngine.UI;
 public class UI_UnitStatus : MonoBehaviour
 {
     #region VARIABLES
+    [Header("표시 대상 유닛")]
+    private AllyUnitData _allyUnitData;
+
     [Header("프로필을 표시 할 UI")]
     private Image           _unitThumbnail;
     private TextMeshProUGUI _unitName;
@@ -141,19 +144,19 @@ public class UI_UnitStatus : MonoBehaviour
 
     private void UpdateUI(AllyUnit allyUnit)
     {
-        AllyUnitData allyUnitData = allyUnit.GetUnitData();
+        _allyUnitData = allyUnit.GetUnitData();
 
         // Profile
         {
             _unitThumbnail.sprite = allyUnit.transform.Find("Thumbnail").GetComponent<SpriteRenderer>().sprite;
-            _unitName.text        = allyUnitData.GetName(JSettingManager.Instance.CurrentLanguage) + allyUnitData.Grade.ToString(" + 0");
+            _unitName.text        = _allyUnitData.GetName(JSettingManager.Instance.CurrentLanguage) + _allyUnitData.Grade.ToString(" + 0");
         }
         // Status
         {
-            _atkPower.text     = allyUnitData.AtkPower.ToString() + " (" + allyUnitData.dAtkPower.ToString("+0;-0;0") + ")";
-            _atkRange.text     = allyUnitData.AtkRange.ToString() + " (" + allyUnitData.dAtkRange.ToString("+0;-0;0") + ")";
-            _atkSpeed.text     = allyUnitData.AtkSpeed.ToString() + " (" + allyUnitData.dAtkSpeed.ToString("+0;-0;0") + ")"; ;
-            _upgradeCount.text = allyUnitData.UpgradeCount.ToString();
+            _atkPower.text     = _allyUnitData.AtkPower.ToString() + " (" + _allyUnitData.dAtkPower.ToString("+0;-0;0") + ")";
+            _atkRange.text     = _allyUnitData.AtkRange.ToString() + " (" + _allyUnitData.dAtkRange.ToString("+0;-0;0") + ")";
+            _atkSpeed.text     = _allyUnitData.AtkSpeed.ToString() + " (" + _allyUnitData.dAtkSpeed.ToString("+0;-0;0") + ")"; ;
+            _upgradeCount.text = _allyUnitData.UpgradeCount.ToString();
         }
     }
 
@@ -164,6 +167,11 @@ public class UI_UnitStatus : MonoBehaviour
         ID_AtkRange_UnitStatus.text = JSettingManager.Instance.GetText(ID_AtkRange_UnitStatus.name);
         ID_AtkSpeed_UnitStatus.text = JSettingManager.Instance.GetText(ID_AtkSpeed_UnitStatus.name);
         ID_Upgrade_UnitStatus .text = JSettingManager.Instance.GetText(ID_Upgrade_UnitStatus.name);
+
+        if(_allyUnitData != null)
+        {
+            _unitName.text = _allyUnitData.GetName(JSettingManager.Instance.CurrentLanguage) + _allyUnitData.Grade.ToString(" + 0");
+        }
     }
     #endregion
 }

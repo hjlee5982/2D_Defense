@@ -13,7 +13,13 @@ public class UI_SpawnAlly : MonoBehaviour
     private TextMeshProUGUI ID_Summon_SpawnAlly;
 
     [Header("이름 텍스트")]
-    private List<TextMeshProUGUI> ID_UnitName_SummonAlly;
+    private List<TextMeshProUGUI> ID_UnitName_SummonAlly = new List<TextMeshProUGUI>();
+
+    [Header("초기화 플래그")]
+    private bool _isInitComplete = false;
+
+    [Header("현재 골드")]
+    private int _currentGold;
     #endregion
 
 
@@ -55,6 +61,8 @@ public class UI_SpawnAlly : MonoBehaviour
             // 유닛 이름 설정
             TextMeshProUGUI nameText = buttonTransform.Find("ID_UnitName_SummonAlly").GetComponent<TextMeshProUGUI>();
             nameText.text = data.GetName(JSettingManager.Instance.CurrentLanguage);
+            ID_UnitName_SummonAlly.Add(nameText);
+
 
             // 유닛 비용 설정
             TextMeshProUGUI costText = buttonTransform.Find("Cost").GetComponent<TextMeshProUGUI>();
@@ -67,6 +75,7 @@ public class UI_SpawnAlly : MonoBehaviour
             _options.Add(new CostOptionUI(button, restrictor, data.Cost));
         }
 
+        UpdateRestrictor(_currentGold);
     }
 
     void Update()
@@ -85,7 +94,7 @@ public class UI_SpawnAlly : MonoBehaviour
     private void OnDisable()
     {
         JEventBus.Unsubscribe<GoldRestrictionEvent>(GoldChanged);
-JEventBus.Unsubscribe<LanguageChangeEvent>(LanguageChange);
+        JEventBus.Unsubscribe<LanguageChangeEvent>(LanguageChange);
     }
     #endregion
 
@@ -107,6 +116,8 @@ JEventBus.Unsubscribe<LanguageChangeEvent>(LanguageChange);
 
     private void UpdateRestrictor(int currentGold)
     {
+        _currentGold = currentGold;
+
         foreach (var option in _options)
         {
             // 현재 소지 골드가 가격보다 많으면 활성화 가능
@@ -121,6 +132,20 @@ JEventBus.Unsubscribe<LanguageChangeEvent>(LanguageChange);
     private void LanguageChange(LanguageChangeEvent e)
     {
         ID_Summon_SpawnAlly.text = JSettingManager.Instance.GetText(ID_Summon_SpawnAlly.name);
+
+        for(int i = 0; i < 3; ++i)
+        {
+            if (ID_UnitName_SummonAlly.Count != 0)
+            {
+                AllyUnitData data = JGameManager.Instance.DataLoader.AllyUnitData[i];
+
+                ID_UnitName_SummonAlly[i].text = data.GetName(JSettingManager.Instance.CurrentLanguage);
+            }
+            else
+            {
+                break;
+            }
+        }
     }
     #endregion
 }

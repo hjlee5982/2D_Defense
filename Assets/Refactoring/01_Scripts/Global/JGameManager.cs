@@ -146,7 +146,7 @@ public class JGameManager : MonoBehaviour
         Gold         = DataLoader.GameRuleData[0].InitialGold;
         CurrentStage = 0;
 
-        Time.timeScale = 2f;
+        // Time.timeScale = 2f;
     }
 
     void Update()
@@ -163,7 +163,11 @@ public class JGameManager : MonoBehaviour
         JEventBus.Subscribe<StartEnhancementEvent>(EnhancementProcess);
         JEventBus.Subscribe<MonsterStateChangeEvent>(MonsterStateChange);
         JEventBus.Subscribe<SummonCompleteEvent>(SummonComplete);
-        
+        JEventBus.Subscribe<GameSpeedChangeEvent>(GameSpeedChange);
+        JEventBus.Subscribe<UnitRecallPhase1Event>(UnitRecall);
+
+
+
     }
 
     private void OnDisable()
@@ -173,6 +177,8 @@ public class JGameManager : MonoBehaviour
         JEventBus.Unsubscribe<StartEnhancementEvent>(EnhancementProcess);
         JEventBus.Unsubscribe<MonsterStateChangeEvent>(MonsterStateChange);
         JEventBus.Unsubscribe<SummonCompleteEvent>(SummonComplete);
+        JEventBus.Unsubscribe<GameSpeedChangeEvent>(GameSpeedChange);
+        JEventBus.Unsubscribe<UnitRecallPhase1Event>(UnitRecall);
     }
     #endregion
 
@@ -233,7 +239,11 @@ public class JGameManager : MonoBehaviour
             if (hit.collider != null)
             {
                 // 이전에 선택되었던 유닛의 인디케이터는 꺼줘야함
-                _selectedUnit?.ToggleIndicator(false);
+                if(_selectedUnit != null)
+                {
+                    _selectedUnit.ToggleIndicator(false);
+                }
+
 
                 _selectedUnit = hit.collider.GetComponentInParent<AllyUnit>();
 
@@ -307,6 +317,21 @@ public class JGameManager : MonoBehaviour
         _isSpawning = false;
     }
 
+    private void UnitRecall(UnitRecallPhase1Event e)
+    {
+        Gold += _selectedUnit.GetUnitData().PaybackGold;
+
+        Destroy(_selectedUnit.gameObject);
+
+        JEventBus.SendEvent(new UnitDeselectEvent());
+        JEventBus.SendEvent(new UnitRecallPhase2Event());
+    }
+
+    private void GameSpeedChange(GameSpeedChangeEvent e)
+    {
+        Time.timeScale = e.Speed;
+    }
+
     private void EnhancementProcess(StartEnhancementEvent e)
     {
         if(_selectedUnit.IsEnhancable() == false)
@@ -314,16 +339,22 @@ public class JGameManager : MonoBehaviour
             return;
         }
 
+        int enhancementCost;
+
         switch (e.BtnIdx)
         {
             case 0:
                 {
+                    enhancementCost = DataLoader.EnhancementData[0].Cost;
+
                     if (RandomAssistant.TryChance(DataLoader.EnhancementData[0].Probability))
                     {
                         _selectedUnit.ApplyStatChange(StatType.AtkPower, DataLoader.EnhancementData[0].dAtkPower);
 
                         _selectedUnit.ApplyStatChange(StatType.Grade, 1);
 
+                        _selectedUnit.SetPaybackGold(enhancementCost / 2);
+
                         EnhanceResult(true);
                     }
                     else
@@ -331,19 +362,23 @@ public class JGameManager : MonoBehaviour
                         EnhanceResult(false);
                     }
 
-                    Gold -= DataLoader.EnhancementData[0].Cost;
+                    Gold -= enhancementCost;
 
                     break;
                 }
             case 1:
                 {
-                    if(RandomAssistant.TryChance(DataLoader.EnhancementData[1].Probability))
+                    enhancementCost = DataLoader.EnhancementData[1].Cost;
+
+                    if (RandomAssistant.TryChance(DataLoader.EnhancementData[1].Probability))
                     {
                         _selectedUnit.ApplyStatChange(StatType.AtkPower, DataLoader.EnhancementData[1].dAtkPower);
                         _selectedUnit.ApplyStatChange(StatType.AtkRange, DataLoader.EnhancementData[1].dAtkRange);
 
                         _selectedUnit.ApplyStatChange(StatType.Grade, 1);
 
+                        _selectedUnit.SetPaybackGold(enhancementCost / 2);
+
                         EnhanceResult(true);
                     }
                     else
@@ -351,12 +386,14 @@ public class JGameManager : MonoBehaviour
                         EnhanceResult(false);
                     }
 
-                    Gold -= DataLoader.EnhancementData[1].Cost;
+                    Gold -= enhancementCost;
 
                     break;
                 }
             case 2:
                 {
+                    enhancementCost = DataLoader.EnhancementData[2].Cost;
+
                     if (RandomAssistant.TryChance(DataLoader.EnhancementData[2].Probability))
                     {
                         _selectedUnit.ApplyStatChange(StatType.AtkPower, DataLoader.EnhancementData[2].dAtkPower);
@@ -365,6 +402,8 @@ public class JGameManager : MonoBehaviour
 
                         _selectedUnit.ApplyStatChange(StatType.Grade, 1);
 
+                        _selectedUnit.SetPaybackGold(enhancementCost / 2);
+
                         EnhanceResult(true);
                     }
                     else
@@ -372,12 +411,14 @@ public class JGameManager : MonoBehaviour
                         EnhanceResult(false);
                     }
 
-                    Gold -= DataLoader.EnhancementData[2].Cost;
+                    Gold -= enhancementCost;
 
                     break;
                 }
             case 3:
                 {
+                    enhancementCost = DataLoader.EnhancementData[3].Cost;
+
                     if (RandomAssistant.TryChance(DataLoader.EnhancementData[3].Probability))
                     {
                         _selectedUnit.ApplyStatChange(StatType.AtkPower, RandomAssistant.GetRandomSign() * RandomAssistant.WeightedRandomSelector(weightsTable));
@@ -386,6 +427,8 @@ public class JGameManager : MonoBehaviour
                        
                         _selectedUnit.ApplyStatChange(StatType.Grade, 1);
 
+                        _selectedUnit.SetPaybackGold(enhancementCost / 2);
+
                         EnhanceResult(true);
                     }
                     else
@@ -393,7 +436,7 @@ public class JGameManager : MonoBehaviour
                         EnhanceResult(false);
                     }
 
-                    Gold -= DataLoader.EnhancementData[3].Cost;
+                    Gold -= enhancementCost;
 
                     break;
                 }

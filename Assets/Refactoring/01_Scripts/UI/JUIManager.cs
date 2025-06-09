@@ -58,6 +58,12 @@ public class JUIManager : MonoBehaviour
 
     [Header("라운드 플래그")]
     private bool _isRoundStart = false;
+
+    [Header("귀환 버튼")]
+    private Button _recallButton;
+
+    [Header("귀환 버튼 텍스트")]
+    private TextMeshProUGUI ID_Recall_GameController;
     #endregion
 
 
@@ -71,8 +77,13 @@ public class JUIManager : MonoBehaviour
 
         _startButton = transform.GetChild(1).Find("StartButton").GetComponent<Button>();
         _startButton.onClick.AddListener(StartButtonClick);
-
         ID_Start_Button_Game = _startButton.transform.Find("ID_Start_Button_Game").GetComponent<TextMeshProUGUI>();
+
+        _recallButton = transform.GetChild(1).Find("RecallButton").GetComponent<Button>();
+        _recallButton.onClick.AddListener(ReturnButtonClick);
+        ID_Recall_GameController = _recallButton.transform.Find("ID_Recall_GameController").GetComponent<TextMeshProUGUI>();
+
+        _recallButton.gameObject.SetActive(false);
 
         _spawnAllyUI   = transform.Find("GameController").Find("SpawnAlly").GetComponent<UI_SpawnAlly>();
         _enhancementUI = transform.Find("GameController").Find("Enhancement").GetComponent<UI_Enhancement>();
@@ -129,6 +140,11 @@ public class JUIManager : MonoBehaviour
         _isRoundStart = true;
     }
 
+    public void ReturnButtonClick()
+    {
+        JEventBus.SendEvent(new UnitRecallPhase1Event());
+    }
+
     private void EndRoundEvent(EndRoundEvent e)
     {
         _startButton.gameObject.SetActive(true);
@@ -155,6 +171,7 @@ public class JUIManager : MonoBehaviour
         {
             _spawnAllyUI.gameObject.SetActive(false);
             _enhancementUI.gameObject.SetActive(true);
+            _recallButton.gameObject.SetActive(true);
         }
     }
 
@@ -164,12 +181,14 @@ public class JUIManager : MonoBehaviour
         {
             _spawnAllyUI.gameObject.SetActive(true);
             _enhancementUI.gameObject.SetActive(false);
+            _recallButton.gameObject.SetActive(false);
         }
     }
 
     private void LanguageChange(LanguageChangeEvent e)
     {
-        ID_Start_Button_Game.text = JSettingManager.Instance.GetText(ID_Start_Button_Game.name);
+        ID_Start_Button_Game.text     = JSettingManager.Instance.GetText(ID_Start_Button_Game.name);
+        ID_Recall_GameController.text = JSettingManager.Instance.GetText(ID_Recall_GameController.name);
     }
     #endregion
 }
