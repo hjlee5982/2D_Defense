@@ -8,7 +8,7 @@
       "NameEN": "Kitty",
       "NameJP": "ニャオ",
       "NameCN": "喵喵",
-      "AtkPower": "15",
+      "AtkPower": "12",
       "AtkRange": "3",
       "AtkSpeed": "3",
       "UpgradeCount": "7",
@@ -22,9 +22,9 @@
       "NameEN": "Cat",
       "NameJP": "ネコ",
       "NameCN": "猫",
-      "AtkPower": "30",
-      "AtkRange": "4",
-      "AtkSpeed": "5",
+      "AtkPower": "20",
+      "AtkRange": "3",
+      "AtkSpeed": "4",
       "UpgradeCount": "7",
       "Cost": "40"
     },
@@ -36,9 +36,9 @@
       "NameEN": "Tiger",
       "NameJP": "トラ",
       "NameCN": "老虎",
-      "AtkPower": "50",
+      "AtkPower": "25",
       "AtkRange": "5",
-      "AtkSpeed": "7",
+      "AtkSpeed": "5",
       "UpgradeCount": "7",
       "Cost": "90"
     }

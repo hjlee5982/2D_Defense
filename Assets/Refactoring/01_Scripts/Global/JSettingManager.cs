@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -65,7 +66,16 @@ public class JSettingManager : MonoBehaviour
 
     private void Start()
     {
-        _settingData = JDataLoader.Instance.SettingData[0];
+        SettingData data = LoadSetting();
+
+        if(data == null)
+        {
+            _settingData = JDataLoader.Instance.SettingData[0];
+        }
+        else
+        {
+            _settingData = data;
+        }
         SendSettingValue(null);
     }
 
@@ -201,11 +211,35 @@ public class JSettingManager : MonoBehaviour
 
     private void SaveSetting(SaveButtonClickEvent e)
     {
-        SettingDaraWrapper wrapper = new SettingDaraWrapper();
-        wrapper.Items.Add(_settingData);
+        // SettingDaraWrapper wrapper = new SettingDaraWrapper();
+        // wrapper.Items.Add(_settingData);
 
-        string json = JsonUtility.ToJson(wrapper, true);
-        File.WriteAllText(JPathManager.JsonFilePath("Setting"), json);
+        string json = JsonUtility.ToJson(_settingData, true);
+
+        File.WriteAllText(Application.persistentDataPath + "/options.json", json);
+    }
+
+    private SettingData LoadSetting()
+    {
+        string path = Application.persistentDataPath + "/options.json";
+
+        FileInfo info = new FileInfo(path);
+
+        if (info.Exists == true)
+        {
+            string json = File.ReadAllText(Application.persistentDataPath + "/options.json");
+
+            return JsonUtility.FromJson<SettingData>(json);
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    public SettingData GetSettingData()
+    {
+        return _settingData;
     }
     #endregion
 }
