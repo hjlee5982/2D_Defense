@@ -1,8 +1,10 @@
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using UnityEngine;
 
-using static SettingValueChangeEvent;
+using static SettingData;
 
 public class JSettingManager : MonoBehaviour
 {
@@ -36,8 +38,14 @@ public class JSettingManager : MonoBehaviour
     [Header("초기 언어설정")]
     public string CurrentLanguage = "KR";
 
-    [Header("설정 UI 초기값")]
-    public SettingValue SettingValue = new SettingValue();
+    [Header("설정 데이터 클래스")]
+    private SettingData _settingData = new SettingData();
+
+    [Serializable]
+    public class SettingDaraWrapper
+    {
+        public List<SettingData> Items = new List<SettingData>();
+    }
     #endregion
 
 
@@ -53,24 +61,25 @@ public class JSettingManager : MonoBehaviour
         }
 
         LocalizeDataProcess();
+    }
 
-        {
-            SettingValue.BGM_Slider_Value = 0.5f;
-            SettingValue.BGM_Toggle_Value = false;
-            SettingValue.SFX_Slider_Value = 0.5f;
-            SettingValue.SFX_Toggle_Value = false;
-            SettingValue.LanguageIndex    = 0;
-        }
+    private void Start()
+    {
+        _settingData = JDataLoader.Instance.SettingData[0];
+        SendSettingValue(null);
     }
 
     private void OnEnable()
     {
-        JEventBus.Subscribe<SettingValueChangeEvent>(GetSettingValue);
+        JEventBus.Subscribe<SettingValueChangeEvent>(SendSettingValue);
+        JEventBus.Subscribe<SaveButtonClickEvent>(SaveSetting);
     }
+    
 
     private void OnDisable()
     {
-        JEventBus.Unsubscribe<SettingValueChangeEvent>(GetSettingValue);
+        JEventBus.Unsubscribe<SettingValueChangeEvent>(SendSettingValue);
+        JEventBus.Unsubscribe<SaveButtonClickEvent>(SaveSetting);
     }
     #endregion
 
@@ -106,50 +115,99 @@ public class JSettingManager : MonoBehaviour
         });
     }
 
-    private void GetSettingValue(SettingValueChangeEvent e)
+    private void SendSettingValue(SettingValueChangeEvent e)
     {
-        SettingValue = e.Values;
-
-        switch(SettingValue.Option)
+        if(e != null)
         {
-            case SettingOption.BGM_Slider:
-                JAudioManager.Instance.SetBGMVolume(e.Values.BGM_Slider_Value);
-                break;
+            _settingData = e.Data;
 
-            case SettingOption.SFX_Slider:
-                JAudioManager.Instance.SetSFXVolume(e.Values.SFX_Slider_Value);
-                break;
+            switch (_settingData.Option)
+            {
+                case SettingOption.BGM_Slider:
+                    JAudioManager.Instance.SetBGMVolume(_settingData.BGM_Slider_Value);
+                    break;
 
-            case SettingOption.BGM_Toggle:
-                JAudioManager.Instance.ToggleBGM   (e.Values.BGM_Toggle_Value);
-                break;
+                case SettingOption.SFX_Slider:
+                    JAudioManager.Instance.SetSFXVolume(_settingData.SFX_Slider_Value);
+                    break;
 
-            case SettingOption.SFX_Toggle:
-                JAudioManager.Instance.ToggleSFX   (e.Values.SFX_Toggle_Value);
-                break;
+                case SettingOption.BGM_Toggle:
+                    JAudioManager.Instance.ToggleBGM(_settingData.BGM_Toggle_Value);
+                    break;
 
-            case SettingOption.Language_Dropdown:
-                switch (e.Values.LanguageIndex)
-                {
-                    case 0:
-                        CurrentLanguage = "KR";
-                        JEventBus.SendEvent(new LanguageChangeEvent());
-                        break;
-                    case 1:
-                        CurrentLanguage = "EN";
-                        JEventBus.SendEvent(new LanguageChangeEvent());
-                        break;
-                    case 2:
-                        CurrentLanguage = "JP";
-                        JEventBus.SendEvent(new LanguageChangeEvent());
-                        break;
-                    case 3:
-                        CurrentLanguage = "CN";
-                        JEventBus.SendEvent(new LanguageChangeEvent());
-                        break;
-                }
-                break;
+                case SettingOption.SFX_Toggle:
+                    JAudioManager.Instance.ToggleSFX(_settingData.SFX_Toggle_Value);
+                    break;
+
+                case SettingOption.Language_Dropdown:
+                    switch (_settingData.LanguageIndex)
+                    {
+                        case 0:
+                            CurrentLanguage = "KR";
+                            _settingData.LanguageIndex = 0;
+                            JEventBus.SendEvent(new LanguageChangeEvent());
+                            break;
+                        case 1:
+                            CurrentLanguage = "EN";
+                            _settingData.LanguageIndex = 1;
+                            JEventBus.SendEvent(new LanguageChangeEvent());
+                            break;
+                        case 2:
+                            CurrentLanguage = "JP";
+                            _settingData.LanguageIndex = 2;
+                            JEventBus.SendEvent(new LanguageChangeEvent());
+                            break;
+                        case 3:
+                            CurrentLanguage = "CN";
+                            _settingData.LanguageIndex = 3;
+                            JEventBus.SendEvent(new LanguageChangeEvent());
+                            break;
+                    }
+                    break;
+            }
         }
+        else
+        {
+            JAudioManager.Instance.SetBGMVolume(_settingData.BGM_Slider_Value);
+            JAudioManager.Instance.SetSFXVolume(_settingData.SFX_Slider_Value);
+            JAudioManager.Instance.ToggleBGM(_settingData.BGM_Toggle_Value);
+            JAudioManager.Instance.ToggleSFX(_settingData.SFX_Toggle_Value);
+
+            switch (_settingData.LanguageIndex)
+            {
+                case 0:
+                    CurrentLanguage = "KR";
+                    _settingData.LanguageIndex = 0;
+                    JEventBus.SendEvent(new LanguageChangeEvent());
+                    break;
+                case 1:
+                    CurrentLanguage = "EN";
+                    _settingData.LanguageIndex = 1;
+                    JEventBus.SendEvent(new LanguageChangeEvent());
+                    break;
+                case 2:
+                    CurrentLanguage = "JP";
+                    _settingData.LanguageIndex = 2;
+                    JEventBus.SendEvent(new LanguageChangeEvent());
+                    break;
+                case 3:
+                    CurrentLanguage = "CN";
+                    _settingData.LanguageIndex = 3;
+                    JEventBus.SendEvent(new LanguageChangeEvent());
+                    break;
+            }
+        }
+    }
+
+    private void SaveSetting(SaveButtonClickEvent e)
+    {
+        SettingDaraWrapper wrapper = new SettingDaraWrapper();
+        wrapper.Items.Add(_settingData);
+
+        string json = JsonUtility.ToJson(wrapper, true);
+        File.WriteAllText(JPathManager.JsonFilePath("Setting"), json);
     }
     #endregion
 }
+
+

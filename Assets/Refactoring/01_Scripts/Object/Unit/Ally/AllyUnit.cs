@@ -80,21 +80,21 @@ public class AllyUnit : MonoBehaviour
                 StatType.AtkPower, value =>
                 {
                     _allyUnitData.AtkPower += CulcValue(_allyUnitData.AtkPower, value);
-                    _allyUnitData.dAtkPower += CulcValue(_allyUnitData.dAtkPower, value);
+                    _allyUnitData.dAtkPower += CulcValue(_allyUnitData.AtkPower, value);
                 }
             },
             {
                 StatType.AtkRange, value =>
                 {
                     _allyUnitData.AtkRange += CulcValue(_allyUnitData.AtkRange, value);
-                    _allyUnitData.dAtkRange += CulcValue(_allyUnitData.dAtkRange, value);
+                    _allyUnitData.dAtkRange += CulcValue(_allyUnitData.AtkRange, value);
                 }
             },
             {
                 StatType.AtkSpeed, value =>
                 {
                     _allyUnitData.AtkSpeed += CulcValue(_allyUnitData.AtkSpeed, value);
-                    _allyUnitData.dAtkSpeed += CulcValue(_allyUnitData.dAtkSpeed, value);
+                    _allyUnitData.dAtkSpeed += CulcValue(_allyUnitData.AtkSpeed, value);
                 }
             },
             {
@@ -206,6 +206,24 @@ public class AllyUnit : MonoBehaviour
 
         ModifyAttackRange();
         ToggleOutline();
+    }
+
+    public void EnhanceResult(bool result)
+    {
+        GameObject effecPrefab;
+
+        if (result == true)
+        {
+            JAudioManager.Instance.PlaySFX("EnhanceSuccess");
+            effecPrefab = JEffectManager.Instance.GetEffect("EnhanceSuccessEffect");
+        }
+        else
+        {
+            JAudioManager.Instance.PlaySFX("EnhanceFail");
+            effecPrefab = JEffectManager.Instance.GetEffect("EnhanceFailureEffect");
+        }
+
+        Instantiate(effecPrefab, transform.position, Quaternion.identity);
     }
 
     public void SetPaybackGold(int gold)

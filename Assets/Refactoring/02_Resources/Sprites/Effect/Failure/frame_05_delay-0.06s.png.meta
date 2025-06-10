@@ -67,7 +67,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -76,7 +76,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -105,7 +105,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -427,7 +427,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -436,7 +436,18 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      frame_05_delay-0.06s_0: -6074442215523869167
+      frame_05_delay-0.06s_1: 4107959156813879441
+      frame_05_delay-0.06s_10: -7778196259645966562
+      frame_05_delay-0.06s_2: 7072447893458975425
+      frame_05_delay-0.06s_3: 1021428527242073342
+      frame_05_delay-0.06s_4: -2975294282281641894
+      frame_05_delay-0.06s_5: -3103673129586888919
+      frame_05_delay-0.06s_6: 7483548722076069935
+      frame_05_delay-0.06s_7: -5652166181689511458
+      frame_05_delay-0.06s_8: -6990749864108512353
+      frame_05_delay-0.06s_9: -8868428838872114248
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

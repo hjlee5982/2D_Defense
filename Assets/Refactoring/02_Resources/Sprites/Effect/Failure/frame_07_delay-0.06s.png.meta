@@ -100,7 +100,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -109,7 +109,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -138,7 +138,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -702,7 +702,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -711,7 +711,29 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      frame_07_delay-0.06s_0: 1054575543176789685
+      frame_07_delay-0.06s_1: 2151164204518895008
+      frame_07_delay-0.06s_10: -7449010077551277306
+      frame_07_delay-0.06s_11: -3405062774507727008
+      frame_07_delay-0.06s_12: -9052357301945355579
+      frame_07_delay-0.06s_13: -8565071526881018541
+      frame_07_delay-0.06s_14: -101947694103206540
+      frame_07_delay-0.06s_15: 5327238359346933368
+      frame_07_delay-0.06s_16: -1370002037467775504
+      frame_07_delay-0.06s_17: 3599522174119316226
+      frame_07_delay-0.06s_18: 1108208450866260459
+      frame_07_delay-0.06s_19: 5777618997924379335
+      frame_07_delay-0.06s_2: 191198089910192490
+      frame_07_delay-0.06s_20: 335098476468713041
+      frame_07_delay-0.06s_21: -6696170275458620321
+      frame_07_delay-0.06s_3: 6908879723016527456
+      frame_07_delay-0.06s_4: 279369654557877163
+      frame_07_delay-0.06s_5: -8676097870295149412
+      frame_07_delay-0.06s_6: -867559545939747112
+      frame_07_delay-0.06s_7: 8229203724875582612
+      frame_07_delay-0.06s_8: -78121687608662392
+      frame_07_delay-0.06s_9: -961088202104233535
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

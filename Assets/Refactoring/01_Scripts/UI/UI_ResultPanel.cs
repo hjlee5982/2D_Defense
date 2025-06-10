@@ -30,7 +30,7 @@ public class UI_ResultPanel : MonoBehaviour
 
         child.Find("ReturnButton").GetComponent<Button>().onClick.AddListener(() => 
         {
-            SceneManager.LoadSceneAsync("NewTitleScene");
+            JEventBus.SendEvent(new GameSceneToTitleSceneEvent());
             // Time.timeScale = 1f;
             JAudioManager.Instance.PlaySFX("ButtonClick");
         });

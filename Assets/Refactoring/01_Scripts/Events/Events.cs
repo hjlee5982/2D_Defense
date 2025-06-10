@@ -190,26 +190,16 @@ public class LanguageChangeEvent { }
 // UI_SettingPanel -> JSettingManager
 public class SettingValueChangeEvent
 {
-    public enum SettingOption
-    {
-        BGM_Slider, BGM_Toggle, SFX_Slider, SFX_Toggle, Language_Dropdown
-    }
-    public struct SettingValue
-    {
-        public float         BGM_Slider_Value;
-        public float         SFX_Slider_Value;
-        public bool          BGM_Toggle_Value;
-        public bool          SFX_Toggle_Value;
-        public int           LanguageIndex;
-        public SettingOption Option;
-    }
+    public SettingData Data;
 
-    public SettingValue Values;
-
-    public SettingValueChangeEvent(SettingValue values)
+    public SettingValueChangeEvent(SettingData data)
     {
-        Values = values;
+        Data = data;
     }
+}
+public class SaveButtonClickEvent
+{
+
 }
 
 
@@ -229,3 +219,8 @@ public class GameSpeedChangeEvent
         Speed = speed;
     }
 }
+
+
+
+// UI_ResultPanel -> JGameSceneManager
+public class GameSceneToTitleSceneEvent { }

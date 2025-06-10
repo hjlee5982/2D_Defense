@@ -191,6 +191,46 @@
       "JP": "帰還",
       "CN": "召回",
       "": ""
+    },
+    {
+      "ID": "ID_LClick",
+      "KR": "좌클릭",
+      "EN": "Left Click",
+      "JP": "左クリック",
+      "CN": "左键点击",
+      "": ""
+    },
+    {
+      "ID": "ID_LClickDesc",
+      "KR": "유닛 선택",
+      "EN": "Select Unit",
+      "JP": "ユニット選択",
+      "CN": "选择单位",
+      "": ""
+    },
+    {
+      "ID": "ID_RClick",
+      "KR": "우클릭",
+      "EN": "Right Click",
+      "JP": "右クリック",
+      "CN": "右键点击",
+      "": ""
+    },
+    {
+      "ID": "ID_RClickDesc",
+      "KR": "선택 취소",
+      "EN": "Deselect",
+      "JP": "選択解除",
+      "CN": "取消选择",
+      "": ""
+    },
+    {
+      "ID": "ID_Loading",
+      "KR": "로딩중",
+      "EN": "Loading",
+      "JP": "読み込み中",
+      "CN": "加载中",
+      "": ""
     }
   ]
 }

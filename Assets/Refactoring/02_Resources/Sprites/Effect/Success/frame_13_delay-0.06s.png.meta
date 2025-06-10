@@ -103,7 +103,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -112,7 +112,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -141,7 +141,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -727,7 +727,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -736,7 +736,30 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      frame_13_delay-0.06s_0: 8495023167172218825
+      frame_13_delay-0.06s_1: 3544452574890635103
+      frame_13_delay-0.06s_10: -8837192543934130011
+      frame_13_delay-0.06s_11: -3046455604740853966
+      frame_13_delay-0.06s_12: -1395684605822775257
+      frame_13_delay-0.06s_13: -4489793544938349797
+      frame_13_delay-0.06s_14: -4938646473771312431
+      frame_13_delay-0.06s_15: 8975885129681614797
+      frame_13_delay-0.06s_16: -4640995242418812551
+      frame_13_delay-0.06s_17: 5858852054165257278
+      frame_13_delay-0.06s_18: 5015012744891070333
+      frame_13_delay-0.06s_19: -3344289519915640156
+      frame_13_delay-0.06s_2: -3233588900247325427
+      frame_13_delay-0.06s_20: -6659355919038982227
+      frame_13_delay-0.06s_21: 69457499278401033
+      frame_13_delay-0.06s_22: 305504702112591859
+      frame_13_delay-0.06s_3: -4224679541674569994
+      frame_13_delay-0.06s_4: -2800829690228833837
+      frame_13_delay-0.06s_5: 3665192632996688849
+      frame_13_delay-0.06s_6: 6269863869851330728
+      frame_13_delay-0.06s_7: 7825437703448487952
+      frame_13_delay-0.06s_8: -1735303287502935043
+      frame_13_delay-0.06s_9: 3935383629969272796
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

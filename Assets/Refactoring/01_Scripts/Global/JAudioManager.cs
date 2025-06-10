@@ -93,11 +93,7 @@ public class JAudioManager : MonoBehaviour
 
     private void Start()
     {
-        // 클램프 첫번째 인자(0.5f)는 볼륨슬라이더 중간값임
-        // 오디오믹서는 에셋이라 여기서 초기화 해줘야 함
-        float dB = Mathf.Log10(Mathf.Clamp(0.5f, 0.0001f, 1f)) * 20f;
-        AudioMixer.SetFloat("BGM", dB);
-        AudioMixer.SetFloat("SFX", dB);
+
     }
     #endregion
 
@@ -110,9 +106,7 @@ public class JAudioManager : MonoBehaviour
     {
         float dB = Mathf.Log10(Mathf.Clamp(volume, 0.0001f, 1f)) * 20f;
         AudioMixer.SetFloat("BGM", dB);
-
-        // 여기서 줄여도
-        // 아래에서 체크하고 해제하고 하면 0으로 돌아오고 -80되고 난리나는거잖아
+        _currentBGMVolume = dB;
     }
 
     // true == 체크가 된 상태
@@ -136,6 +130,7 @@ public class JAudioManager : MonoBehaviour
     {
         float dB = Mathf.Log10(Mathf.Clamp(volume, 0.0001f, 1f)) * 20f;
         AudioMixer.SetFloat("SFX", dB);
+        _currentSFXVolume = dB;
     }
 
     // true == 체크가 된 상태

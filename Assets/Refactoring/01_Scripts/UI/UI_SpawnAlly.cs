@@ -44,7 +44,7 @@ public class UI_SpawnAlly : MonoBehaviour
         for(int i = 0; i < 3; ++i)
         {
             // 해당 데이터
-            AllyUnitData data = JGameManager.Instance.DataLoader.AllyUnitData[i];
+            AllyUnitData data = JGameSceneManager.Instance.DataLoader.AllyUnitData[i];
 
             // 각 버튼 Transform
             Transform buttonTransform = transform.Find("SummonButton_" + i.ToString()).transform;
@@ -84,7 +84,7 @@ public class UI_SpawnAlly : MonoBehaviour
 
     private void OnEnable()
     {
-        UpdateRestrictor(JGameManager.Instance.Gold);
+        UpdateRestrictor(JGameSceneManager.Instance.Gold);
         JEventBus.Subscribe<GoldRestrictionEvent>(GoldChanged);
         JEventBus.Subscribe<LanguageChangeEvent>(LanguageChange);
 
@@ -137,7 +137,7 @@ public class UI_SpawnAlly : MonoBehaviour
         {
             if (ID_UnitName_SummonAlly.Count != 0)
             {
-                AllyUnitData data = JGameManager.Instance.DataLoader.AllyUnitData[i];
+                AllyUnitData data = JGameSceneManager.Instance.DataLoader.AllyUnitData[i];
 
                 ID_UnitName_SummonAlly[i].text = data.GetName(JSettingManager.Instance.CurrentLanguage);
             }

@@ -196,7 +196,7 @@ public class GameRuleDataLoader : ILoader<int, GameRuleData>
 
 
 
-#region GAME_RULE_DATA
+#region ROUTE_DATA
 [Serializable]
 public class RouteData
 {
@@ -225,7 +225,7 @@ public class RouteDataLoader : ILoader<int, RouteData>
 
 
 
-#region GAME_RULE_DATA
+#region ENHANCEMENT_DATA
 [Serializable]
 public class EnhancementData
 {
@@ -284,6 +284,47 @@ public class LocalizeDataLoader : ILoader<string, LocalizeData>
         foreach (LocalizeData data in Items)
         {
             dic.Add(data.ID, data);
+        }
+
+        return dic;
+    }
+}
+#endregion
+
+
+
+#region SETTING_DATA
+[Serializable]
+public class SettingData
+{
+    public enum SettingOption
+    {
+        BGM_Slider, BGM_Toggle, SFX_Slider, SFX_Toggle, Language_Dropdown
+    }
+
+    public int    Preset;
+    public float  BGM_Slider_Value;
+    public float  SFX_Slider_Value;
+    public bool   BGM_Toggle_Value;
+    public bool   SFX_Toggle_Value;
+    public int    LanguageIndex;
+
+    [NonSerialized]
+    public SettingOption Option;
+}
+
+[Serializable]
+public class SettingDataLoader : ILoader<int, SettingData>
+{
+    public List<SettingData> Items = new List<SettingData>();
+
+    public Dictionary<int, SettingData> MakeDic()
+    {
+        Dictionary<int, SettingData> dic = new Dictionary<int, SettingData>();
+
+        foreach (SettingData data in Items)
+        {
+            dic.Add(data.Preset, data);
         }
 
         return dic;

@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-using static SettingValueChangeEvent;
+using static SettingData;
 
 public class UI_SettingPanel : MonoBehaviour
 {
@@ -26,6 +26,9 @@ public class UI_SettingPanel : MonoBehaviour
     [Header("자식 게임오브젝트")]
     private GameObject _child1;
     private GameObject _child2;
+
+    [Header("설정 데이터")]
+    private SettingData _settingData;
     #endregion
 
 
@@ -53,7 +56,11 @@ public class UI_SettingPanel : MonoBehaviour
             _sfxSlider.onValueChanged.AddListener(SetSFXVolume);
             _sfxToggle.onValueChanged.AddListener(ToggleSFX);
 
-            _languageDropdown.onValueChanged.AddListener(LanguageSelect);
+            _languageDropdown.onValueChanged.AddListener((index) =>
+            {
+                JAudioManager.Instance.PlaySFX("ButtonClick");
+                LanguageSelect(index);
+            });
 
             _saveButton.onClick.AddListener(ClickSaveButton);
         }
@@ -66,15 +73,6 @@ public class UI_SettingPanel : MonoBehaviour
             ID_Mute_Setting_2   = _sfxToggle.transform.Find("ID_Mute_Setting").GetComponent<TextMeshProUGUI>();
         }
 
-        SettingValue initialValue = JSettingManager.Instance.SettingValue;
-        {
-            _bgmSlider.value        = initialValue.BGM_Slider_Value;
-            _sfxSlider.value        = initialValue.SFX_Slider_Value;
-            _bgmToggle.isOn         = initialValue.BGM_Toggle_Value;
-            _sfxToggle.isOn         = initialValue.SFX_Toggle_Value;
-            _languageDropdown.value = initialValue.LanguageIndex;
-        }
-
         _child1 = transform.GetChild(0).gameObject;
         _child2 = transform.GetChild(1).gameObject;
 
@@ -82,8 +80,25 @@ public class UI_SettingPanel : MonoBehaviour
         _child2.SetActive(false);
     }
 
+    private void Start()
+    {
+        
+    }
+
     private void OnEnable()
     {
+        _settingData = JDataLoader.Instance.SettingData[0];
+        {
+            _bgmSlider.value = _settingData.BGM_Slider_Value;
+            _sfxSlider.value = _settingData.SFX_Slider_Value;
+            //_bgmToggle.isOn = _settingData.BGM_Toggle_Value;
+            // _sfxToggle.isOn = _settingData.SFX_Toggle_Value;
+            // _languageDropdown.value = _settingData.LanguageIndex;
+            _bgmToggle.SetIsOnWithoutNotify(_settingData.BGM_Toggle_Value);
+            _sfxToggle.SetIsOnWithoutNotify(_settingData.SFX_Toggle_Value);
+            _languageDropdown.SetValueWithoutNotify(_settingData.LanguageIndex);
+        }
+
         JEventBus.Subscribe<LanguageChangeEvent>(LanguageChange);
         JEventBus.Subscribe<OpenSettingPanelEvent>(ToggleSettingPanel);
 
@@ -113,50 +128,48 @@ public class UI_SettingPanel : MonoBehaviour
         JAudioManager.Instance.PlaySFX("ButtonClick");
         _child1.SetActive(!_child1.activeSelf);
         _child2.SetActive(!_child2.activeSelf);
+
+        JEventBus.SendEvent(new SaveButtonClickEvent());
     }
 
     private void SetBGMVolume(float value)
     {
         _bgmToggle.isOn = false;
-        SentValueChangeEvent(SettingOption.BGM_Slider);
+        _settingData.BGM_Slider_Value = value;
+        _settingData.Option = SettingOption.BGM_Slider;
+        JEventBus.SendEvent(new SettingValueChangeEvent(_settingData));
     }
 
     private void SetSFXVolume(float value)
     {
         _sfxToggle.isOn = false;
-        SentValueChangeEvent(SettingOption.SFX_Slider);
+
+        _settingData.SFX_Slider_Value = value;
+        _settingData.Option = SettingOption.SFX_Slider;
+        JEventBus.SendEvent(new SettingValueChangeEvent(_settingData));
     }
 
     private void ToggleBGM(bool value)
     {
         JAudioManager.Instance.PlaySFX("ButtonClick");
-        SentValueChangeEvent(SettingOption.BGM_Toggle);
+        _settingData.BGM_Toggle_Value = value;
+        _settingData.Option = SettingOption.BGM_Toggle;
+        JEventBus.SendEvent(new SettingValueChangeEvent(_settingData));
     }
 
     private void ToggleSFX(bool value)
     {
         JAudioManager.Instance.PlaySFX("ButtonClick");
-        SentValueChangeEvent(SettingOption.SFX_Toggle);
+        _settingData.SFX_Toggle_Value = value;
+        _settingData.Option = SettingOption.SFX_Toggle;
+        JEventBus.SendEvent(new SettingValueChangeEvent(_settingData));
     }
 
     private void LanguageSelect(int index)
     {
-        JAudioManager.Instance.PlaySFX("ButtonClick");
-        SentValueChangeEvent(SettingOption.Language_Dropdown);
-    }
-
-    private void SentValueChangeEvent(SettingOption option)
-    {
-        SettingValue Values = new SettingValue();
-        {
-            Values.BGM_Slider_Value = _bgmSlider.value;
-            Values.BGM_Toggle_Value = _bgmToggle.isOn;
-            Values.SFX_Slider_Value = _sfxSlider.value;
-            Values.SFX_Toggle_Value = _sfxToggle.isOn;
-            Values.LanguageIndex    = _languageDropdown.value;
-            Values.Option           = option;
-        }
-        JEventBus.SendEvent(new SettingValueChangeEvent(Values));
+        _settingData.LanguageIndex = index;
+        _settingData.Option = SettingOption.Language_Dropdown;
+        JEventBus.SendEvent(new SettingValueChangeEvent(_settingData));
     }
 
     private void LanguageChange(LanguageChangeEvent e)

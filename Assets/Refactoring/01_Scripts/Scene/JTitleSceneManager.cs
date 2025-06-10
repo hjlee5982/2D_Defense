@@ -1,10 +1,11 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class JTitleManager : MonoBehaviour
+public class JTitleSceneManager : MonoBehaviour
 {
     #region VARIABLES
     [Header("타이틀 이미지")]
@@ -20,6 +21,11 @@ public class JTitleManager : MonoBehaviour
     private TextMeshProUGUI ID_Start_Button_Title;
     private TextMeshProUGUI ID_Setting_Button;
     private TextMeshProUGUI ID_Exit_Button;
+
+    [Header("마우스 이미지")]
+    public Texture2D CursorTexture;
+    public Vector2 HotSpot = Vector2.zero;
+    public CursorMode CursorMode = CursorMode.Auto;
     #endregion
 
 
@@ -30,6 +36,9 @@ public class JTitleManager : MonoBehaviour
     private void Awake()
     {
         Time.timeScale = 1f;
+
+        Cursor.SetCursor(CursorTexture, HotSpot, CursorMode);
+
 
         Button btn;
 
@@ -46,10 +55,17 @@ public class JTitleManager : MonoBehaviour
         ID_Exit_Button = btn.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
 
         _titleImage = transform.Find("TitleImage").GetComponent<Image>();
+
+
+        
     }
 
-    private void Update()
+    private void Start()
     {
+        GameObject padeEffectObj = Instantiate(JEffectManager.Instance.GetEffect("Pade"), Vector3.zero, Quaternion.identity);
+        padeEffectObj.transform.SetParent(GameObject.Find("UI").transform, false);
+        Animator padeOut = padeEffectObj.GetComponent<Animator>();
+        padeOut.SetTrigger("PadeIn");
     }
 
     private void OnEnable()
@@ -75,7 +91,26 @@ public class JTitleManager : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(null);
         JAudioManager.Instance.PlaySFX("ButtonClick");
 
-        SceneManager.LoadSceneAsync("NewGameScene");
+        AsyncOperation loadOperation = SceneManager.LoadSceneAsync("NewLoadingScene");
+        loadOperation.allowSceneActivation = false;
+
+        GameObject padeEffectObj = Instantiate(JEffectManager.Instance.GetEffect("Pade"), Vector3.zero, Quaternion.identity);
+        padeEffectObj.transform.SetParent(GameObject.Find("UI").transform, false);
+        Animator padeOut = padeEffectObj.GetComponent<Animator>();
+        padeOut.SetTrigger("PadeOut");
+
+        StartCoroutine(WaitForSceneReady(loadOperation));
+    }
+
+    private IEnumerator WaitForSceneReady(AsyncOperation operation)
+    {
+        while(operation.progress < 0.9f)
+        {
+            yield return null;
+        }
+
+        yield return new WaitForSecondsRealtime(1);
+        operation.allowSceneActivation = true;
     }
 
     private void SettingButtonEvent()

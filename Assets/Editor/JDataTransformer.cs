@@ -19,6 +19,7 @@ public class JDataTransformer : EditorWindow
         ParseExcelDataToJson<RouteDataLoader,       RouteData      >("RouteData");
         ParseExcelDataToJson<EnhancementDataLoader, EnhancementData>("EnhancementData");
         ParseExcelDataToJson<LocalizeDataLoader,    LocalizeData   >("Localizer");
+        ParseExcelDataToJson<SettingDataLoader,     SettingData    >("Setting");
 
         Debug.Log("Change Success");
     }

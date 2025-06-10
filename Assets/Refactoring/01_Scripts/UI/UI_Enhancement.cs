@@ -46,7 +46,7 @@ public class UI_Enhancement : MonoBehaviour
         for (int i = 0; i < 4; ++i)
         {
             // 해당 데이터
-            EnhancementData data = JGameManager.Instance.DataLoader.EnhancementData[i];
+            EnhancementData data = JGameSceneManager.Instance.DataLoader.EnhancementData[i];
 
             // 각 버튼 Transform
             Transform buttonTransform = transform.Find("Option_" + i.ToString()).transform;
@@ -92,7 +92,7 @@ public class UI_Enhancement : MonoBehaviour
 
     private void OnEnable()
     {
-        UpdateRestrictor(JGameManager.Instance.Gold);
+        UpdateRestrictor(JGameSceneManager.Instance.Gold);
 
         JEventBus.Subscribe<GoldRestrictionEvent>(GoldChanged);
         JEventBus.Subscribe<LanguageChangeEvent>(LanguageChange);

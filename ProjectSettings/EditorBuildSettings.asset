@@ -15,6 +15,9 @@ EditorBuildSettings:
     path: Assets/Refactoring/00_Scene/NewTitleScene.unity
     guid: 78bde3d750b0ba64e88c68905110868d
   - enabled: 1
+    path: Assets/Refactoring/00_Scene/NewLoadingScene.unity
+    guid: 12f5b669966c79840b9cb3bf6886a440
+  - enabled: 1
     path: Assets/Refactoring/00_Scene/NewGameScene.unity
     guid: 61df21e549be95440bad45ce84c5cff5
   m_configObjects:

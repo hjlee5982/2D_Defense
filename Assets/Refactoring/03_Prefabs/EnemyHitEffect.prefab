@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5752435292877871091}
   - component: {fileID: 1947673886538669214}
   - component: {fileID: 5208217542261264630}
-  - component: {fileID: 1388739285996037804}
+  - component: {fileID: 5358281988515269913}
   m_Layer: 0
   m_Name: EnemyHitEffect
   m_TagString: Untagged
@@ -111,7 +111,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &1388739285996037804
+--- !u!114 &5358281988515269913
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

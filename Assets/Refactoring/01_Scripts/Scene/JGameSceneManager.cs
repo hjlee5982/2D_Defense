@@ -1,15 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using static GameStatusChangeEvent;
 using static MonsterStateChangeEvent;
 
-public class JGameManager : MonoBehaviour
+public class JGameSceneManager : MonoBehaviour
 {
     #region SINGLETON
-    private static JGameManager instance;
-    public static  JGameManager Instance
+    private static JGameSceneManager instance;
+    public static  JGameSceneManager Instance
     {
         get
         {
@@ -147,6 +148,11 @@ public class JGameManager : MonoBehaviour
         CurrentStage = 0;
 
         // Time.timeScale = 2f;
+
+        GameObject padeEffectObj = Instantiate(JEffectManager.Instance.GetEffect("Pade"), Vector3.zero, Quaternion.identity);
+        padeEffectObj.transform.SetParent(GameObject.Find("UI").transform, false);
+        Animator padeOut = padeEffectObj.GetComponent<Animator>();
+        padeOut.SetTrigger("PadeIn");
     }
 
     void Update()
@@ -165,9 +171,7 @@ public class JGameManager : MonoBehaviour
         JEventBus.Subscribe<SummonCompleteEvent>(SummonComplete);
         JEventBus.Subscribe<GameSpeedChangeEvent>(GameSpeedChange);
         JEventBus.Subscribe<UnitRecallPhase1Event>(UnitRecall);
-
-
-
+        JEventBus.Subscribe<GameSceneToTitleSceneEvent>(SceneChange);
     }
 
     private void OnDisable()
@@ -179,6 +183,7 @@ public class JGameManager : MonoBehaviour
         JEventBus.Unsubscribe<SummonCompleteEvent>(SummonComplete);
         JEventBus.Unsubscribe<GameSpeedChangeEvent>(GameSpeedChange);
         JEventBus.Unsubscribe<UnitRecallPhase1Event>(UnitRecall);
+        JEventBus.Unsubscribe<GameSceneToTitleSceneEvent>(SceneChange);
     }
     #endregion
 
@@ -355,11 +360,11 @@ public class JGameManager : MonoBehaviour
 
                         _selectedUnit.SetPaybackGold(enhancementCost / 2);
 
-                        EnhanceResult(true);
+                        _selectedUnit.EnhanceResult(true);
                     }
                     else
                     {
-                        EnhanceResult(false);
+                        _selectedUnit.EnhanceResult(false);
                     }
 
                     Gold -= enhancementCost;
@@ -379,11 +384,11 @@ public class JGameManager : MonoBehaviour
 
                         _selectedUnit.SetPaybackGold(enhancementCost / 2);
 
-                        EnhanceResult(true);
+                        _selectedUnit.EnhanceResult(true);
                     }
                     else
                     {
-                        EnhanceResult(false);
+                        _selectedUnit.EnhanceResult(false);
                     }
 
                     Gold -= enhancementCost;
@@ -404,11 +409,11 @@ public class JGameManager : MonoBehaviour
 
                         _selectedUnit.SetPaybackGold(enhancementCost / 2);
 
-                        EnhanceResult(true);
+                        _selectedUnit.EnhanceResult(true);
                     }
                     else
                     {
-                        EnhanceResult(false);
+                        _selectedUnit.EnhanceResult(false);
                     }
 
                     Gold -= enhancementCost;
@@ -429,11 +434,11 @@ public class JGameManager : MonoBehaviour
 
                         _selectedUnit.SetPaybackGold(enhancementCost / 2);
 
-                        EnhanceResult(true);
+                        _selectedUnit.EnhanceResult(true);
                     }
                     else
                     {
-                        EnhanceResult(false);
+                        _selectedUnit.EnhanceResult(false);
                     }
 
                     Gold -= enhancementCost;
@@ -445,18 +450,6 @@ public class JGameManager : MonoBehaviour
         _selectedUnit.ApplyStatChange(StatType.UpgradeCount, -1);
 
         JEventBus.SendEvent(new EnhanceCompleteEvent(_selectedUnit));
-    }
-
-    private void EnhanceResult(bool result)
-    {
-        if(result == true)
-        {
-            JAudioManager.Instance.PlaySFX("EnhanceSuccess");
-        }
-        else
-        {
-            JAudioManager.Instance.PlaySFX("EnhanceFail");
-        }
     }
 
     private void GameEndProcess()
@@ -506,6 +499,32 @@ public class JGameManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    private void SceneChange(GameSceneToTitleSceneEvent e)
+    {
+        AsyncOperation loadOperation = SceneManager.LoadSceneAsync("NewTitleScene");
+        loadOperation.allowSceneActivation = false;
+
+        GameObject padeEffectObj = Instantiate(JEffectManager.Instance.GetEffect("Pade"), Vector3.zero, Quaternion.identity);
+        padeEffectObj.transform.SetParent(GameObject.Find("UI").transform, false);
+        Animator padeOut = padeEffectObj.GetComponent<Animator>();
+        padeOut.updateMode = AnimatorUpdateMode.UnscaledTime;
+
+        padeOut.SetTrigger("PadeOut");
+
+        StartCoroutine(WaitForSceneReady(loadOperation));
+    }
+
+    private IEnumerator WaitForSceneReady(AsyncOperation operation)
+    {
+        while (operation.progress < 0.9f)
+        {
+            yield return null;
+        }
+
+        yield return new WaitForSecondsRealtime(2);
+        operation.allowSceneActivation = true;
     }
     #endregion
 }
